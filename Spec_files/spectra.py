@@ -8,6 +8,7 @@ Created on Mon Dec  2 10:14:19 2024
 import numpy as np 
 import matplotlib.pyplot as plt
 import glob
+import function_library_phd as flphd
 #%%
 paths= [p.replace('\\','/') for p in glob.glob('C:/Users/padmin/Documents/au_*')]
 dele=[]
