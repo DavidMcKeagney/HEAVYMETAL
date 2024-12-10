@@ -20,39 +20,64 @@ def configs_even(spec_file):
         for lines in textfile:
             if len(lines.split())<7:
                 all_config.append(lines.split())
- 
+    
     for spec_config in all_config:
         if spec_config[2]=='ground':
             config_even.update({'5d106s':'1'})
+        elif spec_config[2]=='au':
+            break 
         else:
             config_even.update({spec_config[2]:spec_config[0]})
     return config_even
 
 def configs_odd(spec_file):
     config_odd={}
-    all_config=[]
+    all_config_odd=[]
     with open(spec_file) as textfile:
         for lines in textfile:
             if len(lines.split())<7:
-                all_config.append(lines.split())
-    for spec_config_odd in all_config:
-        config_odd.update({spec_config_odd[5]:'-'+spec_config_odd[0]})
+                all_config_odd.append(lines.split())
+                
+    
+    for spec_config_odd in all_config_odd:
+        a='-'+spec_config_odd[0]
+        if spec_config_odd[2] != 'au':
+            config_odd.update({spec_config_odd[5]:a})
+        else:
+            config_odd.update({spec_config_odd[4]:a})
     return config_odd
         
 #%% Extracts LS,J and config of even and odd terms in radiative transitions, requires Nist file preformatted and spec file
-def NISTformat(data,config_even,config_odd):
+#Requires Nist file to be csv file with ',' delimited
+def NISTformat(data):
     for a,gn in enumerate(data):
         data[a][4]=re.sub('[.]','',gn[4])
         data[a][7]=re.sub('[.]','',gn[7])
         for b,ggn in enumerate(gn):
-            data[a][b]=re.sub('[,*"&=]','',ggn)
-            data[a][b]=re.sub('<.*?>','',ggn) #for loops remove funky symbols from the nist csv file except the bracket terms which I haven't figured out yet
+            data[a][b]=re.sub('[=*"]','',ggn)
+            #for loops remove funky symbols from the nist csv file except the bracket terms which I haven't figured out yet    
+    for a,gn in enumerate(data):
+        for b,ggn in enumerate(gn):
+            data[a][b]=re.sub('<.*?>','',ggn)
+    for a,gn in enumerate(data):
+        for b,ggn in enumerate(gn):
+            if re.search('[()]', data[a][b]) != None:
+                data[a][b]=data[a][b].replace('(','').replace(')','')
     data=np.array(data) 
-    boolean_index=data[:,0]!=''
+    boolean_index=data[:,0]!='' #this only extracts nist values with known oscillator strenghts this is the zero index
     sliced_data=data[boolean_index] 
     # TODO The next chunk of code replaces config with config serial number from cowan assumes dictionary of configs 
-    # TODO Find a way to swap odd parity configs appearing in even parity coolumn    
-    return 
+    # TODO Find a way to swap odd parity configs appearing in even parity coolumn 
+    #for a,gn in enumerate(sliced_data):
+    #    if gn[4] in config_even.keys() == False:
+    #        temp_odd=sliced_data[a][4]
+    #        temp_even=sliced_data[a][5]
+    #        sliced_data[a][4]=config_even[temp_even]
+    #        sliced_data[a][5]=config_odd[temp_odd]
+    #    else:
+    #        sliced_data[a][4]=config_even[gn[4]]
+    #        sliced_data[a][5]=config_odd[gn[5]]
+    return sliced_data
 
 
 #%% requires the sorted file from cowan gives the energy level and its configuration could add J later using boolean logic 
@@ -71,7 +96,12 @@ def findspec(data,El,Eu):
     spec_data=data[boolean]
     return spec_data
 #%%
-
+samp_conf=[]
+paths= [p.replace('\\','/') for p in glob.glob('C:/Users/David*/Desktop/AU_*/*')]
+with open(paths[0]) as file:
+    for f in file:
+        if len(f.split())<7:
+            samp_conf.append(f.split())
     
     
     

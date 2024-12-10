@@ -8,9 +8,9 @@ Created on Mon Dec  2 10:14:19 2024
 import numpy as np 
 import matplotlib.pyplot as plt
 import glob
-import function_library_phd as flphd
+import csv
 #%%
-paths= [p.replace('\\','/') for p in glob.glob('C:/Users/padmin/Documents/au_*')]
+paths= [p.replace('\\','/') for p in glob.glob('C:/Users/David*/Desktop/AU_*/*')]
 dele=[]
 gf=[]
 for p in paths:
@@ -23,7 +23,13 @@ for p in paths:
                     dele[-1].append(float(f.split()[11]))
                     gf[-1].append(np.exp(float(f.split()[15])))
 #%%
-NISTDATA=np.loadtxt('C:/Users/padmin/Downloads/NIST_ASD_Output_Lines.txt',delimiter='|',dtype=str)
+csv_NIST=[]
+with open('C:/Users/David McKeagney/Downloads/NIST_gold_data.csv') as csvfile:
+    file= csv.reader(csvfile,delimiter=',')
+    for f in file:
+        csv_NIST.append(f[4:14])
+#%%
+NISTDATA=np.loadtxt('C:/Users/David McKeagney/Downloads/NIST_ASD_Output_Lines.txt',delimiter='|',dtype=str)
 Booleanindex=NISTDATA[:,4] != NISTDATA[2,4]
 SPECIFICVALUES=NISTDATA[Booleanindex]
 SPECIFICVALUES2=SPECIFICVALUES
