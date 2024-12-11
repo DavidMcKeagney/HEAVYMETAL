@@ -50,9 +50,9 @@ def configs_odd(spec_file):
     return config_odd
 
         
-#%% Extracts LS,J and config of even and odd terms in radiative transitions, requires Nist file preformatted and spec file
+#Extracts LS,J and config of even and odd terms in radiative transitions, requires Nist file preformatted and spec file
 #Requires Nist file to be csv file with ',' delimited
-def NISTformat(data,config_even,config_odd):
+def NISTformat(data,config_even_dict,config_odd_dict):
     J_dict={'1/2':'0.5','3/2':'1.5','5/2':'2.5','7/2':'3.5','9/2':'4.5'}
     for a,gn in enumerate(data):
         data[a][4]=re.sub('[.]','',gn[4])
@@ -73,38 +73,48 @@ def NISTformat(data,config_even,config_odd):
     # TODO The next chunk of code replaces config with config serial number from cowan assumes dictionary of configs 
     # TODO Find a way to swap odd parity configs appearing in even parity coolumn 
     for a,gn in enumerate(sliced_data):
-        if gn[4] in config_even.keys():
-            sliced_data[a][4]=config_even[gn[4]]
-            sliced_data[a][7]=config_odd[gn[7]]
+        if gn[4] in config_even_dict.keys():
+            sliced_data[a][4]=config_even_dict[gn[4]]
+            sliced_data[a][7]=config_odd_dict[gn[7]]
         else:
-            temp_odd=sliced_data[a][4]
-            temp_even=sliced_data[a][7]
-            temp_array_odd=sliced_data[a,5:7]
-            temp_array_even=sliced_data[a,8:]
-            sliced_data[a][4]=config_even[temp_even]
-            sliced_data[a][7]=config_odd[temp_odd]
-            sliced_data[a,5:7]=temp_array_even
-            sliced_data[a,8:]=temp_array_odd
+            sliced_data[a][4]=config_odd_dict[gn[4]]
+            sliced_data[a][7]=config_even_dict[gn[7]]
+
     for a,gn in enumerate(sliced_data):
         sliced_data[a,9]=J_dict[sliced_data[a,9]]
         sliced_data[a,6]=J_dict[sliced_data[a,6]]
     return sliced_data
 
 
-#%% requires the sorted file from cowan gives the energy level and its configuration could add J later using boolean logic 
+# requires the sorted file from cowan gives the energy level and its configuration could add J later using boolean logic 
 # requires the data to be in a numpy array
-#Need to ensure that the second parity configurations are the absolute values so the minus sign isn't there
 #Uses sorted file in LS coupling
 def findenergysorted(data,T,J,c):
-    boolean_index= np.logical_and(data[:,1]==c,data[:,2]==J)
-    data_T_c=data[boolean_index]
-    boolean_T=data_T_c==data[:,6]
-    data_final=data_T_c[boolean_T]
-    return data_final
-#%% Use the energies from the previous funtions
+    sorted_file=[]
+    with open(data) as sorte:
+        for sf in sorte:
+            if len(sf.split())>7:
+                if len(sf.split())==33:
+                    sorted_file.append(sf.split())
+                else:
+                    sorted_file.append(sf.split() + ['','','','',''])
+    
+    sorted_file=np.array(sorted_file)
+    boolean_index= np.logical_and(sorted_file[:,1]==c,sorted_file[:,2]==J)
+    data_T_c=sorted_file[boolean_index]
+    boolean_T_c=data_T_c[:,6]==T
+    data_final=data_T_c[boolean_T_c]
+    return data_final[:,0:2]
+# Use the energies from the previous funtions
 #Make spec file into numpy array
 def findspec(data,El,Eu):
-    boolean=np.logical_and(data[:,0]==El,data[0:,5]==Eu)
+    spec_file=[]
+    with open(data) as spec:
+        for s in spec:
+            if len(s.split())>15:
+                spec_file.append(s)
+    spec_file=np.array(spec_file)
+    boolean=np.logical_and(spec_file[:,0]==El,spec_file[:,5]==Eu)
     spec_data=data[boolean]
     return spec_data
 
