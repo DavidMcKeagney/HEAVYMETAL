@@ -111,11 +111,11 @@ def findspec(data,El,Eu):
     spec_file=[]
     with open(data) as spec:
         for s in spec:
-            if len(s.split())>15:
-                spec_file.append(s)
+            if len(s.split())>16:
+                spec_file.append(s.split())
     spec_file=np.array(spec_file)
-    boolean=np.logical_and(spec_file[:,0]==El,spec_file[:,5]==Eu)
-    spec_data=data[boolean]
+    boolean=np.logical_and(spec_file[:,1]==El,spec_file[:,6]==Eu)
+    spec_data=spec_file[boolean]
     return spec_data
 
     
