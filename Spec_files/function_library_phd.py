@@ -52,6 +52,8 @@ def configs_odd(spec_file):
         
 #Extracts LS,J and config of even and odd terms in radiative transitions, requires Nist file preformatted and spec file
 #Requires Nist file to be csv file with ',' delimited
+#Requires that log_gf is a selected whaen saving the NIST page
+#Requires that the config serial names are formatted such that they are the same as the nist format once regex has altered the Nist versions 
 def NISTformat(data,config_even_dict,config_odd_dict):
     J_dict={'1/2':'0.5','3/2':'1.5','5/2':'2.5','7/2':'3.5','9/2':'4.5'}
     for a,gn in enumerate(data):
@@ -68,7 +70,9 @@ def NISTformat(data,config_even_dict,config_odd_dict):
             if re.search('[()]', data[a][b]) != None:
                 data[a][b]=data[a][b].replace('(','').replace(')','')
     data=np.array(data) 
-    boolean_index=data[:,0]!='' #this only extracts nist values with known oscillator strenghts this is the zero index
+    #The chunk of code below can be commented out if you are just looking for a more formatted version of the NIST page
+    #The next chunk of code changes the NIST cofiguration names to the config serial number from Cowan
+    boolean_index=data[:,0]!='' #this only extracts nist values with known oscillator strenghts, this implies nist data is preformatted so that log_gf is the first column
     sliced_data=data[boolean_index][1:] 
     # TODO The next chunk of code replaces config with config serial number from cowan assumes dictionary of configs 
     # TODO Find a way to swap odd parity configs appearing in even parity coolumn 
@@ -104,7 +108,7 @@ def findenergysorted(data,T,J,c):
     data_T_c=sorted_file[boolean_index]
     boolean_T_c=data_T_c[:,6]==T
     data_final=data_T_c[boolean_T_c]
-    return data_final[:,0:2]
+    return data_final
 # Use the energies from the previous funtions
 #Make spec file into numpy array
 def findspec(data,El,Eu):
