@@ -1,0 +1,11 @@
+looking at the 5p-4f transitions in gold 
+
+first start with Au2+
+calculate discrete state spectrum then include the continuum states included in the paper
+try convolve the lines with a guassian of FWHM of 0.05 ev so that you can produce a theoretical spectra 
+
+need to look more at continuum states and see what they do and how they are treated 
+
+Then once confortable with this try Au3+ and Au4+
+
+USE DOCUMENT FOR JOURNALING THOUGHTS
