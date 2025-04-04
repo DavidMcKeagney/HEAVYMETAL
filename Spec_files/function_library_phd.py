@@ -127,6 +127,8 @@ def ConvolvingFunc(q,x,E,amp,sig,flag):
         return amp*(1/(np.sqrt(2*np.pi)*sig))*np.exp(-((x-E)/(sig))**2) #+ (A_vals/(2*np.pi))*(1/((x-E)**2 + (0.5*A_vals)**2)))
     elif flag==1:
         return amp*((sig*0.5*q+E-x)**2/((0.5*sig)**2+(E-x)**2))
+    elif flag==2:
+        return amp*(1/np.pi)*(0.5*sig)/((0.5*sig)**2+(E-x)**2)
 
     
     
