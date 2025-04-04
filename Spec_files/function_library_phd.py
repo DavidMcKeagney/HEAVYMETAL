@@ -122,8 +122,11 @@ def findspec(data,El,Eu):
     spec_data=spec_file[boolean]
     return spec_data
 
-def ConvolvingFunc(x,E,amp,sig):
-    return amp*(1/(np.sqrt(2*np.pi)*sig))*np.exp(-((x-E)/(sig))**2)  #+ (A_vals/(2*np.pi))*(1/((x-E)**2 + (0.5*A_vals)**2)))
+def ConvolvingFunc(q,x,E,amp,sig,flag):
+    if flag==0:
+        return amp*(1/(np.sqrt(2*np.pi)*sig))*np.exp(-((x-E)/(sig))**2) #+ (A_vals/(2*np.pi))*(1/((x-E)**2 + (0.5*A_vals)**2)))
+    elif flag==1:
+        return amp*((sig*0.5*q+E-x)**2/((0.5*sig)**2+(E-x)**2))
 
     
     
