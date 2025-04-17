@@ -30,7 +30,7 @@ def NISTformat(data):
     return data
 #%%
 NIST_values=[]
-with open('C:/Users/David McKeagney/Downloads/FE_lines.csv') as file:
+with open('C:/Users/David McKeagney/Downloads/Fe_lines.csv') as file:
     csv_reader=csv.reader(file,delimiter=',')
     for lines in csv_reader:
         NIST_values.append(lines)
@@ -38,7 +38,7 @@ with open('C:/Users/David McKeagney/Downloads/FE_lines.csv') as file:
 #%%
 data=NISTformat(NIST_values)[:, :19]  
 #%%
-np.savetxt('Fe_lines_format.csv',data,fmt='%s',delimiter=',')
+
 
 #data[a][b]=data[a][b].replace('(','').replace(')','')
 #%%
