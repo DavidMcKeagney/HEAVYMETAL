@@ -8,28 +8,35 @@ Created on Mon Feb  3 14:56:20 2025
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import least_squares
+import function_library_phd as flp
 
 plt.rcParams.update({'font.size': 22})
 plt.rcParams["figure.figsize"] = (15,10)
 #%%
 au1_spec=[]
-with open('C:/Users/padmin/OneDrive/Desktop/au1.sub.spec') as file1:
+with open('C:/Users/David McKeagney/Desktop/au1.sub.spec') as file1:
     for lines in file1:
         if len(lines.split())>17:
             au1_spec.append(lines.split())
 au2_spec=[]
-with open('C:/Users/padmin/OneDrive/Desktop/au2.sub.spec') as file2:
+with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
 au3_spec=[]
-with open('C:/Users/padmin/OneDrive/Desktop/au1.sub.spec') as file3:
+with open('C:/Users/David McKeagney/Desktop/au3.spec') as file3:
     for lines in file3:
         if len(lines.split())>17:
             au3_spec.append(lines.split())
+au_spec=[]
+with open('C:/Users/David McKeagney/Desktop/au.spec') as file4:
+    for lines in file4:
+        if len(lines.split())>17:
+            au_spec.append(lines.split())
 au1_spec=np.array(au1_spec)[1:,:]
 au2_spec=np.array(au2_spec)[1:,:]
 au3_spec=np.array(au3_spec)[1:,:]
+au_spec=np.array(au_spec)[1:,:]
 #%% 4f-6d transitions au1+
 au1_spec_1=au1_spec[au1_spec[:,8]=='1']
 au1_spec_5=au1_spec[au1_spec[:,8]=='5']
@@ -50,7 +57,7 @@ dE_4f_6d_au2=au2_spec[:,11].astype(float)
 E_k_4f_d6_au2=au2_spec[:,6].astype(float)-np.repeat(np.min(au2_spec[:,1].astype(float)), len(au2_spec))
 gf_4f_6d_au2=np.exp(au2_spec[:,15].astype(float))
 gamma_4f_6d_au2=au2_spec[:,16].astype(float)*1e-3
-#%%
+#%% 4f-6d transitions au3+
 au3_spec_2=au3_spec[au3_spec[:,8]=='2']
 au3_spec_6=au3_spec[au3_spec[:,8]=='6']
 au3_spec_10=au3_spec[au3_spec[:,8]=='10']
@@ -155,4 +162,15 @@ au1_3_8=au1_spec[np.logical_and(au1_spec[:,3]=='3',au1_spec[:,8]=='8')]
 au2_3_9=au2_spec[np.logical_and(au2_spec[:,3]=='3',au2_spec[:,8]=='9')]
 au1_3_8=au1_3_8[np.exp(au1_3_8[:,15].astype(float))>0.6]
 au2_3_9=au2_3_9[np.exp(au2_3_9[:,15].astype(float))>0.6]
+#%%
+E_vals=np.arange(70,120,0.01)
+conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1, 0.05, 0)
+conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, 0)
+#conv_au3=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au3, gf_4f_6d_au3, 0.05, 0)
+
+#%%
+plt.plot(E_vals,conv_au3)
+plt.xlabel('Energy (eV)')
+plt.ylabel('Convolved gf values')
+plt.show()
 
