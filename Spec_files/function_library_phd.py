@@ -123,8 +123,19 @@ def findspec(data,El,Eu):
     return spec_data
 
 def ConvolvingFunc(q,x,E,amp,sig,flag):
+    Conv_Evals=np.zeros((len(x),len(E)))
+    i=0
     if flag==0:
-        return amp*(1/(np.sqrt(2*np.pi)*sig))*np.exp(-((x-E)/(sig))**2) #+ (A_vals/(2*np.pi))*(1/((x-E)**2 + (0.5*A_vals)**2)))
+        while i< len(E):
+            j=0
+            conv= amp[i]*(1/(np.sqrt(2*np.pi)*sig))*np.exp(-((x-E[i])/(sig))**2)
+            while j<len(x):
+                Conv_Evals[j][i]+=conv[j]
+                j+=1
+            i+=1
+        Conv_Evals=np.sum(Conv_Evals,axis=1)
+        return Conv_Evals
+    #TODO! DO THIS FOR OTHER CONVOLVING FUNCTIONS
     elif flag==1:
         return amp*((sig*0.5*q+E-x)**2/((0.5*sig)**2+(E-x)**2))
     elif flag==2:
