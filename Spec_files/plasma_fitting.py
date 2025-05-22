@@ -68,6 +68,12 @@ E_k_4f_d6_au3=au3_spec[:,6].astype(float)-np.repeat(np.min(au3_spec[:,1].astype(
 gf_4f_6d_au3=np.exp(au3_spec[:,15].astype(float))
 gamma_4f_6d_au3=au3_spec[:,16].astype(float)*1e-3
 #%%
+au_spec_1=au_spec[au_spec[:,8]=='1']
+au_spec_5=au_spec[au_spec[:,8]=='5']
+au_spec=np.concatenate((au_spec_1,au_spec_5),axis=0)
+dE_4f_6d_au=au_spec[:,11].astype(float)
+gf_4f_6d_au=np.exp(au_spec[:,15].astype(float))
+#%%
 dE_vec=np.concatenate((dE_4f_6d_au1,dE_4f_6d_au2))
 dE_vec=np.concatenate((dE_vec,dE_4f_6d_au3))
 E_k_4f_6d_vec=np.concatenate((E_k_4f_d6_au1,E_k_4f_d6_au2))
@@ -83,13 +89,13 @@ E_k_4f_6d_vec=E_k_4f_6d_vec[gf_4f_6d_vec>0.01]
 gam_4f_6d_vec=gam_4f_6d_vec[gf_4f_6d_vec>0.01]
 gf_4f_6d_vec=gf_4f_6d_vec[gf_4f_6d_vec>0.01]
 #%%
-Eric_data_400ns=np.loadtxt('C:\\Users\padmin\Downloads\Eric_data_400ns.txt',dtype=float).T
-Eric_data_450ns=np.loadtxt('C:\\Users\padmin\Downloads\Eric_data_450ns.txt',dtype=float).T
-Eric_data_500ns=np.loadtxt('C:\\Users\padmin\Downloads\Eric_data_500ns.txt',dtype=float).T
-Intensity_400ns=Eric_data_400ns[1][700:1500]
-Intensity_450ns=Eric_data_450ns[1][700:1500]
-Intensity_500ns=Eric_data_500ns[1][700:1500]
-Energy=Eric_data_400ns[0][700:1500]
+Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/2023_07_19_144_Data.txt',dtype=float).T
+Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/2023_07_19_145_Data.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/2023_07_19_146_Data.txt',dtype=float).T
+Intensity_400ns=Eric_data_400ns[1]
+Intensity_450ns=Eric_data_450ns[1]
+Intensity_500ns=Eric_data_500ns[1]
+Energy=Eric_data_400ns[0]
 #%%
 Energy_4f_6d=Energy[np.logical_and(Energy<=100,Energy>=90)]
 Intensity_4f_6d=Intensity_400ns[np.logical_and(Energy<=100,Energy>=90)]
@@ -137,12 +143,12 @@ gf_2_3_9_cut=gf_2_3_9[gf_2_3_9>0.6]
 dE_2_3_9_cut=dE_2_3_9_cut[gf_2_3_9>0.6]
 #%%
 plt.plot(Energy,Intensity_400ns,color='black',label='400ns')
-plt.vlines(dE_2_3_9_cut,ymin=0,ymax=gf_2_3_9_cut,ls='--',lw=2,color='red',label='Au 2+')
-plt.vlines(dE_1_3_8_cut+np.repeat(1.8,len(dE_1_3_8_cut)),ymin=0,ymax=gf_1_3_8_cut,ls='--',lw=2,label='Au 1+')
+#plt.vlines(dE_2_3_9_cut,ymin=0,ymax=gf_2_3_9_cut,ls='--',lw=2,color='red',label='Au 2+')
+#plt.vlines(dE_1_3_8_cut+np.repeat(1.8,len(dE_1_3_8_cut)),ymin=0,ymax=gf_1_3_8_cut,ls='--',lw=2,label='Au 1+')
 plt.legend()
 plt.xlabel('Energy [eV]')
 plt.ylabel(' Absorbance [Arb.]')
-plt.xlim(75,100)
+plt.xlim(75,110)
 plt.ylim(0.1,1)
 #plt.grid(True)
 #%%
@@ -166,11 +172,18 @@ au2_3_9=au2_3_9[np.exp(au2_3_9[:,15].astype(float))>0.6]
 E_vals=np.arange(70,120,0.01)
 conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1, 0.05, 0)
 conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, 0)
-#conv_au3=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au3, gf_4f_6d_au3, 0.05, 0)
+conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05, 0)
 
 #%%
-plt.plot(E_vals,conv_au3)
+plt.plot(E_vals,0.07*0.25*conv_au2,label='Au2+')
+plt.plot(E_vals-np.repeat(5,5000),0.07*conv_au1,label='au1+')
+plt.plot(E_vals,0.07*conv_au,label='au')
+plt.plot(Energy,Intensity_400ns,color='black',label='400ns')
+plt.plot(Energy,Intensity_450ns,label='450ns')
+plt.plot(Energy,Intensity_500ns,label='500ns')
+plt.xlim(75,110)
 plt.xlabel('Energy (eV)')
 plt.ylabel('Convolved gf values')
+plt.legend()
 plt.show()
 
