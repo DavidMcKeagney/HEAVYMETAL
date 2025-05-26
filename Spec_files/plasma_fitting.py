@@ -14,22 +14,22 @@ plt.rcParams.update({'font.size': 22})
 plt.rcParams["figure.figsize"] = (15,10)
 #%%
 au1_spec=[]
-with open('C:/Users/padmin/OneDrive/Desktop/au1.sub.spec') as file1:
+with open('C:/Users/David McKeagney/Desktop/au1.sub.spec') as file1:
     for lines in file1:
         if len(lines.split())>17:
             au1_spec.append(lines.split())
 au2_spec=[]
-with open('C:/Users/padmin/OneDrive/Desktop/au2.sub.spec') as file2:
+with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
 au3_spec=[]
-with open('C:/Users/padmin/OneDrive/Desktop/au3.spec') as file3:
+with open('C:/Users/David McKeagney/Desktop/au3.spec') as file3:
     for lines in file3:
         if len(lines.split())>17:
             au3_spec.append(lines.split())
 au_spec=[]
-with open('C:/Users/padmin/OneDrive/Desktop/au.spec') as file4:
+with open('C:/Users/David McKeagney/Desktop/au.spec') as file4:
     for lines in file4:
         if len(lines.split())>17:
             au_spec.append(lines.split())
@@ -89,9 +89,9 @@ E_k_4f_6d_vec=E_k_4f_6d_vec[gf_4f_6d_vec>0.01]
 gam_4f_6d_vec=gam_4f_6d_vec[gf_4f_6d_vec>0.01]
 gf_4f_6d_vec=gf_4f_6d_vec[gf_4f_6d_vec>0.01]
 #%%
-Eric_data_400ns=np.loadtxt('C:/Users/padmin/Downloads/Eric_data_400ns.txt',dtype=float).T
-Eric_data_450ns=np.loadtxt('C:/Users/padmin/Downloads/Eric_data_450ns.txt',dtype=float).T
-Eric_data_500ns=np.loadtxt('C:/Users/padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
+Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_400ns=Eric_data_400ns[1]
 Intensity_450ns=Eric_data_450ns[1]
 Intensity_500ns=Eric_data_500ns[1]
@@ -141,6 +141,8 @@ dE_2_3_9_cut=dE_2_3_9[dE_2_3_9<=90]
 gf_2_3_9=np.exp(au2_spec_3_9[:,15].astype(float))[dE_2_3_9<=90]
 gf_2_3_9_cut=gf_2_3_9[gf_2_3_9>0.6]
 dE_2_3_9_cut=dE_2_3_9_cut[gf_2_3_9>0.6]
+#%%
+au1_spec_3_8_cut=au1_spec_3_8[np.exp(au1_spec_3_8[:,15].astype(float))>0.6]
 #%%
 plt.plot(Energy,Intensity_400ns,color='black',label='400ns')
 #plt.vlines(dE_2_3_9_cut,ymin=0,ymax=gf_2_3_9_cut,ls='--',lw=2,color='red',label='Au 2+')
@@ -207,3 +209,13 @@ au_spec_2_4=au_spec[np.logical_and(au_spec[:,3]=='2',au_spec[:,8]=='4')]
 gf_2_4=np.exp(au_spec_2_4[:,15].astype(float))
 dE_2_4=au_spec_2_4[:,11].astype(float)
 #%%
+
+#%%
+plt.plot(Energy,Intensity_500ns,label='500ns')
+plt.vlines(dE_2_4+np.repeat(3.4,3),np.array([0,0,0]),gf_2_4,colors='black',ls='--')
+#plt.vlines(dE_1_3_8_cut+np.repeat(2.3,4),np.array([0,0,0,0]),gf_1_3_8_cut,color='red')
+plt.xlim(75,110)
+plt.xlabel('Energy (eV)')
+plt.ylabel('Convolved gf values')
+plt.legend()
+plt.show()
