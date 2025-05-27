@@ -212,8 +212,8 @@ dE_2_4=au_spec_2_4[:,11].astype(float)
 
 #%%
 plt.plot(Energy,Intensity_500ns,label='500ns')
-plt.vlines(dE_2_4+np.repeat(3.4,3),np.array([0,0,0]),gf_2_4,colors='black',ls='--')
-#plt.vlines(dE_1_3_8_cut+np.repeat(2.3,4),np.array([0,0,0,0]),gf_1_3_8_cut,color='red')
+#plt.vlines(dE_2_4+np.repeat(3.3,3),np.array([0,0,0]),gf_2_4,colors='black',ls='--')
+plt.vlines(dE_1_3_8_cut+np.repeat(2.3,4),np.array([0,0,0,0]),gf_1_3_8_cut,color='red')
 plt.xlim(75,110)
 plt.xlabel('Energy (eV)')
 plt.ylabel('Convolved gf values')

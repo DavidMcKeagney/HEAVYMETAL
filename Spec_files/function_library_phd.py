@@ -141,6 +141,38 @@ def ConvolvingFunc(q,x,E,amp,sig,flag):
     elif flag==2:
         return amp*(1/np.pi)*(0.5*sig)/((0.5*sig)**2+(E-x)**2)
 
-    
+#%% This Function is to check the possible couplings that can occur when you couple an additional electron to a from an atom with n-1 electrons to one with n electrons
+# It can takes the n-1 LS coupling along with the electron of a given l and produces a list of all the possible L and S couplings it can produce
+# Does this for the lower level 
+# Requires the spec_file to be in the standard formatting
+# Returns a list whoses elements are 'P' for Possible and 'NP' for Not Possible
+# Further requires you spec_file to be formatted so for your n and n-1 atoms you're only checking states that occur in the same energy 
+# This is in LS Coupling 
+def Coupling(spec_file_n_1,spec_file_n,l):
+    LS_coupling_n_1= spec_file_n_1[:,5]
+    LS_coupling_n=spec_file_n[:,5]
+    L={'S':0,'P':1,'D':2,'F':3,'G':4,'H':5,'I':6}
+    L_n_1=[L[a[1]] for a in LS_coupling_n_1]
+    L_n=[L[a[1]] for a in LS_coupling_n]
+    Possible_L_couplings=[]
+    for a in L_n_1:
+        i=abs(a-l)
+        coupling=[]
+        while i<=a+l:
+            coupling.append(i)
+            i+=1
+        Possible_L_couplings.append(coupling)
+    Possible=[]
+    for a in L_n:
+        for PLC in Possible_L_couplings:
+            if a in PLC:
+                P='P'
+            else:
+                P='NP'
+        Possible.append(P)
+    return Possible
+        
+            
+        
     
     
