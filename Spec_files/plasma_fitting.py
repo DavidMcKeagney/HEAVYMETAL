@@ -219,3 +219,6 @@ plt.xlabel('Energy (eV)')
 plt.ylabel('Convolved gf values')
 plt.legend()
 plt.show()
+#%%
+spec_file_1=au_spec_2_4[0]
+spec_file_2=au1_spec_3_8_cut[:2]
