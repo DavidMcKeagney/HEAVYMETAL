@@ -14,12 +14,12 @@ plt.rcParams.update({'font.size': 22})
 plt.rcParams["figure.figsize"] = (15,10)
 #%%
 au1_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au1.sub.spec') as file1:
+with open('C:/Users/David McKeagney/Desktop/au1.spec') as file1:
     for lines in file1:
         if len(lines.split())>17:
             au1_spec.append(lines.split())
 au2_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file2:
+with open('C:/Users/David McKeagney/Desktop/au2.3.6.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
@@ -179,7 +179,7 @@ au2_3_9=au2_3_9[np.exp(au2_3_9[:,15].astype(float))>0.6]
 #%%
 E_vals=np.arange(70,120,0.01)
 conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1, 0.05, 0)
-#conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, 0)
+conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, 0)
 conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05, 0)
 
 #%%
@@ -199,12 +199,13 @@ E_vals_au1=E_vals-np.repeat(6,5000)
 E_vals_au=E_vals+np.repeat(3.2,5000)
 conv_vals_au1=conv_au1[np.logical_and(E_vals_au1<=100,E_vals_au1>=94)]
 conv_vals_au=conv_au[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
+conv_vals_au2=conv_au2[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
 #%%
 E_vals_au1=E_vals_au1[np.logical_and(E_vals_au1<=100,E_vals_au1>=94)]
 E_vals_au=E_vals_au[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
 #%%
-plt.plot(E_vals_au,0.50*0.15*conv_vals_au + 0.50*0.15*conv_vals_au1)
-plt.plot(Energy,Intensity_300ns,label='300ns')
+plt.plot(E_vals_au,0.097*0.15*conv_vals_au + 0.697*0.15*conv_vals_au1+0.203*0.15*conv_vals_au2)
+plt.plot(Energy,Intensity_400ns,label='300ns')
 plt.xlim(75,110)
 plt.xlabel('Energy (eV)')
 plt.ylabel('Convolved gf values')
@@ -228,3 +229,5 @@ plt.show()
 #%%
 spec_file_1=au_spec_2_4[0]
 spec_file_2=au1_spec_3_8_cut[:2]
+#%%
+plt.plot(E_vals,conv_au2)
