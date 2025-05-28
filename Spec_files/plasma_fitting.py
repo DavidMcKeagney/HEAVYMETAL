@@ -92,9 +92,15 @@ gf_4f_6d_vec=gf_4f_6d_vec[gf_4f_6d_vec>0.01]
 Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
 Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_350ns.txt',dtype=float).T
+Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
+Eric_data_250ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_250ns.txt',dtype=float).T
 Intensity_400ns=Eric_data_400ns[1]
 Intensity_450ns=Eric_data_450ns[1]
 Intensity_500ns=Eric_data_500ns[1]
+Intensity_350ns=Eric_data_350ns[1]
+Intensity_300ns=Eric_data_300ns[1]
+Intensity_250ns=Eric_data_250ns[1]
 Energy=Eric_data_400ns[0]
 #%%
 Energy_4f_6d=Energy[np.logical_and(Energy<=100,Energy>=90)]
@@ -173,7 +179,7 @@ au2_3_9=au2_3_9[np.exp(au2_3_9[:,15].astype(float))>0.6]
 #%%
 E_vals=np.arange(70,120,0.01)
 conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1, 0.05, 0)
-conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, 0)
+#conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, 0)
 conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05, 0)
 
 #%%
@@ -197,8 +203,8 @@ conv_vals_au=conv_au[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
 E_vals_au1=E_vals_au1[np.logical_and(E_vals_au1<=100,E_vals_au1>=94)]
 E_vals_au=E_vals_au[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
 #%%
-plt.plot(E_vals_au,0.83*0.15*conv_vals_au + 0.17*0.15*conv_vals_au1)
-plt.plot(Energy,Intensity_400ns,label='400ns')
+plt.plot(E_vals_au,0.50*0.15*conv_vals_au + 0.50*0.15*conv_vals_au1)
+plt.plot(Energy,Intensity_300ns,label='300ns')
 plt.xlim(75,110)
 plt.xlabel('Energy (eV)')
 plt.ylabel('Convolved gf values')
