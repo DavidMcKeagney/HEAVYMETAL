@@ -30,11 +30,13 @@ gf=np.array([0.01,2,0.5])
 V=Voigt(gf,x_vals, x_0, 0.05, 1)
 #%%
 au2_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file2:
+with open('C:/Users/David McKeagney/Desktop/au2.sub.1.5.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
+       
 au2_spec=np.array(au2_spec)[1:,:]
+
 #%%
 au2_spec_2=au2_spec[au2_spec[:,8]=='2']
 au2_spec_6=au2_spec[au2_spec[:,8]=='6']
@@ -55,6 +57,7 @@ dE_4f_5d_au2=au2_spec_5d[:,11].astype(float)
 #E_k_4f_d5_au2=au2_spec_5d[:,6].astype(float)-np.repeat(np.min(au2_spec_5d[:,1].astype(float)), len(au2_spec_5d))
 gf_4f_5d_au2=np.exp(au2_spec_5d[:,15].astype(float))
 gamma_4f_5d_au2=au2_spec_5d[:,16].astype(float)*1e-3
+
 
 #%%
 E_vals=np.arange(70,120,0.01)

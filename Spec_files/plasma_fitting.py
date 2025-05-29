@@ -14,12 +14,12 @@ plt.rcParams.update({'font.size': 22})
 plt.rcParams["figure.figsize"] = (15,10)
 #%%
 au1_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au1.spec') as file1:
+with open('C:/Users/David McKeagney/Desktop/au1.sub.1.5.spec') as file1:
     for lines in file1:
         if len(lines.split())>17:
             au1_spec.append(lines.split())
 au2_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au2.3.6.spec') as file2:
+with open('C:/Users/David McKeagney/Desktop/au2.sub.1.5.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
@@ -178,9 +178,9 @@ au1_3_8=au1_3_8[np.exp(au1_3_8[:,15].astype(float))>0.6]
 au2_3_9=au2_3_9[np.exp(au2_3_9[:,15].astype(float))>0.6]
 #%%
 E_vals=np.arange(70,120,0.01)
-conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1, 0.05, 0)
-conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, 0)
-conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05, 0)
+conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1,0.05,gamma_4f_6d_au1, 3)
+conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2,gf_4f_6d_au2,0.05,gamma_4f_6d_au2, 3)
+#conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05, 0)
 
 #%%
 #plt.plot(E_vals,0.07*0.25*conv_au2,label='Au2+')
@@ -230,4 +230,5 @@ plt.show()
 spec_file_1=au_spec_2_4[0]
 spec_file_2=au1_spec_3_8_cut[:2]
 #%%
+plt.plot(E_vals,conv_au1)
 plt.plot(E_vals,conv_au2)
