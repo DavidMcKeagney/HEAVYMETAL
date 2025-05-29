@@ -6,20 +6,27 @@ Created on Thu Apr 17 16:25:26 2025
 """
 
 import numpy as np
-import matplotlib.pylot as plt 
-#%%
-def integrand(x,y,sig,gam):
-    return (gam/np.pi*(np.sqrt(2*np.pi)*sig))*np.exp(-y^2/(2*sig**2))*(gam/(gam**2 + (x-y)**2))
+import matplotlib.pyplot as plt 
+from scipy.special import voigt_profile
 
-def Voigt(x,y,sig,gam,nx,ny):
-    y_vals=np.linspace(-y,y,ny)
-    dy=2*y/ny
-    Voigt_val=0
+#%%
+def Voigt(A,x,x_0,sig,gam):
+    Conv_Evals=np.zeros((len(x),len(x_0)))
     i=0
-    while i<len(y_vals)-1:
-        Voigt_val+=integrand(x, y_vals[i], sig, gam)*dy
-        i+=1
-    return Voigt_val
-#%%
 
-            
+    while i< len(x_0):
+        j=0
+        conv= A[i]*voigt_profile(x-x_0[i],sig,gam) 
+        while j<len(x):
+            Conv_Evals[j][i]+=conv[j]
+            j+=1
+        i+=1
+    Conv_Evals=np.sum(Conv_Evals,axis=1)
+    return Conv_Evals
+#%%
+x_vals=np.linspace(-5,15,500)
+x_0=np.array([5,5.1,5.2])
+gf=np.array([0.01,2,0.5])
+V=Voigt(gf,x_vals, x_0, 1, 1)
+#%%
+plt.plot(x_vals,V)

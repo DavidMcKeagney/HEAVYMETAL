@@ -11,6 +11,7 @@ import glob
 import re 
 import csv
 import pandas as pd
+from scipy.special import voigt_profile
 #%% requires spec file
 # for ground state config put in the config labellng and not the ground state
 # TODO the if conditions involving spec_config[2]=='au' will need to be changed to whatever element is being used in the calculation 
@@ -122,7 +123,7 @@ def findspec(data,El,Eu):
     spec_data=spec_file[boolean]
     return spec_data
 
-def ConvolvingFunc(q,x,E,amp,sig,flag):
+def ConvolvingFunc(q,x,E,amp,sig,gam,flag):
     Conv_Evals=np.zeros((len(x),len(E)))
     i=0
     if flag==0:
@@ -140,6 +141,17 @@ def ConvolvingFunc(q,x,E,amp,sig,flag):
         return amp*((sig*0.5*q+E-x)**2/((0.5*sig)**2+(E-x)**2))
     elif flag==2:
         return amp*(1/np.pi)*(0.5*sig)/((0.5*sig)**2+(E-x)**2)
+    elif flag==3:
+        while i< len(E):
+            j=0
+            conv= amp[i]*voigt_profile(x-E[i],sig,gam[i]) 
+            while j<len(x):
+                Conv_Evals[j][i]+=conv[j]
+                j+=1
+            i+=1
+        Conv_Evals=np.sum(Conv_Evals,axis=1)
+        return Conv_Evals
+    
 
 #%% This Function is to check the possible couplings that can occur when you couple an additional electron to a from an atom with n-1 electrons to one with n electrons
 # It can takes the n-1 LS coupling along with the electron of a given l and produces a list of all the possible L and S couplings it can produce
