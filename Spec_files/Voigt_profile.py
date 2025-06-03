@@ -34,8 +34,14 @@ with open('C:/Users/David McKeagney/Desktop/au2.sub.1.5.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
+au1_spec=[]
+with open('C:/Users/David McKeagney/Desktop/au1.sub.1.5.spec') as file1:
+    for lines in file1:
+        if len(lines.split())>17:
+            au1_spec.append(lines.split())
        
 au2_spec=np.array(au2_spec)[1:,:]
+au1_spec=np.array(au1_spec)[1:,:]
 
 #%%
 au2_spec_2=au2_spec[au2_spec[:,8]=='2']
@@ -57,12 +63,17 @@ dE_4f_5d_au2=au2_spec_5d[:,11].astype(float)
 #E_k_4f_d5_au2=au2_spec_5d[:,6].astype(float)-np.repeat(np.min(au2_spec_5d[:,1].astype(float)), len(au2_spec_5d))
 gf_4f_5d_au2=np.exp(au2_spec_5d[:,15].astype(float))
 gamma_4f_5d_au2=au2_spec_5d[:,16].astype(float)*1e-3
-
-
+#%%
+au1_spec_8=au1_spec[au1_spec[:,8]=='8']
+au1_spec_8=au1_spec_8[au1_spec_8[:,3]=='3']
+gf_4f_5d_au1=np.exp(au1_spec_8[:,15].astype(float))
+dE_4f_5d_au1=au1_spec_8[:,11].astype(float)
+gamma_4f_5d_au1=au1_spec_8[:,16].astype(float)*1e-3
 #%%
 E_vals=np.arange(70,120,0.01)
 conv_au2_6d=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, gamma_4f_6d_au2, 3)
 conv_au2_5d=flp.ConvolvingFunc(0, E_vals, dE_4f_5d_au2, gf_4f_5d_au2, 0.05, gamma_4f_5d_au2, 3)
+conv_au1_5d=flp.ConvolvingFunc(0, E_vals, dE_4f_5d_au1, gf_4f_5d_au1, sig, gam, flag)
 #%%
 plt.plot(E_vals,conv_au2_6d)
 plt.plot(E_vals,conv_au2_5d)
