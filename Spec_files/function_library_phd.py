@@ -183,6 +183,30 @@ def Coupling(spec_file_n_1,spec_file_n,l):
                 P='NP'
         Possible.append(P)
     return Possible
+#%%
+#Computes the ionizing energies from the Eav file 
+#Takes the n+1 ion stage discrete state and calculates the difference from the decay state
+#Input single n+1 discrete states and a list of decay states it outputs a list in the order of the decay states 
+def IonEnergies(c_n_1,c_n,Eav):
+    Eav_file=[]
+    with open(Eav) as file:
+        for lines in file:
+            Eav_file.append(lines.split())
+    c_n_energies=[]
+    for c in c_n:
+        for eav in Eav_file:
+            if c==eav[-3]:
+                c_n_energies.append(float(eav[-2]))
+    c_n_energies=np.array(c_n_energies)
+    for eav in Eav_file:
+        if c_n_1==eav[-3]:
+            c_n_1_energy=float(eav[-2])
+    dE=np.abs(c_n_energies-np.repeat(c_n_1_energy, len(c_n_energies)))
+    return dE
+    
+        
+        
+        
         
             
         
