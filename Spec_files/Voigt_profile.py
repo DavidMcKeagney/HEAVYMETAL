@@ -73,7 +73,7 @@ gamma_4f_5d_au1=au1_spec_8[:,16].astype(float)*1e-3
 E_vals=np.arange(70,120,0.01)
 conv_au2_6d=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2, gf_4f_6d_au2, 0.05, gamma_4f_6d_au2, 3)
 conv_au2_5d=flp.ConvolvingFunc(0, E_vals, dE_4f_5d_au2, gf_4f_5d_au2, 0.05, gamma_4f_5d_au2, 3)
-conv_au1_5d=flp.ConvolvingFunc(0, E_vals, dE_4f_5d_au1, gf_4f_5d_au1, sig, gam, flag)
+conv_au1_5d=flp.ConvolvingFunc(0, E_vals, dE_4f_5d_au1, gf_4f_5d_au1, 0.05, gamma_4f_5d_au1, 3)
 #%%
 plt.plot(E_vals,conv_au2_6d)
 plt.plot(E_vals,conv_au2_5d)
