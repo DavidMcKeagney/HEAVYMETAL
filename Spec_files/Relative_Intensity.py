@@ -134,14 +134,16 @@ Intensity_300ns=Eric_data_300ns[1]
 Intensity_250ns=Eric_data_250ns[1]
 Energy=Eric_data_400ns[0]
 #%%
-plt.plot(E_vals+np.repeat(3.2,32000),0.2*(0.8*conv_au_1_5 + 0.2*conv_au1_1_5),label='T=1.5')
-#plt.plot(E_vals+np.repeat(3.2,32000),0.18*conv_au_1_6,label='T=1.6')
-#plt.plot(E_vals+np.repeat(3.2,32000),0.18*conv_au_1_7,label='T=1.7')
-#plt.plot(E_vals+np.repeat(3.2,32000),0.18*conv_au_1_8,label='T=1.8')
-#plt.plot(E_vals+np.repeat(3.2,32000),0.18*conv_au_1_9,label='T=1.9')
-#plt.plot(E_vals+np.repeat(3.2,32000),0.18*conv_au_2_0,label='T=2.0')
+plt.plot(E_vals+np.repeat(3.2,32000),0.21*(0.95*conv_au_1_5+0.05*conv_au1_1_5) ,label='T=1.5')
+#plt.plot(E_vals+np.repeat(3.2,32000),0.19*conv_au_1_6,label='T=1.6')
+#plt.plot(E_vals+np.repeat(3.2,32000),0.19*conv_au_1_7,label='T=1.7')
+#plt.plot(E_vals+np.repeat(3.2,32000),0.19*conv_au_1_8,label='T=1.8')
+#plt.plot(E_vals+np.repeat(3.2,32000),0.19*conv_au_1_9,label='T=1.9')
+#plt.plot(E_vals+np.repeat(3.2,32000),0.19*conv_au_2_0,label='T=2.0')
 #plt.plot(E_vals+np.repeat(3.2,32000),conv_au1_1_5)
 plt.plot(Energy, Intensity_500ns)
+plt.plot(Energy,Intensity_450ns)
+plt.plot(Energy,Intensity_400ns)
 #plt.vlines(95,0,0.273,color='red')
 #plt.vlines(98.5,0,0.235,color='blue')
 #plt.vlines(97.3,0,0.24,color='green')
@@ -149,6 +151,7 @@ plt.plot(Energy, Intensity_500ns)
 #plt.vlines(93.8,0,0.25,color='red')
 plt.legend()
 plt.xlim(75,110)
+
 
 #%%
 ##Determining the relative intensity 
