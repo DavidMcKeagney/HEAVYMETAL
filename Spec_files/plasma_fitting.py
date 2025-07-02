@@ -14,28 +14,28 @@ plt.rcParams.update({'font.size': 22})
 plt.rcParams["figure.figsize"] = (15,10)
 #%%
 au1_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au1.sub.1.5.spec') as file1:
+with open('C:/Users/damck/OneDrive/Desktop/au1.sub.1.8.spec') as file1:
     for lines in file1:
         if len(lines.split())>17:
             au1_spec.append(lines.split())
 au2_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au2.sub.1.5.spec') as file2:
+with open('C:/Users/damck/OneDrive/Desktop/au2.sub.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
-au3_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au3.spec') as file3:
-    for lines in file3:
-        if len(lines.split())>17:
-            au3_spec.append(lines.split())
+#au3_spec=[]
+#with open('C:/Users/David McKeagney/Desktop/au3.spec') as file3:
+#    for lines in file3:
+#        if len(lines.split())>17:
+#            au3_spec.append(lines.split())
 au_spec=[]
-with open('C:/Users/David McKeagney/Desktop/au.spec') as file4:
+with open('C:/Users/damck/OneDrive/Desktop/au.sub.1.8.spec') as file4:
     for lines in file4:
         if len(lines.split())>17:
             au_spec.append(lines.split())
 au1_spec=np.array(au1_spec)[1:,:]
 au2_spec=np.array(au2_spec)[1:,:]
-au3_spec=np.array(au3_spec)[1:,:]
+#au3_spec=np.array(au3_spec)[1:,:]
 au_spec=np.array(au_spec)[1:,:]
 #%% 4f-6d transitions au1+
 au1_spec_1=au1_spec[au1_spec[:,8]=='1']
@@ -73,6 +73,7 @@ au_spec_5=au_spec[au_spec[:,8]=='5']
 au_spec=np.concatenate((au_spec_1,au_spec_5),axis=0)
 dE_4f_6d_au=au_spec[:,11].astype(float)
 gf_4f_6d_au=np.exp(au_spec[:,15].astype(float))
+gamma_4f_6d_au=au_spec[:,16].astype(float)*1e-3
 #%%
 dE_vec=np.concatenate((dE_4f_6d_au1,dE_4f_6d_au2))
 dE_vec=np.concatenate((dE_vec,dE_4f_6d_au3))
@@ -89,19 +90,19 @@ E_k_4f_6d_vec=E_k_4f_6d_vec[gf_4f_6d_vec>0.01]
 gam_4f_6d_vec=gam_4f_6d_vec[gf_4f_6d_vec>0.01]
 gf_4f_6d_vec=gf_4f_6d_vec[gf_4f_6d_vec>0.01]
 #%%
-Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
-Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
-Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_350ns.txt',dtype=float).T
-Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
-Eric_data_250ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_250ns.txt',dtype=float).T
-Intensity_400ns=Eric_data_400ns[1]
+#Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
+Eric_data_450ns=np.loadtxt('C:/Users/damck/OneDrive/Desktop/Eric_data_450ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/damck/OneDrive/Desktop/Eric_data_500ns.txt',dtype=float).T
+#Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_350ns.txt',dtype=float).T
+#Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
+#Eric_data_250ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_250ns.txt',dtype=float).T
+#Intensity_400ns=Eric_data_400ns[1]
 Intensity_450ns=Eric_data_450ns[1]
 Intensity_500ns=Eric_data_500ns[1]
-Intensity_350ns=Eric_data_350ns[1]
-Intensity_300ns=Eric_data_300ns[1]
-Intensity_250ns=Eric_data_250ns[1]
-Energy=Eric_data_400ns[0]
+#Intensity_350ns=Eric_data_350ns[1]
+#Intensity_300ns=Eric_data_300ns[1]
+#Intensity_250ns=Eric_data_250ns[1]
+Energy=Eric_data_500ns[0]
 #%%
 Energy_4f_6d=Energy[np.logical_and(Energy<=100,Energy>=90)]
 Intensity_4f_6d=Intensity_400ns[np.logical_and(Energy<=100,Energy>=90)]
@@ -174,20 +175,21 @@ plt.ylabel('Absorbance [Arb.]')
 #%%
 au1_3_8=au1_spec[np.logical_and(au1_spec[:,3]=='3',au1_spec[:,8]=='8')]
 au2_3_9=au2_spec[np.logical_and(au2_spec[:,3]=='3',au2_spec[:,8]=='9')]
-au1_3_8=au1_3_8[np.exp(au1_3_8[:,15].astype(float))>0.6]
-au2_3_9=au2_3_9[np.exp(au2_3_9[:,15].astype(float))>0.6]
+au1_3_8=np.exp(au1_3_8[:,15].astype(float))
+au2_3_9=np.exp(au2_3_9[:,15].astype(float))
+gamma_1_3_8=au1_spec_3_8[:,16].astype(float)*1e-3
 #%%
 E_vals=np.arange(70,120,0.01)
 conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1,0.05,gamma_4f_6d_au1, 3)
-conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2,gf_4f_6d_au2,0.05,gamma_4f_6d_au2, 3)
-#conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05, 0)
+#conv_au2=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au2,gf_4f_6d_au2,0.05,gamma_4f_6d_au2, 3)
+conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05,gamma_4f_6d_au, 3)
 
 #%%
 #plt.plot(E_vals,0.07*0.25*conv_au2,label='Au2+')
-#plt.plot(E_vals-np.repeat(6,5000),0.07*conv_au1,label='au1+')
-plt.plot(E_vals+np.repeat(3.2,5000),0.15*conv_au,label='au')
+plt.plot(E_vals+np.repeat(3.2,5000),0.20*conv_au1,label='au1+')
+plt.plot(E_vals+np.repeat(3.2,5000),0.20*conv_au,label='au')
 #plt.plot(Energy,Intensity_400ns,color='black',label='400ns')
-#plt.plot(Energy,Intensity_450ns,label='450ns')
+plt.plot(Energy,Intensity_450ns,label='450ns')
 plt.plot(Energy,Intensity_500ns,label='500ns')
 plt.xlim(75,110)
 plt.xlabel('Energy (eV)')
@@ -195,17 +197,18 @@ plt.ylabel('Convolved gf values')
 plt.legend()
 plt.show()
 #%%
-E_vals_au1=E_vals-np.repeat(6,5000)
+E_vals_au1=E_vals+np.repeat(3.2,5000)
 E_vals_au=E_vals+np.repeat(3.2,5000)
 conv_vals_au1=conv_au1[np.logical_and(E_vals_au1<=100,E_vals_au1>=94)]
 conv_vals_au=conv_au[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
-conv_vals_au2=conv_au2[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
+#conv_vals_au2=conv_au2[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
 #%%
 E_vals_au1=E_vals_au1[np.logical_and(E_vals_au1<=100,E_vals_au1>=94)]
 E_vals_au=E_vals_au[np.logical_and(E_vals_au<=100,E_vals_au>=94)]
 #%%
-plt.plot(E_vals_au,0.097*0.15*conv_vals_au + 0.697*0.15*conv_vals_au1+0.203*0.15*conv_vals_au2)
-plt.plot(Energy,Intensity_400ns,label='300ns')
+plt.plot(E_vals_au,0.90*0.2*conv_vals_au + 0.10*0.2*conv_vals_au1)
+plt.plot(Energy,Intensity_500ns,label='500ns')
+plt.plot(Energy,Intensity_450ns,label='450ns')
 plt.xlim(75,110)
 plt.xlabel('Energy (eV)')
 plt.ylabel('Convolved gf values')
@@ -215,12 +218,15 @@ plt.show()
 au_spec_2_4=au_spec[np.logical_and(au_spec[:,3]=='2',au_spec[:,8]=='4')]
 gf_2_4=np.exp(au_spec_2_4[:,15].astype(float))
 dE_2_4=au_spec_2_4[:,11].astype(float)
+gamma_2_4=au_spec_2_4[:,16].astype(float)*1e-3
 #%%
-
+conv_au_2_4=flp.ConvolvingFunc(0, E_vals, dE_2_4, gf_2_4, 0.05, gamma_2_4, 3)
+conv_au1_3_8=flp.ConvolvingFunc(0, E_vals, dE_1_3_8, au1_3_8, 0.05, gamma_1_3_8, 3)
 #%%
 plt.plot(Energy,Intensity_500ns,label='500ns')
 #plt.vlines(dE_2_4+np.repeat(3.3,3),np.array([0,0,0]),gf_2_4,colors='black',ls='--')
-plt.vlines(dE_1_3_8_cut+np.repeat(2.3,4),np.array([0,0,0,0]),gf_1_3_8_cut,color='red')
+plt.vlines(dE_1_3_8+np.repeat(3.3,81),np.repeat(0,81),gf_1_3_8,color='red')
+plt.vlines(dE_2_4+np.repeat(3.3,3),np.array([0,0,0]),gf_2_4,color='blue')
 plt.xlim(75,110)
 plt.xlabel('Energy (eV)')
 plt.ylabel('Convolved gf values')
@@ -230,5 +236,12 @@ plt.show()
 spec_file_1=au_spec_2_4[0]
 spec_file_2=au1_spec_3_8_cut[:2]
 #%%
-plt.plot(E_vals,conv_au1)
-plt.plot(E_vals,conv_au2)
+plt.plot(Energy,Intensity_500ns,label='500ns')
+#plt.plot(E_vals,0.2*conv_au1_3_8)
+#plt.plot(E_vals,0.2*conv_au_2_4)
+plt.plot(E_vals+np.repeat(3.3,5000),0.2*(0.10*conv_au1_3_8+0.90*conv_au_2_4))
+plt.xlim(75,110)
+plt.xlabel('Energy (eV)')
+plt.ylabel('Convolved gf values')
+plt.legend()
+plt.show()
