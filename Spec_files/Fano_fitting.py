@@ -21,8 +21,8 @@ with open('C:/Users/David McKeagney/Desktop/au.sub.1.5.spec') as file4:
             au_1_5_spec.append(lines.split())
 au_1_5_spec=np.array(au_1_5_spec)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=82,Eric_data_500ns[0]<=83)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=82,Eric_data_500ns[0]<=83)]
 #%%
 au_1_5_spec_2_4=au_1_5_spec[np.logical_and(au_1_5_spec[:,3]=='2',au_1_5_spec[:,8]=='4')]
 gf_2_4=np.exp(au_1_5_spec_2_4[:,15].astype(float))
@@ -36,8 +36,11 @@ def Fano(x,Er,q,gamma):
 def fitfunc(x,a,b,c,d,e,f,g,h):
      return  Fano(x,a,c,d)*e+Fano(x,b,c,d)*f+g*x+h  
 
-guess2=[dE_2_4[0]+3.2,dE_2_4[1]+3.2,7,0.0019,10,10,.2,-0.3]
-popt, pcov=curve_fit(fitfunc, Energy, Intensity_500ns, p0=guess2,)
+guess2=[82.5,84.3,17,0.00098,10,0.001,0.1,-0.3]
+bounds=([82.4,84.25,16.9,9.74e-4,1e-6,1e-6,-np.inf,-np.inf],[82.6,84.35,17.3,1e-3,np.inf,np.inf,np.inf,np.inf])
+#guess2_og=[82.5,84.3,7,0.0019,10,0.001,0.1,-0.3]
+#bounds_og=([82.4,84.25,1e-6,1e-6,1e-6,1e-6,-np.inf,-np.inf],[82.6,84.35,np.inf,np.inf,np.inf,np.inf,np.inf,np.inf])
+popt, pcov=curve_fit(fitfunc, Energy, Intensity_500ns, p0=guess2,bounds=bounds)
 best=fitfunc(Energy,popt[0],popt[1],popt[2],popt[3],popt[4],popt[5],popt[6],popt[7])
 sum=0
 for i in range(0, (len(Intensity_500ns)-1)):
@@ -45,4 +48,48 @@ for i in range(0, (len(Intensity_500ns)-1)):
 plt.plot(Energy,best,color='red')
 plt.plot(Energy,Intensity_500ns)
 #%%
+guess2_og=[82.5,84.3,7,0.0019,10,0.001,0.1,-0.3]
+bounds_og=([82.4,84.25,1e-6,1e-6,1e-6,1e-6,-np.inf,-np.inf],[82.6,84.35,np.inf,np.inf,np.inf,np.inf,np.inf,np.inf])
 plt.plot(Energy,Intensity_500ns,marker='x')
+#%%
+# It looks like I have convergence on the that the q is approximately 17 what I want to go now is to fit the linewidths independently by fixing the q parameter to 17.14 and making a new fiting parameter of the linewidth 
+
+def fitfunc2(x,a,b,c,d,e,f,g,h):
+    return Fano(x,a,17.14,c)*e + Fano(x,b,17.14,d)*f + g*x +h 
+
+guess2=[82.5,84.3,0.00097,0.00098,10,0.001,0.1,-0.3]
+bounds=([82.4,84.25,1e-6,1e-6,1e-6,1e-6,-np.inf,-np.inf],[82.6,84.35,np.inf,np.inf,np.inf,np.inf,np.inf,np.inf])
+#guess2_og=[82.5,84.3,7,0.0019,10,0.001,0.1,-0.3]
+#bounds_og=([82.4,84.25,1e-6,1e-6,1e-6,1e-6,-np.inf,-np.inf],[82.6,84.35,np.inf,np.inf,np.inf,np.inf,np.inf,np.inf])
+popt, pcov=curve_fit(fitfunc, Energy, Intensity_500ns, p0=guess2,bounds=bounds)
+best=fitfunc2(Energy,popt[0],popt[1],popt[2],popt[3],popt[4],popt[5],popt[6],popt[7])
+sum=0
+for i in range(0, (len(Intensity_500ns)-1)):
+    sum=sum+(Intensity_500ns[i]-best[i])**2
+plt.plot(Energy,best,color='red')
+plt.plot(Energy,Intensity_500ns)
+#%%
+def fitfunc3(x,a,b,c,d,e,f):
+    return Fano(x,a,b,c)*d + e*x + f
+
+guess3=[82.5,2,0.01,10,-0.1,-0.3]
+bounds3=([82.3,1e-6,1e-6,1e-6,-np.inf,-np.inf],[82.6,np.inf,np.inf,np.inf,1e-6,1e-6])
+
+popt, pcov=curve_fit(fitfunc3, Energy, Intensity_500ns, p0=guess3,bounds=bounds3)
+best=fitfunc3(Energy,popt[0],popt[1],popt[2],popt[3],popt[4],popt[5])
+sum=0
+for i in range(0, (len(Intensity_500ns)-1)):
+    sum=sum+(Intensity_500ns[i]-best[i])**2
+plt.plot(Energy,best,color='red')
+plt.plot(Energy,Intensity_500ns)
+#%%
+guess4=[84.3,0.1,0.01,10,-0.1,-0.3]
+bounds4=([84.25,1e-6,2e-3,1,-np.inf,-10],[84.35,2.3,1e-2,np.inf,1e-6,1e-6])
+
+popt, pcov=curve_fit(fitfunc3, Energy, Intensity_500ns, p0=guess4,bounds=bounds4)
+best=fitfunc3(Energy,popt[0],popt[1],popt[2],popt[3],popt[4],popt[5])
+sum=0
+for i in range(0, (len(Intensity_500ns)-1)):
+    sum=sum+(Intensity_500ns[i]-best[i])**2
+plt.plot(Energy,best,color='red')
+plt.plot(Energy,Intensity_500ns)
