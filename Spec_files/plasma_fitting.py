@@ -14,12 +14,12 @@ plt.rcParams.update({'font.size': 22})
 plt.rcParams["figure.figsize"] = (15,10)
 #%%
 au1_spec=[]
-with open('C:/Users/damck/OneDrive/Desktop/au1.sub.1.8.spec') as file1:
+with open('C:/Users/padmin/OneDrive/Desktop/au1.sub.1.8.spec') as file1:
     for lines in file1:
         if len(lines.split())>17:
             au1_spec.append(lines.split())
 au2_spec=[]
-with open('C:/Users/damck/OneDrive/Desktop/au2.sub.spec') as file2:
+with open('C:/Users/padmin/OneDrive/Desktop/au2.sub.spec') as file2:
     for lines in file2:
         if len(lines.split())>17:
             au2_spec.append(lines.split())
@@ -29,7 +29,7 @@ with open('C:/Users/damck/OneDrive/Desktop/au2.sub.spec') as file2:
 #        if len(lines.split())>17:
 #            au3_spec.append(lines.split())
 au_spec=[]
-with open('C:/Users/damck/OneDrive/Desktop/au.sub.1.8.spec') as file4:
+with open('C:/Users/padmin/OneDrive/Desktop/au.sub.1.8.spec') as file4:
     for lines in file4:
         if len(lines.split())>17:
             au_spec.append(lines.split())
@@ -91,8 +91,8 @@ gam_4f_6d_vec=gam_4f_6d_vec[gf_4f_6d_vec>0.01]
 gf_4f_6d_vec=gf_4f_6d_vec[gf_4f_6d_vec>0.01]
 #%%
 #Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
-Eric_data_450ns=np.loadtxt('C:/Users/damck/OneDrive/Desktop/Eric_data_450ns.txt',dtype=float).T
-Eric_data_500ns=np.loadtxt('C:/Users/damck/OneDrive/Desktop/Eric_data_500ns.txt',dtype=float).T
+Eric_data_450ns=np.loadtxt('C:/Users/padmin/OneDrive/Desktop/Eric_data_450ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/padmin/OneDrive/Desktop/Eric_data_500ns.txt',dtype=float).T
 #Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_350ns.txt',dtype=float).T
 #Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
 #Eric_data_250ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_250ns.txt',dtype=float).T
@@ -178,6 +178,8 @@ au2_3_9=au2_spec[np.logical_and(au2_spec[:,3]=='3',au2_spec[:,8]=='9')]
 au1_3_8=np.exp(au1_3_8[:,15].astype(float))
 au2_3_9=np.exp(au2_3_9[:,15].astype(float))
 gamma_1_3_8=au1_spec_3_8[:,16].astype(float)*1e-3
+au1_spec_3_8=au1_spec[np.logical_and(au1_spec[:,8]=='8',au1_spec[:,3]=='3')]
+dE_1_3_8=au1_spec_3_8[:,11].astype(float)
 #%%
 E_vals=np.arange(70,120,0.01)
 conv_au1=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au1, gf_4f_6d_au1,0.05,gamma_4f_6d_au1, 3)
@@ -186,14 +188,14 @@ conv_au=flp.ConvolvingFunc(0, E_vals, dE_4f_6d_au, gf_4f_6d_au, 0.05,gamma_4f_6d
 
 #%%
 #plt.plot(E_vals,0.07*0.25*conv_au2,label='Au2+')
-plt.plot(E_vals+np.repeat(3.2,5000),0.20*conv_au1,label='au1+')
-plt.plot(E_vals+np.repeat(3.2,5000),0.20*conv_au,label='au')
+#plt.plot(E_vals+np.repeat(3.2,5000),0.20*conv_au1,label='au1+')
+plt.plot(E_vals+np.repeat(3.3,5000),0.20*conv_au,label='Au I 4f-6d')
 #plt.plot(Energy,Intensity_400ns,color='black',label='400ns')
 plt.plot(Energy,Intensity_450ns,label='450ns')
 plt.plot(Energy,Intensity_500ns,label='500ns')
 plt.xlim(75,110)
-plt.xlabel('Energy (eV)')
-plt.ylabel('Convolved gf values')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Absorbance [Arb.]')
 plt.legend()
 plt.show()
 #%%
@@ -219,17 +221,18 @@ au_spec_2_4=au_spec[np.logical_and(au_spec[:,3]=='2',au_spec[:,8]=='4')]
 gf_2_4=np.exp(au_spec_2_4[:,15].astype(float))
 dE_2_4=au_spec_2_4[:,11].astype(float)
 gamma_2_4=au_spec_2_4[:,16].astype(float)*1e-3
+
 #%%
 conv_au_2_4=flp.ConvolvingFunc(0, E_vals, dE_2_4, gf_2_4, 0.05, gamma_2_4, 3)
 conv_au1_3_8=flp.ConvolvingFunc(0, E_vals, dE_1_3_8, au1_3_8, 0.05, gamma_1_3_8, 3)
 #%%
-plt.plot(Energy,Intensity_500ns,label='500ns')
+plt.plot(Energy,Intensity_500ns,label='500ns',color='black')
 #plt.vlines(dE_2_4+np.repeat(3.3,3),np.array([0,0,0]),gf_2_4,colors='black',ls='--')
-plt.vlines(dE_1_3_8+np.repeat(3.3,81),np.repeat(0,81),gf_1_3_8,color='red')
-plt.vlines(dE_2_4+np.repeat(3.3,3),np.array([0,0,0]),gf_2_4,color='blue')
+plt.vlines(dE_1_3_8+np.repeat(3.3,81),np.repeat(0,81),au1_3_8,color='red',label='Au II')
+plt.vlines(dE_2_4+np.repeat(3.3,3),np.array([0,0,0]),gf_2_4,color='blue',label='Au I')
 plt.xlim(75,110)
-plt.xlabel('Energy (eV)')
-plt.ylabel('Convolved gf values')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Absorbance [Arb.]')
 plt.legend()
 plt.show()
 #%%

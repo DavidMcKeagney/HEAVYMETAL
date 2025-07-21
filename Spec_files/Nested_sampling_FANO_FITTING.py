@@ -14,6 +14,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from dynesty import NestedSampler
+import dynesty
+import corner
 #%%
 def epsilon(x,Er,gamma):
     return (x-Er)*2/gamma
@@ -21,16 +23,16 @@ def Fano(x,Er,q,gamma):
      return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 def fitfunc3(x,a,b,c,d,e,f):
      return Fano(x,a,b,c)*d + e*x + f
-#%%
+#%% New parameters
 params=lmfit.Parameters()
 params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
-params.add('b',value=2,min=1e-6,max=10) # q value
-params.add('c',value=0.01,min=1e-6,max=10) # linewidth
-params.add('d',value=10,min=1e-6,max=15) # intensity of profile 
-params.add('e',value=-0.1,min=-10,max=1e-6) # continuum slope
-params.add('f',value=-0.3,min=-10,max=1e-6) # continuum constant 
+params.add('b',value=2,min=-0.2,max=1.2) # q value
+params.add('c',value=0.01,min=1e-6,max=0.3) # linewidth
+params.add('d',value=10,min=1e-6,max=3) # intensity of profile 
+params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
+params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant 
 #%%
-Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/Padmin/OneDrive/Desktop/Eric_data_500ns.txt',dtype=float).T
 Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
 Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
 #%% 
@@ -67,9 +69,46 @@ sampler.run_nested(dlogz=0.001, print_progress=True)
 
 # Extract results
 dresults = sampler.results
-#%%
+ #%%
 ind = np.argmax(dresults.logl)
 sols = dresults.samples[ind]
 #%% 
 plt.plot(Energy,Intensity_500ns)
 plt.plot(Energy,fitfunc3(Energy,sols[0],sols[1],sols[2],sols[3],sols[4],sols[5]))
+#%%
+weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
+samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 
+
+parameter_names = list(params.keys())
+posterior_samples = {name: samples[:, i] for i, name in enumerate(parameter_names)}
+
+corner.corner(samples, labels=parameter_names, show_titles=True, quantiles=[0.16, 0.5, 0.84])
+plt.show()
+#%%
+#Old parameters that worked 1
+params=lmfit.Parameters()
+params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
+params.add('b',value=2,min=1e-6,max=10) # q value
+params.add('c',value=0.01,min=1e-6,max=10) # linewidth
+params.add('d',value=10,min=1e-6,max=15) # intensity of profile 
+params.add('e',value=-0.1,min=-10,max=1e-6) # continuum slope
+params.add('f',value=-0.3,min=-10,max=1e-6) # continuum constant 
+#%%
+# Old parameters that worked 2
+params=lmfit.Parameters()
+params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
+params.add('b',value=2,min=1e-6,max=1.5) # q value
+params.add('c',value=0.01,min=1e-6,max=10) # linewidth
+params.add('d',value=10,min=1e-6,max=3) # intensity of profile 
+params.add('e',value=-0.1,min=-10,max=1e-6) # continuum slope
+params.add('f',value=-0.3,min=-3,max=1e-6) # continuum constant 
+#%%
+# Old parameters that worked 3
+params=lmfit.Parameters()
+params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
+params.add('b',value=2,min=-0.2,max=1.2) # q value
+params.add('c',value=0.01,min=1e-6,max=0.3) # linewidth
+params.add('d',value=10,min=1e-6,max=3) # intensity of profile 
+params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
+params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant 
+
