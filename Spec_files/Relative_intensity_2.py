@@ -51,6 +51,12 @@ with open('C:/Users/David McKeagney/Desktop/au1.sub.1.8.spec') as file:
         if len(lines.split())>17:
             spec_file_1_1_8.append(lines.split())
 spec_file_1_1_8=np.array(spec_file_1_1_8)[1:,:]
+spec_file_2_9=[]
+with open('C:/Users/David McKeagney/Desktop/au.sub.2.9.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            spec_file_2_9.append(lines.split())
+spec_file_2_9=np.array(spec_file_2_9)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=80,Eric_data_500ns[0]<=120)]
 Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=80,Eric_data_500ns[0]<=120)]
@@ -71,6 +77,18 @@ with open('C:/Users/David McKeagney/Desktop/au1.sub.1.9.spec') as file:
         if len(lines.split())>17:
             spec_file_1_1_9.append(lines.split())
 spec_file_1_1_9=np.array(spec_file_1_1_9)[1:,:]
+spec_file_1_2_9=[]
+with open('C:/Users/David McKeagney/Desktop/au1.sub.2.9.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            spec_file_1_2_9.append(lines.split())
+spec_file_1_2_9=np.array(spec_file_1_2_9)[1:,:]
+spec_file_2_2_9=[]
+with open('C:/Users/David McKeagney/Desktop/au2.sub.2.9.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            spec_file_2_2_9.append(lines.split())
+spec_file_2_2_9=np.array(spec_file_2_2_9)[1:,:]
 #%%
 auspec_1_1_5=spec_file_1_5[spec_file_1_5[:,8]=='1']
 auspec_5_1_5=spec_file_1_5[spec_file_1_5[:,8]=='5']
@@ -96,6 +114,10 @@ auspec_1_2_0=spec_file_2_0[spec_file_2_0[:,8]=='1']
 auspec_5_2_0=spec_file_2_0[spec_file_2_0[:,8]=='5']
 spec_file_2_0=np.concatenate((auspec_1_2_0,auspec_5_2_0),axis=0)
 #%%
+auspec_1_2_9=spec_file_2_9[spec_file_2_9[:,8]=='1']
+auspec_5_2_9=spec_file_2_9[spec_file_2_9[:,8]=='5']
+spec_file_2_9=np.concatenate((auspec_1_2_9,auspec_5_2_9),axis=0)
+#%%
 auspec_1_1_1_8=spec_file_1_1_8[spec_file_1_1_8[:,8]=='1']
 auspec_5_1_1_8=spec_file_1_1_8[spec_file_1_1_8[:,8]=='5']
 auspec_9_1_1_8=spec_file_1_1_8[spec_file_1_1_8[:,8]=='9']
@@ -112,7 +134,19 @@ auspec_1_1_2_0=spec_file_1_2_0[spec_file_1_2_0[:,8]=='1']
 auspec_5_1_2_0=spec_file_1_2_0[spec_file_1_2_0[:,8]=='5']
 auspec_9_1_2_0=spec_file_1_2_0[spec_file_1_2_0[:,8]=='9']
 auspec_1_1_2_0=np.concatenate((auspec_1_1_2_0,auspec_5_1_2_0),axis=0)
-spec_file_1_2_0=np.concatenate((auspec_1_1_2_0,auspec_9_1_2_0),axis=0)         
+spec_file_1_2_0=np.concatenate((auspec_1_1_2_0,auspec_9_1_2_0),axis=0)  
+#%%
+auspec_1_1_2_9=spec_file_1_2_9[spec_file_1_2_9[:,8]=='1']
+auspec_5_1_2_9=spec_file_1_2_9[spec_file_1_2_9[:,8]=='5']
+auspec_9_1_2_9=spec_file_1_2_9[spec_file_1_2_9[:,8]=='9']
+auspec_1_1_2_9=np.concatenate((auspec_1_1_2_9,auspec_5_1_2_9),axis=0)
+spec_file_1_2_9=np.concatenate((auspec_1_1_2_9,auspec_9_1_2_9),axis=0)
+#%%
+auspec_1_2_2_9=spec_file_2_2_9[spec_file_2_2_9[:,8]=='2']
+auspec_5_2_2_9=spec_file_2_2_9[spec_file_2_2_9[:,8]=='6']
+auspec_9_2_2_9=spec_file_2_2_9[spec_file_2_2_9[:,8]=='10']
+auspec_1_2_2_9=np.concatenate((auspec_1_2_2_9,auspec_5_2_2_9),axis=0)
+spec_file_2_2_9=np.concatenate((auspec_1_2_2_9,auspec_9_2_2_9),axis=0)       
 #%%
 upper_levels=list(set(spec_file_1_5[:,6].astype(float)))
 gf_vals_1_5=[]
@@ -174,6 +208,16 @@ for ul in upper_levels:
     gf_vals_2_0.append(sum(gf_temp))
     decay_vals_2_0.append(sum(decay_temp))
 #%%
+upper_levels=list(set(spec_file_2_9[:,6].astype(float)))
+gf_vals_2_9=[]
+decay_vals_2_9=[]
+for ul in upper_levels:
+    temp_spec=spec_file_2_9[spec_file_2_9[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_2_9.append(sum(gf_temp))
+    decay_vals_2_9.append(sum(decay_temp))
+#%%
 upper_levels_1=list(set(spec_file_1_1_8[:,6].astype(float)))
 gf_vals_1_1_8=[]
 decay_vals_1_1_8=[]
@@ -204,6 +248,26 @@ for ul in upper_levels_1:
     gf_vals_1_2_0.append(sum(gf_temp))
     decay_vals_1_2_0.append(sum(decay_temp))
 #%%
+upper_levels_1=list(set(spec_file_1_2_9[:,6].astype(float)))
+gf_vals_1_2_9=[]
+decay_vals_1_2_9=[]
+for ul in upper_levels_1:
+    temp_spec=spec_file_1_2_9[spec_file_1_2_9[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_1_2_9.append(sum(gf_temp))
+    decay_vals_1_2_9.append(sum(decay_temp))
+#%%
+upper_levels_2=list(set(spec_file_2_2_9[:,6].astype(float)))
+gf_vals_2_2_9=[]
+decay_vals_2_2_9=[]
+for ul in upper_levels_2:
+    temp_spec=spec_file_2_2_9[spec_file_2_2_9[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_2_2_9.append(sum(gf_temp))
+    decay_vals_2_2_9.append(sum(decay_temp))
+#%%
 Energy=E_vals=np.arange(88,120,0.001)
 conv_vals_1_5=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_1_5), 0.05, np.array(decay_vals_1_5), 3)
 conv_vals_1_6=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_1_6), 0.05, np.array(decay_vals_1_6), 3)
@@ -211,12 +275,16 @@ conv_vals_1_7=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_
 conv_vals_1_8=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_1_8), 0.05, np.array(decay_vals_1_8), 3)
 conv_vals_1_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_1_9), 0.05, np.array(decay_vals_1_9), 3)
 conv_vals_2_0=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_2_0), 0.05, np.array(decay_vals_2_0), 3)
+conv_vals_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_2_9), 0.05, np.array(decay_vals_2_9), 3)
 conv_vals_1_1_8=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_1_1_8), 0.05, np.array(decay_vals_1_1_8), 3)
 conv_vals_1_2_0=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_1_2_0), 0.05, np.array(decay_vals_1_2_0), 3)
 conv_vals_1_1_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_1_1_9), 0.05, np.array(decay_vals_1_1_9), 3)
-#%%
+conv_vals_1_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_1_2_9), 0.05, np.array(decay_vals_1_2_9), 3)
+conv_vals_2_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_2), np.array(gf_vals_2_2_9), 0.05, np.array(decay_vals_2_2_9), 3)
+#%% SINCE the relative intsities when AU2+ is included makes the features in 110eV area more important we can conclued that there is no AU2+ since that isn't seen in the spectra so the temperature is less that 2.6 eV
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*(0.815*conv_vals_1_8+0.185*conv_vals_1_1_8),label='T=1.8')
-plt.plot(Energy+np.repeat(0.3,len(Energy)),0.6*(0.772*conv_vals_1_9+0.228*conv_vals_1_1_9),label='T=1.9')
+#plt.plot(Energy+np.repeat(0.3,len(Energy)),0.6*(0.772*conv_vals_1_9+0.228*conv_vals_1_1_9),label='T=1.9')
+plt.plot(Energy+np.repeat(0.3,len(Energy)),0.1*(0.25*conv_vals_2_9+0.727*conv_vals_1_2_9+0.023*conv_vals_2_2_9))
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_6,label='T=1.6')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_7,label='T=1.7')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_8,label='T=1.8')
@@ -229,3 +297,5 @@ plt.xlabel('Energy [eV]')
 plt.ylabel('Absorbance [Arb.]')
 plt.legend()
 #%%
+plt.plot(Energy,0.05*conv_vals_2_2_9)
+plt.plot(Energy_500ns,Intensity_500ns)
