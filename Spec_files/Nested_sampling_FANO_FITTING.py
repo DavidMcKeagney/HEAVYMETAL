@@ -30,11 +30,11 @@ params.add('b',value=2,min=-0.2,max=1.2) # q value
 params.add('c',value=0.01,min=1e-6,max=0.3) # linewidth
 params.add('d',value=10,min=1e-6,max=3) # intensity of profile 
 params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
-params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant 
+params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
 #%%
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=81.5,Eric_data_500ns[0]<=85)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=81.5,Eric_data_500ns[0]<=85)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
 #%% 
 def log_likelihood(theta):
     params_dict = dict(zip(params.keys(), theta)) #retrieves the params dictionary as defined above
@@ -65,11 +65,11 @@ sampler = NestedSampler(loglikelihood=log_likelihood,
 
 # Run the nested sampling
 
-sampler.run_nested(dlogz=0.0001, print_progress=True)
+sampler.run_nested(dlogz=0.001, print_progress=True)
 
 # Extract results
 dresults = sampler.results
- #%%
+#%%
 ind = np.argmax(dresults.logl)
 sols = dresults.samples[ind]
 #%% 
@@ -134,11 +134,11 @@ sampler.run_nested(dlogz=0.001, print_progress=True)
 # Extract results
 dresults = sampler.results
 #%%
-ind = np.argmax(dresults.logl)
-sols = dresults.samples[ind]
+ind1 = np.argmax(dresults.logl)
+sols1 = dresults.samples[ind1]
 #%%
 plt.plot(Energy,Intensity_500ns)
-plt.plot(Energy,fitfunc3(Energy,sols[0],sols[1],sols[2],sols[3],sols[4],sols[5]))
+plt.plot(Energy,fitfunc3(Energy,sols1[0],sols1[1],sols1[2],sols1[3],sols1[4],sols1[5]))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
 samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 
