@@ -16,7 +16,7 @@ def f(t,y,D,I):
     return [-D*y[0]+I*y[1],D*y[0]-I*y[1]]
 
 t1=10 #the maximum time value the integrator calculates
-dt=0.1 #step size 
+dt=0.01 #step size 
 
 y0,t0=[N_0(0.2,1,1,1),1],0
 
@@ -35,3 +35,9 @@ while r.successful() and r.t<t1:
 #%%
 plt.plot(t,Ni)
 plt.plot(t,Nj)
+#%%
+Ni=np.array(Ni)
+t=np.array(t)
+av_dN=Ni/t
+#%%
+plt.plot(t,av_dN)
