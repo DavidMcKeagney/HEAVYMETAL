@@ -25,10 +25,10 @@ def fitfunc3(x,a,b,c,d,e,f):
      return Fano(x,a,b,c)*d + e*x + f
 #%% New parameters
 params=lmfit.Parameters()
-params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
-params.add('b',value=2,min=-0.2,max=1.2) # q value
-params.add('c',value=0.01,min=1e-6,max=0.3) # linewidth
-params.add('d',value=10,min=1e-6,max=3) # intensity of profile 
+#params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
+#params.add('b',value=2,min=1e-6,max=5.5) # q value
+#params.add('c',value=0.01,min=1e-6,max=6) # linewidth
+params.add('d',value=0.06,min=-3,max=3) # intensity of profile 
 params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
 params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
 #%%
@@ -61,20 +61,21 @@ ndim = len(params)  # Number of parameters
 sampler = NestedSampler(loglikelihood=log_likelihood, 
                         prior_transform=prior_transform, 
                         ndim=len(params), 
-                        nlive=80*ndim, sample = 'rwalk')
+                        nlive=500*ndim, sample = 'rwalk')
 
 # Run the nested sampling
 
-sampler.run_nested(dlogz=0.001, print_progress=True)
+sampler.run_nested(dlogz=0.0001, print_progress=True)
 
 # Extract results
 dresults = sampler.results
+
 #%%
 ind = np.argmax(dresults.logl)
 sols = dresults.samples[ind]
 #%% 
 plt.plot(Energy,Intensity_500ns)
-plt.plot(Energy,fitfunc3(Energy,sols[0],sols[1],sols[2],sols[3],sols[4],sols[5]))
+plt.plot(Energy,fitfunc3(Energy,0.06,sols[1],0.66))#,sols[3],sols[4],sols[5]))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
 samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 
@@ -138,7 +139,7 @@ ind1 = np.argmax(dresults.logl)
 sols1 = dresults.samples[ind1]
 #%%
 plt.plot(Energy,Intensity_500ns)
-plt.plot(Energy,fitfunc3(Energy,sols1[0],sols1[1],sols1[2],sols1[3],sols1[4],sols1[5]))
+plt.plot(Energy,fitfunc3(Energy,84.31,1.04,0.03,0.065,sols1[4],0.66))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
 samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 
@@ -382,3 +383,82 @@ posterior_samples = {name: samples[:, i] for i, name in enumerate(parameter_name
 
 corner.corner(samples, labels=parameter_names, show_titles=True, quantiles=[0.16, 0.5, 0.84])
 plt.show()
+#%%
+def fitfunc7(x):
+    return Fano(x, 82.49, 0.89, 0.054)*0.06 + Fano(x, 84.31, 1.04, 0.032)*0.065 -0.005*x + 0.57
+
+plt.plot(Energy,fitfunc7(Energy))
+plt.plot(Energy,Intensity_500ns,label='500ns')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Absorbance [Arb.]')
+plt.grid(True)
+plt.legend()
+#%%
+
+params=lmfit.Parameters()
+params.add('a',value=80.2,min=79.7, max=81.2) # resonance energy
+params.add('b',value=2,min=1e-6,max=2) # q value
+params.add('c',value=0.01,min=1e-6,max=3) # linewidth
+params.add('d',value=0.06,min=-3,max=3) # intensity of profile 
+params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
+params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
+#%%
+def log_likelihood(theta):
+    params_dict = dict(zip(params.keys(), theta)) #retrieves the params dictionary as defined above
+    params1 = lmfit.Parameters()
+    for key, value in params_dict.items():
+        params1.add(key, value=value)
+        #print(params1)
+    model = fitfunc3(Energy, **params1.valuesdict()) #my function is called fit_tot. This is basically the evaluation of your function
+    residual = (model - Intensity_500ns) #/ err_ha #calculates the residuals. flux_ha is the "y" that you're fitting and err_ha are its errors
+    return -0.5 * np.sum(residual**2) #calculates the log-likelihood of the fit, evaluated at the parameters you gave. 
+
+def prior_transform(unit_cube):
+    """Map unit cube [0, 1] to parameter bounds."""
+    priors = []
+    for i, param in enumerate(params.values()):
+        lower = param.min
+        upper = param.max
+        priors.append(lower + (upper - lower) * unit_cube[i])  # Creats a Uniform prior based on the min and max values of the parameters
+        # I believe this is what you'd change to get a gaussian prior. In the flat priors, with dynesty, the attribute "value" of the params
+    # as defined in the above cell is meaningless because it samples the priors randomly. 
+    return priors
+#%%
+ndim = len(params)  # Number of parameters
+sampler = NestedSampler(loglikelihood=log_likelihood, 
+                        prior_transform=prior_transform, 
+                        ndim=len(params), 
+                        nlive=500*ndim, sample = 'rwalk')
+
+# Run the nested sampling
+
+sampler.run_nested(dlogz=0.001, print_progress=True)
+
+# Extract results
+dresults = sampler.results
+#%%
+
+ind2 = np.argmax(dresults.logl)
+sols2 = dresults.samples[ind2]
+#%%
+plt.plot(Energy,Intensity_500ns)
+plt.plot(Energy,fitfunc3(Energy,sols2[0],1.13,sols2[2],0.06,sols2[4],0.66))
+#%%
+weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
+samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 
+
+parameter_names = list(params.keys())
+posterior_samples = {name: samples[:, i] for i, name in enumerate(parameter_names)}
+
+corner.corner(samples, labels=parameter_names, show_titles=True, quantiles=[0.16, 0.5, 0.84])
+plt.show()
+#%%
+def fitfunc8(x):
+    return Fano(x,79.81,1.18,0.476)*0.067+Fano(x, 82.49, 0.89, 0.054)*0.055 + Fano(x, 84.31, 1.04, 0.032)*0.06 -0.0055*x + 0.55
+
+plt.plot(Energy,fitfunc8(Energy))
+plt.plot(Energy,Intensity_500ns,label='500ns')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Absorbance [Arb.]')
+plt.grid(True)
+plt.legend()
