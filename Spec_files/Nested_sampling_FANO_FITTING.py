@@ -462,3 +462,14 @@ plt.xlabel('Energy [eV]')
 plt.ylabel('Absorbance [Arb.]')
 plt.grid(True)
 plt.legend()
+#%%
+
+def fitfunc9(x):
+    return Fano(x,80,1.9,0.45)*0.03+Fano(x, 82.49, 1.9, 0.01)*0.05 + Fano(x, 84.31, 1.8, 0.05)*0.02 -0.0055*x + 0.64
+
+plt.plot(Energy,fitfunc9(Energy))
+plt.plot(Energy,Intensity_500ns,label='500ns')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Absorbance [Arb.]')
+plt.grid(True)
+plt.legend()
