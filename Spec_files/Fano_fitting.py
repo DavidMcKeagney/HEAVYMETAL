@@ -21,8 +21,8 @@ with open('C:/Users/David McKeagney/Desktop/au.sub.1.5.spec') as file4:
             au_1_5_spec.append(lines.split())
 au_1_5_spec=np.array(au_1_5_spec)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=82,Eric_data_500ns[0]<=83)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=82,Eric_data_500ns[0]<=83)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
 #%%
 au_1_5_spec_2_4=au_1_5_spec[np.logical_and(au_1_5_spec[:,3]=='2',au_1_5_spec[:,8]=='4')]
 gf_2_4=np.exp(au_1_5_spec_2_4[:,15].astype(float))
@@ -87,6 +87,18 @@ guess4=[84.3,0.1,0.01,10,-0.1,-0.3]
 bounds4=([84.25,1e-6,2e-3,1,-np.inf,-10],[84.35,2.3,1e-2,np.inf,1e-6,1e-6])
 
 popt, pcov=curve_fit(fitfunc3, Energy, Intensity_500ns, p0=guess4,bounds=bounds4)
+best=fitfunc3(Energy,popt[0],popt[1],popt[2],popt[3],popt[4],popt[5])
+sum=0
+for i in range(0, (len(Intensity_500ns)-1)):
+    sum=sum+(Intensity_500ns[i]-best[i])**2
+plt.plot(Energy,best,color='red')
+plt.plot(Energy,Intensity_500ns)
+#%%
+guess5=[79.5,2.0,0.2,2,-0.01,-0.3]
+bounds5=([79,1.8,1e-6,-3,-0.02,-2.4],[81.2,2.2,3,3,0.02,2.4])
+
+
+popt, pcov=curve_fit(fitfunc3, Energy, Intensity_500ns, p0=guess5,bounds=bounds5)
 best=fitfunc3(Energy,popt[0],popt[1],popt[2],popt[3],popt[4],popt[5])
 sum=0
 for i in range(0, (len(Intensity_500ns)-1)):

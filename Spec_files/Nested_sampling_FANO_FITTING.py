@@ -397,7 +397,7 @@ plt.legend()
 
 params=lmfit.Parameters()
 params.add('a',value=80.2,min=79.7, max=81.2) # resonance energy
-params.add('b',value=2,min=1e-6,max=2) # q value
+params.add('b',value=2,min=-2.4,max=2.4) # q value
 params.add('c',value=0.01,min=1e-6,max=3) # linewidth
 params.add('d',value=0.06,min=-3,max=3) # intensity of profile 
 params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
@@ -442,7 +442,7 @@ ind2 = np.argmax(dresults.logl)
 sols2 = dresults.samples[ind2]
 #%%
 plt.plot(Energy,Intensity_500ns)
-plt.plot(Energy,fitfunc3(Energy,sols2[0],1.13,sols2[2],0.06,sols2[4],0.66))
+plt.plot(Energy,fitfunc3(Energy,sols2[0],sols2[1],sols2[2],sols2[3],sols2[4],sols2[5]))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
 samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 
@@ -450,7 +450,7 @@ samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample
 parameter_names = list(params.keys())
 posterior_samples = {name: samples[:, i] for i, name in enumerate(parameter_names)}
 
-corner.corner(samples, labels=parameter_names, show_titles=True, quantiles=[0.16, 0.5, 0.84])
+corner.corner(samples, labels=parameter_names, show_titles=True, quantiles=[0.16, 0.5, 0.84],bins=50)
 plt.show()
 #%%
 def fitfunc8(x):
