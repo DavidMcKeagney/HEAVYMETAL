@@ -345,3 +345,93 @@ plt.legend()
 #%%
 plt.plot(Energy,0.05*conv_vals_2_2_9)
 plt.plot(Energy_500ns,Intensity_500ns)
+#%%
+Energy=E_vals=np.arange(88,120,0.001)
+conv_vals_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_2_9), 0.05, np.array(decay_vals_2_9), 3)
+conv_vals_1_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_1_2_9), 0.05, np.array(decay_vals_1_2_9), 3)
+conv_vals_2_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_2), np.array(gf_vals_2_2_9), 0.05, np.array(decay_vals_2_2_9), 3)
+#%%
+plt.plot(Energy,conv_vals_2_9,label='4f-6d Au I')
+plt.plot(Energy,conv_vals_1_2_9,label='4f-6d Au II')
+plt.plot(Energy,conv_vals_2_2_9,label='4f-6d Au III')
+plt.legend()
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity [Arb.]')
+#%%
+au_spec_I=[]
+with open('C:/Users/David McKeagney/Desktop/au.sub.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            au_spec_I.append(lines.split())
+au_spec_II=[]
+with open('C:/Users/David McKeagney/Desktop/au1.sub.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            au_spec_II.append(lines.split())
+au_spec_III=[]
+with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            au_spec_III.append(lines.split())
+au_spec_I=np.array(au_spec_I)[1:,:]
+au_spec_II=np.array(au_spec_II)[1:,:]
+au_spec_III=np.array(au_spec_III)[1:,:]
+#%%
+au_spec_1_I=au_spec_I[au_spec_I[:,8]=='1']
+au_spec_5_I=au_spec_I[au_spec_I[:,8]=='5']
+spec_file_1_I=np.concatenate((au_spec_1_I,au_spec_5_I),axis=0)
+#%%
+au_spec_1_II=au_spec_II[au_spec_II[:,8]=='1']
+au_spec_5_II=au_spec_II[au_spec_II[:,8]=='5']
+au_spec_9_II=au_spec_II[au_spec_II[:,8]=='9']
+spec_file_1_II=np.concatenate((au_spec_1_II,au_spec_5_II),axis=0)
+spec_file_9_II=np.concatenate((spec_file_1_I,au_spec_9_II),axis=0)
+#%%
+au_spec_2_III=au_spec_III[au_spec_III[:,8]=='2']
+au_spec_6_III=au_spec_III[au_spec_III[:,8]=='6']
+au_spec_10_III=au_spec_III[au_spec_III[:,8]=='10']
+spec_file_2_III=np.concatenate((au_spec_2_III,au_spec_6_III),axis=0)
+spec_file_10_III=np.concatenate((spec_file_2_III,au_spec_10_III),axis=0)
+#%%
+upper_levels_I=list(set(spec_file_1_I[:,6].astype(float)))
+gf_vals_I=[]
+decay_vals_I=[]
+for ul in upper_levels:
+    temp_spec=spec_file_1_I[spec_file_1_I[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_I.append(sum(gf_temp))
+    decay_vals_I.append(sum(decay_temp))
+#%%
+upper_levels_1=list(set(spec_file_9_II[:,6].astype(float)))
+gf_vals_II=[]
+decay_vals_II=[]
+for ul in upper_levels_1:
+    temp_spec=spec_file_9_II[spec_file_9_II[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_II.append(sum(gf_temp))
+    decay_vals_II.append(sum(decay_temp))
+#%%
+upper_levels_2=list(set(spec_file_10_III[:,6].astype(float)))
+gf_vals_III=[]
+decay_vals_III=[]
+for ul in upper_levels_2:
+    temp_spec=spec_file_10_III[spec_file_10_III[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_III.append(sum(gf_temp))
+    decay_vals_III.append(sum(decay_temp))
+#%%
+Energy=E_vals=np.arange(70,130,0.001)
+conv_vals_I=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_I), 0.05, np.array(decay_vals_I), 3)
+conv_vals_II=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_II), 0.05, np.array(decay_vals_II), 3)
+conv_vals_III=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_2), np.array(gf_vals_III), 0.05, np.array(decay_vals_III), 3)
+#%%
+plt.plot(Energy,conv_vals_I,label='4f-6d Au I')
+plt.plot(Energy,conv_vals_II,label='4f-6d Au II')
+plt.plot(Energy,conv_vals_III,label='4f-6d Au III')
+plt.legend()
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity [Arb.]')
+plt.grid(True)
