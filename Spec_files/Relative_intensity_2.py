@@ -70,6 +70,10 @@ Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.t
 Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=80,Eric_data_450ns[0]<=120)]
 Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
 Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=80,Eric_data_400ns[0]<=120)]
+Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_350ns.txt',dtype=float).T
+Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=80,Eric_data_350ns[0]<=120)]
+Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_300ns.txt',dtype=float).T
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_350ns[0]>=80,Eric_data_300ns[0]<=120)]
 #%%
 spec_file_1_2_0=[]
 with open('C:/Users/David McKeagney/Desktop/au1.sub.2.0.spec') as file:
@@ -127,7 +131,7 @@ auspec_5_2_0=spec_file_2_0[spec_file_2_0[:,8]=='5']
 spec_file_2_0=np.concatenate((auspec_1_2_0,auspec_5_2_0),axis=0)
 #%%
 auspec_1_2_2=spec_file_2_2[spec_file_2_2[:,8]=='1']
-auspec_5_2_2=spec_file_2_0[spec_file_2_2[:,8]=='5']
+auspec_5_2_2=spec_file_2_2[spec_file_2_2[:,8]=='5']
 spec_file_2_2=np.concatenate((auspec_1_2_2,auspec_5_2_2),axis=0)
 #%%
 auspec_1_2_9=spec_file_2_9[spec_file_2_9[:,8]=='1']
@@ -329,18 +333,21 @@ conv_vals_2_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_2), np.array
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*(0.815*conv_vals_1_8+0.185*conv_vals_1_1_8),label='T=1.8')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.6*(0.772*conv_vals_1_9+0.228*conv_vals_1_1_9),label='T=1.9')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.5*(0.672*conv_vals_2_0+0.328*conv_vals_1_2_0),label='T=2.0')
-plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*(0.573*conv_vals_2_2+0.427*conv_vals_1_2_2),label='T=2.2')
-#plt.plot(Energy+np.repeat(0.3,len(Energy)),0.1*(0.25*conv_vals_2_9+0.727*conv_vals_1_2_9+0.023*conv_vals_2_2_9))
+#plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*(0.573*conv_vals_2_2+0.427*conv_vals_1_2_2),label='T=2.2')
+plt.plot(Energy+np.repeat(0.3,len(Energy)),0.2*(0.0*conv_vals_2_9+0.54*conv_vals_1_2_9+0.0*conv_vals_2_2_9))
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_6,label='T=1.6')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_7,label='T=1.7')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_8,label='T=1.8')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_9,label='T=1.9')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_2_0,label='T=2.0')
-plt.plot(Energy_500ns,Intensity_500ns)
-plt.plot(Energy_500ns,Intensity_450ns)
-plt.plot(Energy_500ns,Intensity_400ns)
+#plt.plot(Energy_500ns,Intensity_500ns)
+#plt.plot(Energy_500ns,Intensity_450ns)
+#plt.plot(Energy_500ns,Intensity_400ns)
+plt.plot(Energy_500ns,Intensity_350ns)
+plt.plot(Energy_500ns,Intensity_300ns)
 plt.xlabel('Energy [eV]')
 plt.ylabel('Absorbance [Arb.]')
+#plt.xlim(80,90)
 plt.legend()
 #%%
 plt.plot(Energy,0.05*conv_vals_2_2_9)
