@@ -73,7 +73,7 @@ Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=80,Eric_da
 Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_350ns.txt',dtype=float).T
 Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=80,Eric_data_350ns[0]<=120)]
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_300ns.txt',dtype=float).T
-Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_350ns[0]>=80,Eric_data_300ns[0]<=120)]
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=80,Eric_data_300ns[0]<=120)]
 #%%
 spec_file_1_2_0=[]
 with open('C:/Users/David McKeagney/Desktop/au1.sub.2.0.spec') as file:
