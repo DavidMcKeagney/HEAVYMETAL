@@ -11,11 +11,11 @@ from scipy.integrate import odeint
 #%%
 def pressure(const,rho,gamma):
     return const*rho**(gamma)
-def velocity_diff_eq(rho,y,const,gamma):
+def velocity_diff_eq(y,rho,const,gamma):
     dydt=np.sqrt(gamma*const)*(rho**(0.5*(gamma-3)))
     return dydt
-def epsilon(u,rho,const,gamma):
-    dudp=velocity_diff_eq(rho, const, gamma)
+def epsilon(y,u,rho,const,gamma):
+    dudp=velocity_diff_eq(y,rho, const, gamma)
     return u+rho*dudp
 y0=0.0
 const=1
@@ -29,4 +29,17 @@ plt.xlabel('Density')
 plt.ylabel('u(rho)')
 plt.legend()
 #%%
-epsilon_vals=epsilon(sol[:,0], rho, const,gamma)
+epsilon_vals=epsilon(y0,sol[:,0], rho, const,gamma)
+plt.scatter(epsilon_vals,sol[:,0],label='numerical')
+plt.plot(epsilon_vals,0.4*epsilon_vals,label='analytical',color='red')
+plt.xlabel('epsilon')
+plt.ylabel('velocity')
+plt.legend()
+#%%
+x_vals_t_2=2*epsilon_vals
+x_vals_t_10=10*epsilon_vals
+plt.plot(x_vals_t_2,sol[:,0],label='t=2')
+plt.plot(x_vals_t_10,sol[:,0],label='t=10')
+plt.xlabel('x')
+plt.ylabel('u')
+plt.legend()
