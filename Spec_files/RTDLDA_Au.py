@@ -62,8 +62,8 @@ Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[
 #%%
 #plt.plot(AuI_energies,AuI_intensities,label='Au I')
 #plt.plot(AuII_energies,AuII_intensity,label='Au II')
-#plt.plot(Energy,Intensity_500ns_exp,label='500ns')
-plt.plot(AuI_energies+np.repeat(0.8,len(AuI_energies)),Intensity_500ns,label='60% AuI, 40% AuII')
+plt.plot(Energy,Intensity_500ns_exp,label='500ns')
+plt.plot(AuI_energies+np.repeat(0.8,len(AuI_energies)),0.007*Intensity_500ns,label='75% AuI, 25% AuII')
 plt.xlabel('Energy')
 plt.ylabel('Intensity')
 plt.grid(True)
