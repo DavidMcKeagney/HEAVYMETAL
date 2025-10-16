@@ -60,15 +60,15 @@ Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.t
 Intensity_500ns_exp=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=130)]
 Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=130)]
 #%%
-plt.plot(AuI_energies+ np.repeat(0.8,len(AuI_energies)),AuI_intensities,label='Au I')
-plt.plot(AuII_energies+ np.repeat(0.8,len(AuI_energies)),AuII_intensity,label='Au II')
+#plt.plot(AuI_energies+ np.repeat(0.8,len(AuI_energies)),AuI_intensities,label='Au I')
+#plt.plot(AuII_energies+ np.repeat(0.8,len(AuI_energies)),AuII_intensity,label='Au II')
 plt.plot(AuI_energies+ np.repeat(0.8,len(AuI_energies)),0.75*AuI_intensities+0.25*AuII_intensity,label='75% AuI, 25% AuII')
 plt.plot(Energy,120*Intensity_500ns_exp,label='500ns')
 #plt.plot(AuI_energies+np.repeat(0.8,len(AuI_energies)),Intensity_500ns,label='75% AuI, 25% AuII')
 plt.xlabel('Energy')
 plt.ylabel('Intensity')
 plt.grid(True)
-plt.xlim(75,105)
+plt.xlim(75,120)
 plt.legend()
 #%%
 Au_II_5d86s2_2_5_energy=AuII_5d86s2_2_5[:,0]
