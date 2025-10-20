@@ -106,9 +106,9 @@ Eric_data_500ns=np.loadtxt('C:/Users/Padmin/OneDrive/Desktop/Eric_data_500ns.txt
 Intensity_500ns_exp=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=130)]
 Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=130)]
 #%%
-#plt.plot(AuI_energies+ np.repeat(0.8,len(AuI_energies)),AuI_intensities,label='Au I')
-#plt.plot(AuII_energies+ np.repeat(0.8,len(AuI_energies)),AuII_intensity,label='Au II')
-plt.plot(AuI_energies+ np.repeat(0.8,len(AuI_energies)),0.75*AuI_intensities+0.25*AuII_intensity,label='75% AuI, 25% AuII')
+plt.plot(AuI_energies+ np.repeat(0.8,len(AuI_energies)),AuI_intensities,label='Au I')
+plt.plot(AuII_energies+ np.repeat(0.8,len(AuI_energies)),AuII_intensity,label='Au II')
+#plt.plot(AuI_energies+ np.repeat(0.8,len(AuI_energies)),AuI_intensities,label='AuI')
 plt.plot(Energy,120*Intensity_500ns_exp,label='500ns')
 #plt.plot(AuI_energies+np.repeat(0.8,len(AuI_energies)),Intensity_500ns,label='75% AuI, 25% AuII')
 plt.xlabel('Energy')

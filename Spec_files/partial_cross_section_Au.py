@@ -14,6 +14,7 @@ import re
 partial_cross_sections=glob.glob('C:\\Users\padmin\OneDrive\Desktop\partial_cross_sections\*')
 partial_cross_sections_new_scalings=glob.glob('C:\\Users\padmin\OneDrive\Desktop\partial_cross_sections_new_scalings\*')
 partial_cross_sections_new_scalings2=glob.glob('C:\\Users\padmin\OneDrive\Desktop\partial_cross_sections_new_scalings2\*')
+New_energy_range=glob.glob('C:\\Users\padmin\OneDrive\Desktop\Larger_energy_rage\*')
 def pcs(filepath):
     partial=[]
     with open(filepath) as file:
@@ -57,6 +58,10 @@ partial_AuII_5d96s_2_5_5P1_2=pcs(partial_cross_sections[19])
 partial_AuII_5P1_2=pcs(partial_cross_sections[22])
 partial_AuI_5d96s2_1_5_5P1_2=pcs(partial_cross_sections[26])
 partial_AuI_5d96s2_2_5_5P1_2=pcs(partial_cross_sections[30])
+#%% Larger energy range
+AuI=pcs(New_energy_range[0])
+AuI_5d96s2_1_5=pcs(New_energy_range[1])
+AuI_5d96s2_2_5=pcs(New_energy_range[2])
 #%% 5P1_2 plots
 plt.plot(partial_AuII_5d96s_2_5_5P1_2[:,0],partial_AuII_5d96s_2_5_5P1_2[:,1],label='AuII: 5d96s, j_5d=5/2')
 plt.plot(partial_AuII_5P1_2[:,0],partial_AuII_5P1_2[:,1],label='AuII: 5d10')
@@ -184,4 +189,14 @@ plt.plot(partial_AuII_5d96s_2_5_5P3_2[:,0],partial_AuII_5d96s_2_5_5P3_2[:,1],lab
 plt.xlabel('Energy')
 plt.ylabel('Intensity')
 plt.title('5P3_2')
+plt.legend()
+#%%
+Eric_data_500ns=np.loadtxt('C:/Users/Padmin/OneDrive/Desktop/Eric_data_500ns.txt',dtype=float).T
+Intensity_500ns_exp=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=130)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=130)]
+#%%
+plt.plot(AuI[:,0]+np.repeat(2.5,len(AuI[:,0])),AuI[:,1]+AuI_5d96s2_1_5[:,1]+AuI_5d96s2_2_5[:,1],label='RTDLDA')
+plt.plot(Energy,120*Intensity_500ns_exp,label='Exp')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
 plt.legend()
