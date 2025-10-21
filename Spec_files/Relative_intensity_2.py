@@ -64,16 +64,16 @@ with open('C:/Users/David McKeagney/Desktop/au.sub.2.9.spec') as file:
             spec_file_2_9.append(lines.split())
 spec_file_2_9=np.array(spec_file_2_9)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=120)]
-Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=120)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
 Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
-Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=75,Eric_data_450ns[0]<=120)]
+Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=75,Eric_data_450ns[0]<=110)]
 Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
-Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=75,Eric_data_400ns[0]<=120)]
+Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=75,Eric_data_400ns[0]<=110)]
 Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_350ns.txt',dtype=float).T
-Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=75,Eric_data_350ns[0]<=120)]
+Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=75,Eric_data_350ns[0]<=110)]
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_300ns.txt',dtype=float).T
-Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=75,Eric_data_300ns[0]<=120)]
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=75,Eric_data_300ns[0]<=110)]
 #%%
 spec_file_1_2_0=[]
 with open('C:/Users/David McKeagney/Desktop/au1.sub.2.0.spec') as file:
@@ -334,7 +334,7 @@ conv_vals_2_2_9=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_2), np.array
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.6*(0.772*conv_vals_1_9+0.228*conv_vals_1_1_9),label='T=1.9')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.5*(0.672*conv_vals_2_0+0.328*conv_vals_1_2_0),label='T=2.0')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*(0.573*conv_vals_2_2+0.427*conv_vals_1_2_2),label='T=2.2')
-plt.plot(Energy-np.repeat(4.1,len(Energy)),0.27*conv_vals_2_9+0.90*conv_vals_1_2_9+0.03*conv_vals_2_2_9)
+#plt.plot(Energy-np.repeat(4.1,len(Energy)),0.27*conv_vals_2_9+0.90*conv_vals_1_2_9+0.03*conv_vals_2_2_9)
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_6,label='T=1.6')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_7,label='T=1.7')
 #plt.plot(Energy+np.repeat(0.3,len(Energy)),0.4*conv_vals_1_8,label='T=1.8')
@@ -343,10 +343,10 @@ plt.plot(Energy-np.repeat(4.1,len(Energy)),0.27*conv_vals_2_9+0.90*conv_vals_1_2
 plt.plot(Energy_500ns,10*Intensity_500ns,label='500ns')
 #plt.plot(Energy-np.repeat(4,len(Energy)),conv_vals_1_1_9,label='T=2.2eV')
 #plt.plot(Energy-np.repeat(4.2,len(Energy)),conv_vals_1_2_9,label='T=2.9eV')
-#plt.plot(Energy_500ns,Intensity_450ns,label='450ns')
-#plt.plot(Energy_500ns,Intensity_400ns,label='400ns')
-#plt.plot(Energy_500ns,Intensity_350ns,label='350ns')
-#plt.plot(Energy_500ns,Intensity_300ns,label='300ns')
+plt.plot(Energy_500ns,Intensity_450ns,label='450ns')
+plt.plot(Energy_500ns,Intensity_400ns,label='400ns')
+plt.plot(Energy_500ns,Intensity_350ns,label='350ns')
+plt.plot(Energy_500ns,Intensity_300ns,label='300ns')
 plt.vlines(94.9,0,3,colors='red',linestyles='--')
 plt.vlines(98.5,0,3,colors='red',linestyles='--')
 plt.vlines(97,0,3,colors='red',linestyles='--')
@@ -356,7 +356,7 @@ plt.vlines(96.4,0,3,colors='red',linestyles='--')
 plt.grid(True)
 plt.xlabel('Energy [eV]')
 plt.ylabel('Absorbance [Arb.]')
-#plt.xlim(80,90)
+plt.xlim(79,85)
 #plt.ylim(0,1.65)
 plt.legend()
 #%%
@@ -385,6 +385,11 @@ with open('C:/Users/David McKeagney/Desktop/au1.sub.spec') as file:
     for lines in file:
         if len(lines.split())>17:
             au_spec_II.append(lines.split())
+au_spec_II_more_auto=[]
+with open('C:/Users/David McKeagney/Desktop/au1_more_auto.sub.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            au_spec_II_more_auto.append(lines.split())
 au_spec_III=[]
 with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file:
     for lines in file:
@@ -392,6 +397,7 @@ with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file:
             au_spec_III.append(lines.split())
 au_spec_I=np.array(au_spec_I)[1:,:]
 au_spec_II=np.array(au_spec_II)[1:,:]
+au_spec_more_auto_II=np.array(au_spec_II_more_auto)[1:,:]
 au_spec_III=np.array(au_spec_III)[1:,:]
 #%%
 au_spec_1_I=au_spec_I[au_spec_I[:,8]=='1']
@@ -404,6 +410,12 @@ au_spec_9_II=au_spec_II[au_spec_II[:,8]=='9']
 spec_file_1_II=np.concatenate((au_spec_1_II,au_spec_5_II),axis=0)
 spec_file_9_II=np.concatenate((spec_file_1_II,au_spec_9_II),axis=0)
 #%%
+au_spec_1_II_more_auto=au_spec_more_auto_II[au_spec_more_auto_II[:,8]=='1']
+au_spec_5_II_more_auto=au_spec_more_auto_II[au_spec_more_auto_II[:,8]=='5']
+au_spec_9_II_more_auto=au_spec_more_auto_II[au_spec_more_auto_II[:,8]=='9']
+spec_file_1_II_more_auto=np.concatenate((au_spec_1_II_more_auto,au_spec_5_II_more_auto),axis=0)
+spec_file_9_II_more_auto=np.concatenate((spec_file_1_II_more_auto,au_spec_9_II_more_auto),axis=0)
+#%%
 au_spec_2_III=au_spec_III[au_spec_III[:,8]=='2']
 au_spec_6_III=au_spec_III[au_spec_III[:,8]=='6']
 au_spec_10_III=au_spec_III[au_spec_III[:,8]=='10']
@@ -413,7 +425,7 @@ spec_file_10_III=np.concatenate((spec_file_2_III,au_spec_10_III),axis=0)
 upper_levels_I=list(set(spec_file_1_I[:,6].astype(float)))
 gf_vals_I=[]
 decay_vals_I=[]
-for ul in upper_levels:
+for ul in upper_levels_I:
     temp_spec=spec_file_1_I[spec_file_1_I[:,6].astype(float)==ul]
     gf_temp=np.exp(temp_spec[:,15].astype(float))
     decay_temp=temp_spec[:,16].astype(float)*1e-3
@@ -430,6 +442,16 @@ for ul in upper_levels_1:
     gf_vals_II.append(sum(gf_temp))
     decay_vals_II.append(sum(decay_temp))
 #%%
+upper_levels_1_more_auto=list(set(spec_file_9_II_more_auto[:,6].astype(float)))
+gf_vals_II_more_auto=[]
+decay_vals_II_more_auto=[]
+for ul in upper_levels_1_more_auto:
+    temp_spec_more_auto=spec_file_9_II_more_auto[spec_file_9_II_more_auto[:,6].astype(float)==ul]
+    gf_temp_more_auto=np.exp(temp_spec_more_auto[:,15].astype(float))
+    decay_temp_more_auto=temp_spec_more_auto[:,16].astype(float)*1e-3
+    gf_vals_II_more_auto.append(sum(gf_temp_more_auto))
+    decay_vals_II_more_auto.append(sum(decay_temp_more_auto))
+#%%
 upper_levels_2=list(set(spec_file_10_III[:,6].astype(float)))
 gf_vals_III=[]
 decay_vals_III=[]
@@ -441,15 +463,34 @@ for ul in upper_levels_2:
     decay_vals_III.append(sum(decay_temp))
 #%%
 Energy=E_vals=np.arange(70,130,0.001)
-#conv_vals_I=flp.ConvolvingFunc(1, Energy, np.array(upper_levels), np.array(gf_vals_I), 0.05, np.array(decay_vals_I), 3)
+#conv_vals_I=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_I), np.array(gf_vals_I), 0.05, np.array(decay_vals_I), 3)
 conv_vals_II=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_II), 0.05, np.array(decay_vals_II), 3)
+conv_vals_II_more_auto=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1_more_auto), np.array(gf_vals_II_more_auto), 0.05, np.array(decay_vals_II_more_auto), 3)
 #conv_vals_III=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_2), np.array(gf_vals_III), 0.05, np.array(decay_vals_III), 3)
 #%%
-plt.plot(Energy_500ns,50*Intensity_500ns)
+plt.plot(Energy_500ns,20*Intensity_300ns)
 #plt.plot(Energy,conv_vals_I,label='4f-6d Au I')
 plt.plot(Energy-np.repeat(4,len(Energy)),conv_vals_II,label='4f-6d Au II')
+plt.plot(Energy-np.repeat(4,len(Energy)),conv_vals_II_more_auto,label='4f-6d Au II more auto')
 #plt.plot(Energy,conv_vals_III,label='4f-6d Au III')
+plt.xlim(75,110)
 plt.legend()
 plt.xlabel('Energy [eV]')
 plt.ylabel('Intensity [Arb.]')
+plt.grid(True)
+#%%
+Norm_intensitiy_300ns=1/np.sum(Intensity_300ns)*Intensity_300ns
+Norm_intensitiy_350ns=1/np.sum(Intensity_350ns)*Intensity_350ns
+Norm_intensitiy_400ns=1/np.sum(Intensity_400ns)*Intensity_400ns
+Norm_intensitiy_450ns=1/np.sum(Intensity_450ns)*Intensity_450ns
+Norm_intensitiy_500ns=1/np.sum(Intensity_500ns)*Intensity_500ns
+#%%
+plt.plot(Energy_500ns,Norm_intensitiy_300ns,label='300ns')
+plt.plot(Energy_500ns,Norm_intensitiy_350ns,label='350ns')
+plt.plot(Energy_500ns,Norm_intensitiy_400ns,label='400ns')
+plt.plot(Energy_500ns,Norm_intensitiy_450ns,label='450ns')
+plt.plot(Energy_500ns,Norm_intensitiy_500ns,label='500ns')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
+plt.legend()
 plt.grid(True)
