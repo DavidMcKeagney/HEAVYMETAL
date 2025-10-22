@@ -204,7 +204,35 @@ def IonEnergies(c_n_1,c_n,Eav):
     dE=np.abs(c_n_energies-np.repeat(c_n_1_energy, len(c_n_energies)))
     return dE
     
+ #%%
+# Computes moving average
+def MovingAverage(window_size,array):
+    ws=window_size
+
+    i = 0
+    # Initialize an empty list to store moving averages
+    moving_averages = []
+
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(array) - ws + 1:
+      
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = array[i : i + ws]
+
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
         
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        
+        # Shift window to right by one position
+        i += 1
+    return moving_averages
+
+       
         
         
         
