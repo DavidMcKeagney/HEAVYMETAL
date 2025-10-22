@@ -30,6 +30,19 @@ AuII_5d96s_1_5_new_energies=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHu
 AuII_5d86s2_1_5_new_energies=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_5d86s2_1_5_new_energies.dat',dtype=float)
 AuII_5d86s2_2_5_new_energies=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_5d86s2_2_5_new_energies.dat',dtype=float)
 AuII_5d86s2_2_5_1_5_new_energies=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_5d86s2_2_5_1_5_new_energies.dat',dtype=float)
+#%% Au II RTDLDA 4f channels 
+AuII_4f_4f125d106s2_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f125d106s2_2_5.dat',dtype=float)
+AuII_4f_4f125d106s2_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f125d106s2_3_5.dat',dtype=float)
+AuII_4f_4f125d106s2_2_5_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f125d106s2_2_5_3_5.dat',dtype=float)
+AuII_4f135d96s2_2_5_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_2_5_1_5.dat',dtype=float)
+AuII_4f135d96s2_2_5_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_2_5_2_5.dat',dtype=float)
+AuII_4f135d96s2_3_5_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_3_5_1_5.dat',dtype=float)
+AuII_4f135d96s2_3_5_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_3_5_2_5.dat',dtype=float)
+AuII_4f135d106s_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s_2_5.dat',dtype=float)
+AuII_4f135d106s_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s_3_5.dat',dtype=float)
+#%% Au I RTDLDA 4f channels
+AuII_4f135d106s2_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s2_2_5.dat',dtype=float)
+AuII_4f135d106s2_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s2_3_5.dat',dtype=float)
 #%% Summing up all the intensities of Au I
 AuI_energies=AuI[:,0]
 AuI_intensities=AuI[:,1]+AuI_5d96s2_1_5[:,1]+AuI_5d96s2_2_5[:,1]
