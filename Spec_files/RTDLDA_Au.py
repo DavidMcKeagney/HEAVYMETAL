@@ -7,7 +7,7 @@ Created on Wed Sep 24 11:55:06 2025
 
 import numpy as np
 import matplotlib.pyplot as plt 
-import function_library_phd
+import function_library_phd as flp
 #%% AU I RTDLDA
 AuI=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI.dat',dtype=float)
 AuI_5d96s2_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI_5d96s2_1_5.dat',dtype=float)
@@ -37,44 +37,18 @@ AuII_4f_4f125d106s2_2_5_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHu
 AuII_4f135d96s2_2_5_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_2_5_1_5.dat',dtype=float)
 AuII_4f135d96s2_2_5_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_2_5_2_5.dat',dtype=float)
 AuII_4f135d96s2_3_5_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_3_5_1_5.dat',dtype=float)
-AuII_4f135d96s2_3_5_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_3_5_2_5.dat',dtype=float)
+AuII_4f135d96s2_3_5_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d96s2_3_5_2_5.dat',dtype=float)
 AuII_4f135d106s_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s_2_5.dat',dtype=float)
 AuII_4f135d106s_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s_3_5.dat',dtype=float)
 #%% Au I RTDLDA 4f channels
-AuII_4f135d106s2_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s2_2_5.dat',dtype=float)
-AuII_4f135d106s2_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuII_4f135d106s2_3_5.dat',dtype=float)
+AuI_4f135d106s2_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI_4f135d106s2_2_5.dat',dtype=float)
+AuI_4f135d106s2_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI_4f135d106s2_3_5.dat',dtype=float)
 #%% Summing up all the intensities of Au I
 AuI_energies=AuI[:,0]
-AuI_intensities=AuI[:,1]+AuI_5d96s2_1_5[:,1]+AuI_5d96s2_2_5[:,1]
+AuI_intensities=AuI[:,1]+AuI_5d96s2_1_5[:,1]+AuI_5d96s2_2_5[:,1]+AuI_4f135d106s2_2_5[30:,1]+AuI_4f135d106s2_3_5[30:,1]
 #%% Summing up all the intensities of Au I New Energies
 AuI_energies_new_energies=AuI_new_energies[:,0]
-AuI_intensities_new_energies=AuI_new_energies[:,1]+AuI_5d96s2_1_5_new_energies[:,1]+AuI_5d96s2_2_5_new_energies[:,1]
-#%% Fixing the array sizes for Au II
-AuII_fix=np.zeros((3,2))
-AuII_5d96s_1_5_fix=np.zeros((1,2))
-AuII_5d86s2_1_5_fix=np.zeros((8,2))
-AuII_5d86s2_2_5_fix=np.zeros((4,2))
-AuII_5d86s2_2_5_1_5_fix=np.zeros((6,2))
-#%% Fixing the array sizes for Au II New Energies
-AuII_fix_new_energies=np.zeros((2,2))
-AuII_5d96s_1_5_fix_new_energies=np.zeros((4,2))
-AuII_5d86s2_1_5_fix_new_energies=np.zeros((6,2))
-AuII_5d86s2_2_5_fix_new_energies=np.zeros((6,2))
-AuII_5d86s2_2_5_1_5_fix_new_energies=np.zeros((5,2))
-AuII_5d96s_2_5_fix_new_energies=np.zeros((4,2))
-#%% temp fix for Au II maybe try interpolating later 
-AuII=np.concatenate((AuII_fix,AuII),axis=0)
-AuII_5d96s_1_5=np.concatenate((AuII_5d96s_1_5_fix,AuII_5d96s_1_5),axis=0)
-AuII_5d86s2_2_5=np.concatenate((AuII_5d86s2_2_5_fix,AuII_5d86s2_2_5),axis=0)
-AuII_5d86s2_1_5=np.concatenate((AuII_5d86s2_1_5_fix,AuII_5d86s2_1_5),axis=0)
-AuII_5d86s2_2_5_1_5=np.concatenate((AuII_5d86s2_2_5_1_5_fix,AuII_5d86s2_2_5_1_5),axis=0)
-#%% temp fix for Au II maybe try interpolating later 
-AuII_new_energies=np.concatenate((AuII_fix_new_energies,AuII_new_energies),axis=0)
-AuII_5d96s_1_5_new_energies=np.concatenate((AuII_5d96s_1_5_fix_new_energies,AuII_5d96s_1_5_new_energies),axis=0)
-AuII_5d96s_2_5_new_energies=np.concatenate((AuII_5d96s_2_5_fix_new_energies,AuII_5d96s_2_5_new_energies),axis=0)
-AuII_5d86s2_2_5_new_energies=np.concatenate((AuII_5d86s2_2_5_fix_new_energies,AuII_5d86s2_2_5_new_energies),axis=0)
-AuII_5d86s2_1_5_new_energies=np.concatenate((AuII_5d86s2_1_5_fix_new_energies,AuII_5d86s2_1_5_new_energies),axis=0)
-AuII_5d86s2_2_5_1_5_new_energies=np.concatenate((AuII_5d86s2_2_5_1_5_fix_new_energies,AuII_5d86s2_2_5_1_5_new_energies),axis=0)
+AuI_intensities_new_energies=AuI_new_energies[:,1]+AuI_5d96s2_1_5_new_energies[:,1]+AuI_5d96s2_2_5_new_energies[:,1]+AuI_4f135d106s2_2_5[30:,1]+AuI_4f135d106s2_3_5[30:,1]
 #%%
 AuII_intensity=[]
 for E in AuII_5d96s_2_5[:,0]:
@@ -107,6 +81,24 @@ for E in AuII_5d96s_2_5[:,0]:
         a+=AuII_5d86s2_2_5_1_5_new_energies[:,1][AuII_5d86s2_2_5_1_5_new_energies[:,0]==E]
     elif len(AuII_5d96s_2_5_new_energies[:,0][AuII_5d96s_2_5_new_energies[:,0]==E])>0:
         a+=AuII_5d96s_2_5_new_energies[:,1][AuII_5d96s_2_5_new_energies[:,0]==E]
+    elif len(AuII_4f135d106s_2_5[:,0][AuII_4f135d106s_2_5[:,0]==E])>0:
+        a+=AuII_4f135d106s_2_5[:,1][AuII_4f135d106s_2_5[:,0]==E]
+    elif len(AuII_4f135d106s_3_5[:,0][AuII_4f135d106s_3_5[:,0]==E])>0:
+        a+=AuII_4f135d106s_3_5[:,1][AuII_4f135d106s_3_5[:,0]==E]
+    elif len(AuII_4f_4f125d106s2_2_5[:,0][AuII_4f_4f125d106s2_2_5[:,0]==E]):
+        a+=AuII_4f_4f125d106s2_2_5[:,1][AuII_4f_4f125d106s2_2_5[:,0]==E]
+    elif len(AuII_4f_4f125d106s2_3_5[:,0][AuII_4f_4f125d106s2_3_5[:,0]==E]):
+        a+=AuII_4f_4f125d106s2_3_5[:,1][AuII_4f_4f125d106s2_3_5[:,0]==E]
+    elif len(AuII_4f_4f125d106s2_2_5_3_5[:,0][AuII_4f_4f125d106s2_2_5_3_5[:,0]==E]):
+        a+=AuII_4f_4f125d106s2_2_5_3_5[:,1][AuII_4f_4f125d106s2_2_5_3_5[:,0]==E]
+    elif len(AuII_4f135d96s2_2_5_2_5[:,0][AuII_4f135d96s2_2_5_2_5[:,0]==E]):
+        a+=AuII_4f135d96s2_2_5_2_5[:,1][AuII_4f135d96s2_2_5_2_5[:,0]==E]
+    elif len(AuII_4f135d96s2_2_5_1_5[:,0][AuII_4f135d96s2_2_5_1_5[:,0]==E]):
+        a+=AuII_4f135d96s2_2_5_1_5[:,1][AuII_4f135d96s2_2_5_1_5[:,0]==E]
+    elif len(AuII_4f135d96s2_3_5_1_5[:,0][AuII_4f135d96s2_3_5_1_5[:,0]==E]):
+        a+=AuII_4f135d96s2_3_5_1_5[:,1][AuII_4f135d96s2_3_5_1_5[:,0]==E]
+    elif len(AuII_4f135d96s2_3_5_2_5[:,0][AuII_4f135d96s2_3_5_2_5[:,0]==E]):
+        a+=AuII_4f135d96s2_3_5_2_5[:,1][AuII_4f135d96s2_3_5_2_5[:,0]==E]
     AuII_intensity_new_energies.append(a)
 AuII_intensity_new_energies=np.array(AuII_intensity_new_energies)[:,0]
 #%% Summing up all the intensities of Au II
@@ -160,8 +152,47 @@ plt.plot(Energy,100*Intensity_500ns_exp,label='500ns')
 #plt.plot(AuII_5d86s2_1_5_new_energies[:,0],AuII_5d86s2_1_5_new_energies[:,1])
 #plt.plot(AuII_5d86s2_2_5_new_energies[:,0],AuII_5d86s2_2_5_new_energies[:,1])
 #plt.plot(AuII_5d86s2_2_5_1_5_new_energies[:,0],AuII_5d86s2_1_5_new_energies[:,1])
-plt.plot(AuII_energies++ np.repeat(0.8,len(AuII_energies)),AuII_intensity_new_energies,label='AuII New Energies')
+plt.plot(AuII_energies,AuII_intensity_new_energies,label='AuII New Energies')
 #plt.plot(AuII_energies,AuII_intensity,label='AuII Old Energies',ls='--')
 plt.legend()
 plt.xlabel('Energies (eV)')
 plt.ylabel('Intensity')
+#%%
+# Computes moving average
+def MovingAverage(window_size,array):
+    ws=window_size
+
+    i = 0
+    # Initialize an empty list to store moving averages
+    moving_averages = []
+
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(array) - ws + 1:
+      
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = array[i : i + ws]
+
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
+        
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        
+        # Shift window to right by one position
+        i += 1
+    return moving_averages
+#%%
+AuII_moving_avg= MovingAverage(5, AuII_intensity_new_energies)
+AuI_moving_avg= MovingAverage(5, AuI_intensities_new_energies)
+AuI_energies_moving_avg= MovingAverage(5, AuI_energies_new_energies)
+AuII_energies_moving_avg= MovingAverage(5, AuII_energies)
+#%%
+plt.plot(AuII_energies_moving_avg,AuII_moving_avg,label='AuII moving average')
+plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),AuI_moving_avg,label='AuI moving average')
+plt.plot(Energy,225*Intensity_500ns_exp,label='500ns')
+plt.legend()
+plt.xlabel('Energy [eV]')
+plt.ylabel('Averaged Cross Section [mb]')
