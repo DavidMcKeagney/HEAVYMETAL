@@ -495,3 +495,49 @@ plt.ylabel('Intensity')
 plt.legend()
 #plt.xlim(79,85)
 plt.grid(True)
+#%% 4f-5d AuII
+au_spec_4_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='2',au_spec_II[:,8]=='4')]
+au_spec_8_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='3',au_spec_II[:,8]=='8')]
+spec_file_4_II=np.concatenate((au_spec_4_II,au_spec_8_II),axis=0)
+#%% 4f-5d AuI
+au_spec_4_I=au_spec_I[np.logical_and(au_spec_I[:,3]=='2',au_spec_I[:,8]=='4')]
+#%%
+upper_levels_I_4f=list(set(au_spec_4_I[:,6].astype(float)))
+gf_vals_I_4f=[]
+decay_vals_I_4f=[]
+for ul in upper_levels_I_4f:
+    temp_spec=au_spec_4_I[au_spec_4_I[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_I_4f.append(sum(gf_temp))
+    decay_vals_I_4f.append(sum(decay_temp))
+#%%
+upper_levels_1_4f=list(set(spec_file_4_II[:,6].astype(float)))
+gf_vals_II_4f=[]
+decay_vals_II_4f=[]
+for ul in upper_levels_1_4f:
+    temp_spec=spec_file_4_II[spec_file_4_II[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_II_4f.append(sum(gf_temp))
+    decay_vals_II_4f.append(sum(decay_temp))
+#%%
+Individual_lines_AuII_4f_dE_3_8=au_spec_8_II[:,11].astype(float)
+Individual_lines_AuII_4f_gf_3_8=np.exp(au_spec_8_II[:,15].astype(float))
+#%%
+Energy=E_vals=np.arange(70,130,0.001)
+conv_vals_I_4f=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_I_4f), np.array(gf_vals_I_4f), 0.05, np.array(decay_vals_I_4f), 3)
+conv_vals_II_4f=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1_4f), np.array(gf_vals_II_4f), 0.05, np.array(decay_vals_II_4f), 3)
+#%%
+Individual_lines_AuI_4f_dE=au_spec_4_I[:,11].astype(float)
+Individual_lines_AuI_4f_gf=np.exp(au_spec_4_I[:,15].astype(float))
+
+#%%
+#plt.plot(Energy,conv_vals_I_4f,label='AuI 4f-5d')
+#plt.plot(Energy,conv_vals_II_4f,label='Au II 4f-5d')
+plt.plot(Energy_500ns,Intensity_500ns,label='500ns')
+plt.vlines(Individual_lines_AuI_4f_dE+np.repeat(1.2,3),np.zeros(3),Individual_lines_AuI_4f_gf,label='AuI 4f individual trnasitions')
+plt.vlines(Individual_lines_AuII_4f_dE_3_8+np.repeat(1.2,81),np.zeros(81),Individual_lines_AuII_4f_gf_3_8,label='AuII 4f individual transitions',color='red',ls='--')
+plt.legend()
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
