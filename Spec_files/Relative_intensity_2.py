@@ -546,3 +546,57 @@ plt.legend()
 plt.xlim(75,100)
 plt.xlabel('Energy [eV]')
 plt.ylabel('Intensity')
+#%%
+trans_6d_I_1=au_spec_I[np.logical_and(au_spec_I[:,3]=='2',au_spec_I[:,8]=='1')]
+trans_6d_I_5=au_spec_I[np.logical_and(au_spec_I[:,3]=='1',au_spec_I[:,8]=='5')]
+double_promotions=np.concatenate((trans_6d_I_1,trans_6d_I_5),axis=0)
+#double_promotions_I=np.logical_not(spec_file_1_I)
+#%%
+upper_levels_I_dp=list(set(double_promotions[:,6].astype(float)))
+gf_vals_I_dp=[]
+decay_vals_I_dp=[]
+for ul in upper_levels_I_dp:
+    temp_spec=double_promotions[double_promotions[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_I_dp.append(sum(gf_temp))
+    decay_vals_I_dp.append(sum(decay_temp))
+#%%
+Energy=E_vals=np.arange(70,130,0.001)
+conv_vals_I_dp=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_I_dp), np.array(gf_vals_I_dp), 0.05, np.array(decay_vals_I_dp), 3)
+#%%
+plt.plot(Energy,conv_vals_I_dp,label='double promotions AuI')
+plt.plot(Energy,conv_vals_I,label='4f-6d AuI')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
+plt.legend()
+#%%
+trans_6d_II_1=au_spec_II[au_spec_II[:,8]=='1']
+trans_6d_II_1=trans_6d_II_1[np.logical_not(trans_6d_II_1[:,3]=='1')]
+trans_6d_II_5=au_spec_II[au_spec_II[:,8]=='5']
+trans_6d_II_5=trans_6d_II_5[np.logical_not(trans_6d_II_5[:,3]=='2')]
+trans_6d_II_9=au_spec_II[au_spec_II[:,8]=='9']
+trans_6d_II_9=trans_6d_II_9[np.logical_not(trans_6d_II_9[:,3]=='3')]
+double_promotions_II=np.concatenate((trans_6d_II_1,trans_6d_II_5),axis=0)
+double_promotions_II=np.concatenate((double_promotions_II,trans_6d_II_9),axis=0)
+#%%
+upper_levels_II_dp=list(set(double_promotions_II[:,6].astype(float)))
+gf_vals_II_dp=[]
+decay_vals_II_dp=[]
+for ul in upper_levels_II_dp:
+    temp_spec=double_promotions_II[double_promotions_II[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_II_dp.append(sum(gf_temp))
+    decay_vals_II_dp.append(sum(decay_temp))
+#%%
+conv_vals_II_dp=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_II_dp), np.array(gf_vals_II_dp), 0.05, np.array(decay_vals_II_dp), 3)
+#%%
+plt.plot(Energy+np.repeat(3.3,len(Energy)),conv_vals_II_dp,label='double promotions AuII')
+#plt.plot(Energy,conv_vals_II,label='AuII 4f-6d')
+#plt.plot(Energy,conv_vals_I_dp,label='double promotions AuI')
+#plt.plot(Energy,conv_vals_I,label='4f-6d AuI')
+plt.plot(Energy_500ns,20*Intensity_500ns,label='500ns')
+plt.legend()
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
