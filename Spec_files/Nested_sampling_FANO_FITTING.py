@@ -25,16 +25,46 @@ def fitfunc3(x,a,b,c,d,e,f):
      return Fano(x,a,b,c)*d + e*x + f
 #%% New parameters
 params=lmfit.Parameters()
-#params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
-#params.add('b',value=2,min=1e-6,max=5.5) # q value
-#params.add('c',value=0.01,min=1e-6,max=6) # linewidth
+params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
+params.add('b',value=2,min=1e-6,max=2) # q value
+params.add('c',value=0.01,min=1e-6,max=1.5) # linewidth
 params.add('d',value=0.06,min=-3,max=3) # intensity of profile 
 params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
 params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
 #%%
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
+#%%
+# Computes moving average
+def MovingAverage(window_size,array):
+    ws=window_size
+
+    i = 0
+    # Initialize an empty list to store moving averages
+    moving_averages = []
+
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(array) - ws + 1:
+      
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = array[i : i + ws]
+
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
+        
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        
+        # Shift window to right by one position
+        i += 1
+    return moving_averages 
+#%%
+moving_avg_500ns=np.array(MovingAverage(5, Intensity_500ns))
+moving_avg_energy=np.array(MovingAverage(5, Energy))
 #%% 
 def log_likelihood(theta):
     params_dict = dict(zip(params.keys(), theta)) #retrieves the params dictionary as defined above
@@ -42,8 +72,8 @@ def log_likelihood(theta):
     for key, value in params_dict.items():
         params1.add(key, value=value)
         #print(params1)
-    model = fitfunc3(Energy, **params1.valuesdict()) #my function is called fit_tot. This is basically the evaluation of your function
-    residual = (model - Intensity_500ns) #/ err_ha #calculates the residuals. flux_ha is the "y" that you're fitting and err_ha are its errors
+    model = fitfunc3(moving_avg_energy, **params1.valuesdict()) #my function is called fit_tot. This is basically the evaluation of your function
+    residual = (model - moving_avg_500ns) #/ err_ha #calculates the residuals. flux_ha is the "y" that you're fitting and err_ha are its errors
     return -0.5 * np.sum(residual**2) #calculates the log-likelihood of the fit, evaluated at the parameters you gave. 
 
 def prior_transform(unit_cube):
@@ -65,7 +95,7 @@ sampler = NestedSampler(loglikelihood=log_likelihood,
 
 # Run the nested sampling
 
-sampler.run_nested(dlogz=0.0001, print_progress=True)
+sampler.run_nested(dlogz=0.001, print_progress=True)
 
 # Extract results
 dresults = sampler.results
@@ -74,8 +104,8 @@ dresults = sampler.results
 ind = np.argmax(dresults.logl)
 sols = dresults.samples[ind]
 #%% 
-plt.plot(Energy,Intensity_500ns)
-plt.plot(Energy,fitfunc3(Energy,0.06,sols[1],0.66))#,sols[3],sols[4],sols[5]))
+plt.plot(moving_avg_energy,moving_avg_500ns)
+plt.plot(Energy,fitfunc3(Energy,sols[0],sols[1],sols[2],sols[3],sols[4],sols[5]))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
 samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 

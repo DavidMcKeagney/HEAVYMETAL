@@ -64,16 +64,16 @@ with open('C:/Users/David McKeagney/Desktop/au.sub.2.9.spec') as file:
             spec_file_2_9.append(lines.split())
 spec_file_2_9=np.array(spec_file_2_9)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=90,Eric_data_500ns[0]<=100)]
-Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=90,Eric_data_500ns[0]<=100)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
+Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
-Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=90,Eric_data_450ns[0]<=100)]
+Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=78,Eric_data_450ns[0]<=100)]
 Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
-Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=90,Eric_data_400ns[0]<=100)]
+Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=78,Eric_data_400ns[0]<=100)]
 Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_350ns.txt',dtype=float).T
-Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=90,Eric_data_350ns[0]<=100)]
+Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=78,Eric_data_350ns[0]<=100)]
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_300ns.txt',dtype=float).T
-Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=90,Eric_data_300ns[0]<=100)]
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
 #%%
 spec_file_1_2_0=[]
 with open('C:/Users/David McKeagney/Desktop/au1.sub.2.0.spec') as file:
@@ -601,3 +601,43 @@ plt.plot(Energy_500ns,20*Intensity_500ns,label='500ns')
 plt.legend()
 plt.xlabel('Energy [eV]')
 plt.ylabel('Intensity')
+#%%
+# Computes moving average
+def MovingAverage(window_size,array):
+    ws=window_size
+
+    i = 0
+    # Initialize an empty list to store moving averages
+    moving_averages = []
+
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(array) - ws + 1:
+      
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = array[i : i + ws]
+
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
+        
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        
+        # Shift window to right by one position
+        i += 1
+    return moving_averages
+#%%
+moving_avg_500ns=MovingAverage(5, Intensity_500ns)
+moving_avg_450ns=MovingAverage(5, Intensity_450ns)
+moving_avg_400ns=MovingAverage(5, Intensity_400ns)
+moving_avg_energy=MovingAverage(5, Energy_500ns)
+#%%
+plt.plot(moving_avg_energy,moving_avg_500ns,label='500ns')
+plt.plot(moving_avg_energy,moving_avg_450ns,label='450ns')
+plt.plot(moving_avg_energy,moving_avg_400ns,label='400ns')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
+plt.title('5 pt smoothing experimental data')
+plt.legend()
