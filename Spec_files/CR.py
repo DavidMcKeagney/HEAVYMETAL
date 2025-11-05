@@ -62,3 +62,16 @@ plt.xlim([0.1, 20])
 plt.ylim([0.01, 1])
 plt.xlabel('T_e [eV]')
 plt.ylabel('N_i/N_t')
+#%% Recombination timescales in nano-seconds 
+
+timescale=1/(alpha3b+ne*alphaR)*10**9
+#%%
+plt.plot(Te,timescale[:,1],label='Au II recombination timescale')
+plt.plot(Te,timescale[:,2],label='Au III recombination timescale')
+plt.xlim(0.1,8)
+plt.ylim(0,12)
+plt.xlabel('Te [eV]')
+plt.ylabel(' timescale [ns]')
+plt.legend()
+
+
