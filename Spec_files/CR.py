@@ -59,7 +59,7 @@ for i in range (0,Atomic_num+1):
 plt.plot(Te, frac)
 plt.legend(["Au I","Au II","Au III","Au IV","Au V","Au VI"])
 plt.xlim([0.1, 20])
-plt.ylim([0.01, 1])
+#plt.ylim([0.01, 1])
 plt.xlabel('T_e [eV]')
 plt.ylabel('N_i/N_t')
 #%% Recombination timescales in nano-seconds 

@@ -26,9 +26,9 @@ def fitfunc3(x,a,b,c,d,e,f):
 #%% New parameters
 params=lmfit.Parameters()
 params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
-params.add('b',value=2,min=1e-6,max=2) # q value
-params.add('c',value=0.01,min=1e-6,max=1.5) # linewidth
-params.add('d',value=0.06,min=-3,max=3) # intensity of profile 
+params.add('b',value=2,min=1e-6,max=1.3) # q value
+params.add('c',value=0.01,min=1e-6,max=0.1) # linewidth
+params.add('d',value=0.06,min=1e-6,max=0.3) # intensity of profile 
 params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
 params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
 #%%
@@ -106,6 +106,7 @@ sols = dresults.samples[ind]
 #%% 
 plt.plot(moving_avg_energy,moving_avg_500ns)
 plt.plot(Energy,fitfunc3(Energy,sols[0],sols[1],sols[2],sols[3],sols[4],sols[5]))
+#plt.plot(Energy,fitfunc3(Energy,84.31,1.04,0.032,0.065,-0.005,0.66))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
 samples = dynesty.utils.resample_equal(dresults['samples'], weights)  # Resample based 
