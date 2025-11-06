@@ -26,10 +26,10 @@ def fitfunc3(x,a,b,c,d,e,f):
 #%% New parameters
 params=lmfit.Parameters()
 params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
-params.add('b',value=2,min=1e-6,max=1.3) # q value
-params.add('c',value=0.01,min=1e-6,max=0.1) # linewidth
-params.add('d',value=0.06,min=1e-6,max=0.3) # intensity of profile 
-params.add('e',value=-0.1,min=-0.02,max=0.02) # continuum slope
+params.add('b',value=1,min=1e-6,max=1.1) # q value
+params.add('c',value=0.01,min=1e-6,max=0.01) # linewidth
+params.add('d',value=0.06,min=1e-6,max=0.06) # intensity of profile 
+params.add('e',value=-0.01,min=-0.02,max=0.02) # continuum slope
 params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
 #%%
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
