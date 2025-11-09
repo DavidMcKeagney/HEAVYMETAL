@@ -75,7 +75,9 @@ def C_sig_nu(rates):
 def RateMatrix(C_sig_nu,C_j_sig,C_ji_inv,F_jsig):
     return C_sig_nu-np.matmul(F_jsig,np.matmul(C_ji_inv,C_j_sig))
 
-    
+def dydt(A,y):
+    f=[]
+        
 
 def ForwardEuler(A,N_0,dt,t_fin):
     t_steps=np.arange(0,t_fin+dt,dt)
