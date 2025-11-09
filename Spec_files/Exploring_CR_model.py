@@ -75,13 +75,18 @@ def C_sig_nu(rates):
 def RateMatrix(C_sig_nu,C_j_sig,C_ji_inv,F_jsig):
     return C_sig_nu-np.matmul(F_jsig,np.matmul(C_ji_inv,C_j_sig))
 
+    
+
 def ForwardEuler(A,N_0,dt,t_fin):
-    N_fin=N_0
     t_steps=np.arange(0,t_fin+dt,dt)
-    t=0 
-    while t<dt+t_fin:
-        N_fin+=N_fin +dt*np.matmul(A,N_fin)
-        t+=dt
+    N_fin=np.zeros((len(N_0),len(t_steps)))
+    for a,i in enumerate(t_steps):
+        if i==0:
+            N_fin[:,a]=N_0.T
+        else:
+            N_0+=N_0+ dt*np.matmul(A,N_0)
+            N_fin[:,a]=N_0.T
+        
     return N_fin,t_steps
     
 #%%
@@ -116,5 +121,10 @@ t=np.array(t)
 av_dN=Ni/t
 #%%
 plt.plot(t,av_dN)
+#%% #Testing forward Euler method 
+
+N_0=np.array([[1],[1]]).astype(float)
+A=np.array([[-1,0],[0,-1]]).astype(float)
 #%%
+FE_results=ForwardEuler(A, N_0, 0.01, 5)
 
