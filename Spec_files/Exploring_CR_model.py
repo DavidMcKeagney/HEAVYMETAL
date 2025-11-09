@@ -8,6 +8,7 @@ Created on Tue Aug  5 06:53:46 2025
 from scipy.integrate import ode
 import numpy as np
 import matplotlib.pyplot as plt 
+import random
 #%%
 e=1.602176634e-19
 m_e=9.1093837015e-31
@@ -73,6 +74,16 @@ def C_sig_nu(rates):
 
 def RateMatrix(C_sig_nu,C_j_sig,C_ji_inv,F_jsig):
     return C_sig_nu-np.matmul(F_jsig,np.matmul(C_ji_inv,C_j_sig))
+
+def ForwardEuler(A,N_0,dt,t_fin):
+    N_fin=N_0
+    t_steps=np.arange(0,t_fin+dt,dt)
+    t=0 
+    while t<dt+t_fin:
+        N_fin+=N_fin +dt*np.matmul(A,N_fin)
+        t+=dt
+    return N_fin,t_steps
+    
 #%%
 def N_0(gamma,D,I,N_0J):
     return D*gamma*N_0J/(1+gamma*I)
