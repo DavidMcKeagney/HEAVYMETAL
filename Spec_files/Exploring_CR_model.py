@@ -27,6 +27,8 @@ def D_ji(E_ij,dE,T,J_i,J_j):
 #%%
 # rates is a 1D array whose elements are the 2D arrays of the rate coefficients
 # computes the matrix inverse of C_ji and also returns F_jsig matrix as a tuple
+# need to make sure the the rectangular matrices are oriented the right way for matrix multiplication
+# Might need to preprose A_jsin,D_jsig,B_jsig, E_sig_i,B_sig_i i.e transpose those matrices 
 def C_ji_inv(rates):
     E_ij=rates[0]
     D_ji=rates[1]
@@ -69,6 +71,8 @@ def C_sig_nu(rates):
         nu+=1 
     return C_sig_nu,C_j_sig
 
+def RateMatrix(C_sig_nu,C_j_sig,C_ji_inv,F_jsig):
+    return C_sig_nu-np.matmul(F_jsig,np.matmul(C_ji_inv,C_j_sig))
 #%%
 def N_0(gamma,D,I,N_0J):
     return D*gamma*N_0J/(1+gamma*I)
