@@ -411,6 +411,19 @@ with open('C:/Users/David McKeagney/Desktop/au2.sub.spec') as file:
     for lines in file:
         if len(lines.split())>17:
             au_spec_III.append(lines.split())
+au_spec_I_open_shells=[]
+with open('C:/Users/David McKeagney/Downloads/auI_open_shells.sub.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            au_spec_I_open_shells.append(lines.split())
+au_spec_II_open_shells=[]
+with open('C:/Users/David McKeagney/Downloads/auII_open_shells.sub.spec') as file:
+    for lines in file:
+        if len(lines.split())>17:
+            au_spec_II_open_shells.append(lines.split())
+
+au_spec_I_open_shells=np.array(au_spec_I_open_shells)[1:,:]
+au_spec_II_open_shells=np.array(au_spec_II_open_shells)[1:,:]
 au_spec_I=np.array(au_spec_I)[1:,:]
 au_spec_II=np.array(au_spec_II)[1:,:]
 au_spec_more_auto_II=np.array(au_spec_II_more_auto)[1:,:]
@@ -420,11 +433,21 @@ au_spec_1_I=au_spec_I[np.logical_and(au_spec_I[:,3]=='1',au_spec_I[:,8]=='1')]
 au_spec_5_I=au_spec_I[np.logical_and(au_spec_I[:,3]=='2',au_spec_I[:,8]=='5')]
 spec_file_1_I=np.concatenate((au_spec_1_I,au_spec_5_I),axis=0)
 #%%
+au_spec_1_I_open_shells=au_spec_I_open_shells[np.logical_and(au_spec_I_open_shells[:,3]=='1',au_spec_I_open_shells[:,8]=='1')]
+au_spec_5_I_open_shells=au_spec_I_open_shells[np.logical_and(au_spec_I_open_shells[:,3]=='2',au_spec_I_open_shells[:,8]=='5')]
+spec_file_1_I_open_shells=np.concatenate((au_spec_1_I_open_shells,au_spec_5_I_open_shells),axis=0)
+#%%
 au_spec_1_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='1',au_spec_II[:,8]=='1')]
 au_spec_5_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='2',au_spec_II[:,8]=='5')]
 au_spec_9_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='3',au_spec_II[:,8]=='9')]
 spec_file_1_II=np.concatenate((au_spec_1_II,au_spec_5_II),axis=0)
 spec_file_9_II=np.concatenate((spec_file_1_II,au_spec_9_II),axis=0)
+#%%
+au_spec_1_II_open_shells=au_spec_II_open_shells[np.logical_and(au_spec_II_open_shells[:,3]=='1',au_spec_II_open_shells[:,8]=='1')]
+au_spec_5_II_open_shells=au_spec_II_open_shells[np.logical_and(au_spec_II_open_shells[:,3]=='2',au_spec_II_open_shells[:,8]=='5')]
+au_spec_9_II_open_shells=au_spec_II_open_shells[np.logical_and(au_spec_II_open_shells[:,3]=='3',au_spec_II_open_shells[:,8]=='9')]
+spec_file_1_II_open_shells=np.concatenate((au_spec_1_II_open_shells,au_spec_5_II_open_shells),axis=0)
+spec_file_9_II_open_shells=np.concatenate((spec_file_1_II_open_shells,au_spec_9_II_open_shells),axis=0)
 #%%
 au_spec_1_II_more_auto=au_spec_more_auto_II[au_spec_more_auto_II[:,8]=='1']
 au_spec_5_II_more_auto=au_spec_more_auto_II[au_spec_more_auto_II[:,8]=='5']
@@ -448,6 +471,16 @@ for ul in upper_levels_I:
     gf_vals_I.append(sum(gf_temp))
     decay_vals_I.append(sum(decay_temp))
 #%%
+upper_levels_I_open_shells=list(set(spec_file_1_I_open_shells[:,6].astype(float)))
+gf_vals_I_open_shells=[]
+decay_vals_I_open_shells=[]
+for ul in upper_levels_I_open_shells:
+    temp_spec=spec_file_1_I_open_shells[spec_file_1_I_open_shells[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_I_open_shells.append(sum(gf_temp))
+    decay_vals_I_open_shells.append(sum(decay_temp))
+#%%
 upper_levels_1=list(set(spec_file_9_II[:,6].astype(float)))
 gf_vals_II=[]
 decay_vals_II=[]
@@ -457,6 +490,16 @@ for ul in upper_levels_1:
     decay_temp=temp_spec[:,16].astype(float)*1e-3
     gf_vals_II.append(sum(gf_temp))
     decay_vals_II.append(sum(decay_temp))
+#%%
+upper_levels_1_open_shells=list(set(spec_file_9_II_open_shells[:,6].astype(float)))
+gf_vals_II_open_shells=[]
+decay_vals_II_open_shells=[]
+for ul in upper_levels_1_open_shells:
+    temp_spec=spec_file_9_II_open_shells[spec_file_9_II_open_shells[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_II_open_shells.append(sum(gf_temp))
+    decay_vals_II_open_shells.append(sum(decay_temp))
 #%%
 upper_levels_1_more_auto=list(set(spec_file_9_II_more_auto[:,6].astype(float)))
 gf_vals_II_more_auto=[]
@@ -481,7 +524,9 @@ for ul in upper_levels_2:
 Energy=E_vals=np.arange(80,100,0.001)
 conv_vals_I=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_I), np.array(gf_vals_I), 0.05, np.array(decay_vals_I), 3)
 conv_vals_II=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1), np.array(gf_vals_II), 0.05, np.array(decay_vals_II), 3)
-#conv_vals_II_more_auto=flp.ConvolvingFunc(1, Energy-np.repeat(0.5,len(Energy)), np.array(upper_levels_1_more_auto), np.array(gf_vals_II_more_auto), 0.05, np.array(decay_vals_II_more_auto), 3)
+conv_vals_I_open_shells=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_I_open_shells), np.array(gf_vals_I_open_shells), 0.05, np.array(decay_vals_I_open_shells), 3)
+conv_vals_II_open_shells=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1_open_shells), np.array(gf_vals_II_open_shells), 0.05, np.array(decay_vals_II_open_shells), 3)
+conv_vals_II_more_auto=flp.ConvolvingFunc(1, Energy-np.repeat(0.5,len(Energy)), np.array(upper_levels_1_more_auto), np.array(gf_vals_II_more_auto), 0.05, np.array(decay_vals_II_more_auto), 3)
 #conv_vals_III=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_2), np.array(gf_vals_III), 0.05, np.array(decay_vals_III), 3)
 #%%
 plt.plot(Energy_500ns,5*Intensity_500ns)
@@ -515,6 +560,14 @@ plt.grid(True)
 au_spec_4_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='2',au_spec_II[:,8]=='4')]
 au_spec_8_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='3',au_spec_II[:,8]=='8')]
 spec_file_4_II=np.concatenate((au_spec_4_II,au_spec_8_II),axis=0)
+#%% 4f-5d AuII more auto
+au_spec_4_II_more_auto=au_spec_more_auto_II[np.logical_and(au_spec_more_auto_II[:,3]=='2',au_spec_more_auto_II[:,8]=='4')]
+au_spec_8_II_more_auto=au_spec_more_auto_II[np.logical_and(au_spec_more_auto_II[:,3]=='3',au_spec_more_auto_II[:,8]=='8')]
+spec_file_4_II_more_auto=np.concatenate((au_spec_4_II_more_auto,au_spec_8_II_more_auto),axis=0)
+#%% 4f-5d AuII open shells
+au_spec_4_II_open_shells=au_spec_II_open_shells[np.logical_and(au_spec_II_open_shells[:,3]=='2',au_spec_II_open_shells[:,8]=='4')]
+au_spec_8_II_open_shells=au_spec_II_open_shells[np.logical_and(au_spec_II_open_shells[:,3]=='3',au_spec_II_open_shells[:,8]=='8')]
+spec_file_4_II_open_shells=np.concatenate((au_spec_4_II_open_shells,au_spec_8_II_open_shells),axis=0)
 #%% 4f-5d AuI
 au_spec_4_I=au_spec_I[np.logical_and(au_spec_I[:,3]=='2',au_spec_I[:,8]=='4')]
 #%%
@@ -538,12 +591,34 @@ for ul in upper_levels_1_4f:
     gf_vals_II_4f.append(sum(gf_temp))
     decay_vals_II_4f.append(sum(decay_temp))
 #%%
+upper_levels_1_4f_more_auto=list(set(spec_file_4_II_more_auto[:,6].astype(float)))
+gf_vals_II_4f_more_auto=[]
+decay_vals_II_4f_more_auto=[]
+for ul in upper_levels_1_4f_more_auto:
+    temp_spec=spec_file_4_II_more_auto[spec_file_4_II_more_auto[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_II_4f_more_auto.append(sum(gf_temp))
+    decay_vals_II_4f_more_auto.append(sum(decay_temp))
+#%%
+upper_levels_1_4f_open_shells=list(set(spec_file_4_II_open_shells[:,6].astype(float)))
+gf_vals_II_4f_open_shells=[]
+decay_vals_II_4f_open_shells=[]
+for ul in upper_levels_1_4f_open_shells:
+    temp_spec=spec_file_4_II_open_shells[spec_file_4_II_open_shells[:,6].astype(float)==ul]
+    gf_temp=np.exp(temp_spec[:,15].astype(float))
+    decay_temp=temp_spec[:,16].astype(float)*1e-3
+    gf_vals_II_4f_open_shells.append(sum(gf_temp))
+    decay_vals_II_4f_open_shells.append(sum(decay_temp))
+#%%
 Individual_lines_AuII_4f_dE_3_8=au_spec_8_II[:,11].astype(float)
 Individual_lines_AuII_4f_gf_3_8=np.exp(au_spec_8_II[:,15].astype(float))
 #%%
 Energy=E_vals=np.arange(80,100,0.001)
-conv_vals_I_4f=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_I_4f), np.array(gf_vals_I_4f), 0.05, np.array(decay_vals_I_4f), 3)
+#conv_vals_I_4f=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_I_4f), np.array(gf_vals_I_4f), 0.05, np.array(decay_vals_I_4f), 3)
 conv_vals_II_4f=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1_4f), np.array(gf_vals_II_4f), 0.05, np.array(decay_vals_II_4f), 3)
+conv_vals_II_4f_more_auto=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1_4f_more_auto), np.array(gf_vals_II_4f_more_auto), 0.05, np.array(decay_vals_II_4f_more_auto), 3)
+conv_vals_II_4f_open_shells=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_1_4f_open_shells), np.array(gf_vals_II_4f_open_shells), 0.05, np.array(decay_vals_II_4f_open_shells), 3)
 #%%
 Individual_lines_AuI_4f_dE=au_spec_4_I[:,11].astype(float)
 Individual_lines_AuI_4f_gf=np.exp(au_spec_4_I[:,15].astype(float))
@@ -609,15 +684,18 @@ for ul in upper_levels_II_dp:
 #%%
 conv_vals_II_dp=flp.ConvolvingFunc(1, Energy, np.array(upper_levels_II_dp), np.array(gf_vals_II_dp), 0.05, np.array(decay_vals_II_dp), 3)
 #%%
-plt.plot(Energy+np.repeat(1.7,len(Energy)),0.6*conv_vals_II_dp,label='0.6*double promotions AuII')
-plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_II,label='AuII 4f-6d')
-plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_I,label='AuI 4f-6d')
-plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_II_4f,label='AuII 4f-5d')
-plt.plot(Energy+np.repeat(1.7,len(Energy)),0.2*(conv_vals_II+conv_vals_II_4f+conv_vals_I+conv_vals_II_dp))
+#plt.plot(Energy+np.repeat(1.7,len(Energy)),0.6*conv_vals_II_dp,label='0.6*double promotions AuII')
+plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_II_more_auto-conv_vals_II_open_shells,label='AuII 4f-6d:closed shells -open shells')
+#plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_I-conv_vals_I_open_shells,label='AuI 4f-6d: closed shells -open shells')
+#plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_II_4f-conv_vals_II_4f_open_shells,label='AuII 4f-5d: closed shells -open shells')
+#plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_II_4f,label='AuII 4f-5d: closed shells')
+#plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_II_4f_open_shells,label='AuII 4f-5d: open shells')
+#plt.plot(Energy+np.repeat(1.7,len(Energy)),conv_vals_II_4f_open_shells-conv_vals_II_4f_more_auto,label='AuII 4f-5d: closed shells')
+#plt.plot(Energy+np.repeat(1.7,len(Energy)),0.2*(conv_vals_II+conv_vals_II_4f+conv_vals_I+conv_vals_II_dp))
 #plt.plot(Energy+np.repeat(1.7,len(Energy)),0.87*conv_vals_I + 0.13*(conv_vals_II_dp+conv_vals_II+conv_vals_II_4f),label='87% AuI 13% AuII')
 #plt.plot(Energy,conv_vals_I_dp,label='double promotions AuI')
 #plt.plot(Energy,conv_vals_I,label='4f-6d AuI')
-plt.plot(Energy_500ns,20*Intensity_500ns,label='500ns')
+#plt.plot(Energy_500ns,20*Intensity_500ns,label='500ns')
 plt.xlim(80,100)
 plt.legend()
 plt.xlabel('Energy [eV]')
