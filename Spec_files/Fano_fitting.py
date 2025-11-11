@@ -35,7 +35,7 @@ def Fano(x,Er,q,gamma):
      return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 def fitfunc(x,a,b,c,d,e,f,g,h):
      return  Fano(x,a,c,d)*e+Fano(x,b,c,d)*f+g*x+h  
-
+#%%
 guess2=[82.5,84.3,17,0.00098,10,0.001,0.1,-0.3]
 bounds=([82.4,84.25,16.9,9.74e-4,1e-6,1e-6,-np.inf,-np.inf],[82.6,84.35,17.3,1e-3,np.inf,np.inf,np.inf,np.inf])
 #guess2_og=[82.5,84.3,7,0.0019,10,0.001,0.1,-0.3]
@@ -105,3 +105,21 @@ for i in range(0, (len(Intensity_500ns)-1)):
     sum=sum+(Intensity_500ns[i]-best[i])**2
 plt.plot(Energy,best,color='red')
 plt.plot(Energy,Intensity_500ns)
+#%%
+Fano_plot1=Fano(Energy, 82.8314+1.45, 3, 0.25742)*0.007-0.005*Energy+0.66
+Fano_plot2=Fano(Energy, 79.1645+1.45, 2.52, 0.27145)*0.011-0.005*Energy+0.66
+Fano_plot3=Fano(Energy, 81.2532+1.45, 2.83, 0.25741)*0.01-0.005*Energy+0.66
+plt.plot(Energy,Fano_plot1)
+plt.plot(Energy,Fano_plot2)
+plt.plot(Energy,Fano_plot3)
+plt.plot(Energy,Intensity_500ns)
+#%%
+sigma_file=[]
+with open('C:\\Users\David McKeagney\Downloads\Au.I.f.J=2.5-2.5..sigma') as file:
+    for lines in file:
+        sigma_file.append(lines.split())
+sigma_file=sigma_file[4:]
+sigma_file=np.array(sigma_file).astype(float)
+#%%
+plt.plot(sigma_file[:,0]+np.repeat(1.7,len(sigma_file[:,1])),sigma_file[:,1])
+plt.plot(Energy,7*Intensity_500ns)
