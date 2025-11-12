@@ -55,7 +55,7 @@ nt=np.sum(n,1)
 
 for i in range (0,Atomic_num+1):
     frac[:,i]=n[:,i]/nt
-    
+#%%    
 plt.plot(Te, frac)
 plt.legend(["Au I","Au II","Au III","Au IV","Au V","Au VI"])
 plt.xlim([0.1, 20])
@@ -65,11 +65,14 @@ plt.ylabel('N_i/N_t')
 #%% Recombination timescales in nano-seconds 
 
 timescale=1/(alpha3b+ne*alphaR)*10**9
+#%% 
+a=S[:,0]/(alpha3b[:,1]+ne*alphaR[:,1])
 #%%
-plt.plot(Te,timescale[:,1],label='Au II recombination timescale')
-plt.plot(Te,timescale[:,2],label='Au III recombination timescale')
+#plt.plot(Te,timescale[:,1],label='Au II recombination timescale')
+#plt.plot(Te,timescale[:,2],label='Au III recombination timescale')
+plt.plot(Te,a)
 plt.xlim(0.1,8)
-plt.ylim(0,12)
+#plt.ylim(0,12)
 plt.xlabel('Te [eV]')
 plt.ylabel(' timescale [ns]')
 plt.legend()
