@@ -106,13 +106,15 @@ for i in range(0, (len(Intensity_500ns)-1)):
 plt.plot(Energy,best,color='red')
 plt.plot(Energy,Intensity_500ns)
 #%%
-Fano_plot1=Fano(Energy, 82.8314+1.45, 3, 0.25742)*0.007-0.005*Energy+0.66
-Fano_plot2=Fano(Energy, 79.1645+1.45, 2.52, 0.27145)*0.011-0.005*Energy+0.66
-Fano_plot3=Fano(Energy, 81.2532+1.45, 2.83, 0.25741)*0.01-0.005*Energy+0.66
+Fano_plot1=Fano(Energy, 82.8314+1.45, 2.9, 0.26989)*0.008-0.005*Energy+0.66
+Fano_plot2=Fano(Energy, 79.1645+1.45, 2.5, 0.28415)*0.011-0.005*Energy+0.66
+Fano_plot3=Fano(Energy, 81.2532+1.45, 2.73, 0.26989)*0.01-0.005*Energy+0.66
+Fano_plot4=Fano(Energy, 81.2532+1.45, 2.73, 0.26989)*0.01+Fano(Energy, 79.1645+1.45, 2.5, 0.28415)*0.011+Fano(Energy, 82.8314+1.45, 2.9, 0.26989)*0.007-0.005*Energy+0.65
 plt.plot(Energy,Fano_plot1)
 plt.plot(Energy,Fano_plot2)
 plt.plot(Energy,Fano_plot3)
-plt.plot(Energy,Intensity_500ns)
+#plt.plot(Energy,Fano_plot4)
+plt.scatter(Energy,Intensity_500ns,marker='x')
 #%%
 sigma_file=[]
 with open('C:\\Users\David McKeagney\Downloads\Au.I.f.J=2.5-2.5..sigma') as file:
