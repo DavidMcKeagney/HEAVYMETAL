@@ -23,13 +23,20 @@ def Fano(x,Er,q,gamma):
      return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 def fitfunc3(x,a,b,c,d,e,f):
      return Fano(x,a,b,c)*d + e*x + f
+ #%%
+def epsilon(x,gamma):
+     return (x-82.5)*2/gamma
+def Fano(x,q,gamma):
+     return (q+epsilon(x,gamma))**2/(1+epsilon(x,gamma)**2)
+def fitfunc4(x,b,c,d,e,f):
+     return Fano(x,b,c)*d + e*x + f
 #%% New parameters
 params=lmfit.Parameters()
-params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
-params.add('b',value=1,min=-3,max=8) # q value
-params.add('c',value=0.01,min=1e-6,max=0.5) # linewidth
-params.add('d',value=0.06,min=1e-6,max=0.7) # intensity of profile 
-params.add('e',value=-0.01,min=-0.02,max=0.02) # continuum slope
+#params.add('a',value=82.5,min=82.4, max=82.6) # resonance energy
+params.add('b',value=1,min=-8,max=8) # q value
+params.add('c',value=0.01,min=-30,max=30) # linewidth
+params.add('d',value=0.06,min=-0.7,max=0.7) # intensity of profile 
+params.add('e',value=-0.01,min=-0.03,max=0.03) # continuum slope
 params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
 #%%
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
@@ -72,7 +79,7 @@ def log_likelihood(theta):
     for key, value in params_dict.items():
         params1.add(key, value=value)
         #print(params1)
-    model = fitfunc3(Energy, **params1.valuesdict()) #my function is called fit_tot. This is basically the evaluation of your function
+    model = fitfunc4(Energy, **params1.valuesdict()) #my function is called fit_tot. This is basically the evaluation of your function
     residual = (model - Intensity_500ns) #/ err_ha #calculates the residuals. flux_ha is the "y" that you're fitting and err_ha are its errors
     return -0.5 * np.sum(residual**2) #calculates the log-likelihood of the fit, evaluated at the parameters you gave. 
 
@@ -91,7 +98,7 @@ ndim = len(params)  # Number of parameters
 sampler = NestedSampler(loglikelihood=log_likelihood, 
                         prior_transform=prior_transform, 
                         ndim=len(params), 
-                        nlive=500*ndim, sample = 'rwalk')
+                        nlive=1000*ndim, sample = 'rwalk')
 
 # Run the nested sampling
 
@@ -105,7 +112,7 @@ ind = np.argmax(dresults.logl)
 sols = dresults.samples[ind]
 #%% 
 plt.plot(Energy,Intensity_500ns)
-plt.plot(Energy,fitfunc3(Energy,sols[0],sols[1],sols[2],sols[3],sols[4],sols[5]))
+plt.plot(Energy,fitfunc4(Energy,sols[0],sols[1],sols[2],sols[3],sols[4]))
 #plt.plot(Energy,fitfunc3(Energy,84.31,1.04,0.032,0.065,-0.005,0.66))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
