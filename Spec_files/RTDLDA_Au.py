@@ -213,3 +213,15 @@ plt.legend()
 plt.xlim(79,110)
 plt.xlabel('Energy [eV]')
 plt.ylabel('Averaged Cross Section [mb]')
+#%%
+def epsilon(x,Er,gamma):
+    return (x-Er)*2/gamma
+def Fano(x,Er,q,gamma):
+     return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
+#%%
+Fano1=Fano(np.array(AuI_energies_moving_avg),82.8314+1.4, 2.9, 0.26989)
+Fano2=Fano(np.array(AuI_energies_moving_avg),79.1645+1.4, 2.5, 0.28415)
+Fano3=Fano(np.array(AuI_energies_moving_avg),81.2532+1.4, 2.73, 0.26989)
+plt.plot(np.array(AuI_energies_moving_avg)+ np.repeat(0.7,len(AuI_energies_moving_avg)),0.9*(np.array(AuI_moving_avg)+Fano1+Fano2+Fano3) + 0.1*np.array(AuII_moving_avg),label='90% AuI, 10% AuII')
+plt.plot(Energy,270*Intensity_500ns_exp,label='500ns')
+plt.legend()
