@@ -110,11 +110,11 @@ plt.plot(Energy,Intensity_500ns)
 Fano_plot1=Fano(Energy, 82.8314+1.4, 2.9, 0.26989)*0.008-0.005*Energy+0.66
 Fano_plot2=Fano(Energy, 79.1645+1.4, 2.5, 0.28415)*0.011-0.005*Energy+0.66
 Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.01-0.005*Energy+0.66
-Fano_plot4=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.01+Fano(Energy, 79.1645+1.45, 2.5, 0.28415)*0.011+Fano(Energy, 82.8314+1.45, 2.9, 0.26989)*0.007-0.005*Energy+0.64
+#Fano_plot4=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.01+Fano(Energy, 79.1645+1.45, 2.5, 0.28415)*0.011+Fano(Energy, 82.8314+1.45, 2.9, 0.26989)*0.007-0.005*Energy+0.64
 #plt.plot(Energy,Fano_plot1)
 #plt.plot(Energy,Fano_plot2)
 #plt.plot(Energy,Fano_plot3)
-plt.plot(Energy,Fano_plot4)
+#plt.plot(Energy,Fano_plot4)
 plt.plot(Energy,Intensity_500ns)
 #%%
 sigma_file=[]
@@ -134,13 +134,55 @@ def Fano(x,q,gamma):
 def fitfunc(x,a,b,c,d,e):
      return  Fano(x,a,b)*c+d*x+e 
 #%%
-Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+#Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=95)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=95)]
 #%%
-Guess_fano=[2,0.1,0.4,0.01,1]
-Bounds_fano=([1e-6,1e-6,1e-6,-0.03,-2.4],[3,0.4,0.7,0.03,2.4])
-popt, pcov=curve_fit(fitfunc, Energy, Intensity_500ns, p0=Guess_fano,bounds=Bounds_fano)
+# Computes moving average
+def MovingAverage(window_size,array):
+    ws=window_size
+
+    i = 0
+    # Initialize an empty list to store moving averages
+    moving_averages = []
+
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(array) - ws + 1:
+      
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = array[i : i + ws]
+
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
+        
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        
+        # Shift window to right by one position
+        i += 1
+    return moving_averages 
+#%%
+Avg_Intensity=MovingAverage(5, Intensity_500ns)
+Avg_Energy=MovingAverage(5, Energy)
+#%%
+Guess_fano=[2.73,0.27,0.005,0.01,0.6]
+Bounds_fano=([2,0.1,1e-6,-0.03,-2.4],[3,0.3,0.7,0.03,2.4])
+popt, pcov=curve_fit(fitfunc, Avg_Energy, Avg_Intensity, p0=Guess_fano,bounds=Bounds_fano)
+#%%
+plt.plot(Avg_Energy,fitfunc(np.array(Avg_Energy), popt[0], popt[1], popt[2], popt[3], popt[4]),label='fit')
+plt.plot(Avg_Energy,Avg_Intensity,label='smoothed data')
+Fano_plot1=Fano(Energy, 82.8314+1.4, 2.9, 0.26989)*0.004-0.005*Energy+0.68
+Fano_plot2=Fano(Energy, 79.1645+1.4, 2.5, 0.28415)*0.011-0.005*Energy+0.66
+Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.005-0.005*Energy+0.685
+#plt.plot(Energy,Fano_plot3)
+#plt.plot(Energy,Fano_plot1)
+plt.legend()
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
 #%%
 def ConfidenceEllipses(popt_vals,var,mean):
     i=0
