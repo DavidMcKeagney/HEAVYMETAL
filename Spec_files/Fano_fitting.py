@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import least_squares
 import function_library_phd as flp
 from scipy.optimize import curve_fit
+import random
 
 plt.rcParams.update({'font.size': 22})
 plt.rcParams["figure.figsize"] = (15,10)
@@ -125,3 +126,59 @@ sigma_file=np.array(sigma_file).astype(float)
 #%%
 plt.plot(sigma_file[:,0]+np.repeat(1.7,len(sigma_file[:,1])),sigma_file[:,1])
 plt.plot(Energy,7*Intensity_500ns)
+#%%
+def epsilon(x,gamma):
+    return (x-82.5)*2/gamma
+def Fano(x,q,gamma):
+     return (q+epsilon(x,gamma))**2/(1+epsilon(x,gamma)**2)
+def fitfunc(x,a,b,c,d,e):
+     return  Fano(x,a,b)*c+d*x+e 
+#%%
+Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=110)]
+#%%
+Guess_fano=[2,0.1,0.4,0.01,1]
+Bounds_fano=([1e-6,1e-6,1e-6,-0.03,-2.4],[3,0.4,0.7,0.03,2.4])
+popt, pcov=curve_fit(fitfunc, Energy, Intensity_500ns, p0=Guess_fano,bounds=Bounds_fano)
+#%%
+def ConfidenceEllipses(popt_vals,var,mean):
+    i=0
+    for ind,j in enumerate(popt_vals):
+        i+=(1/2.111713)*((j-mean[ind])/var[ind])**2
+    return i
+
+def Normal(x,mu):
+    return (1/(np.sqrt(2*np.pi)*0.05))*np.exp(-((x-mu)/0.05)**2)
+
+def PerturbingData(Energy_vals,Intensity):
+    Perturbed_intensity_vals=[]
+    Energy_range=np.arange(np.min(Energy),np.max(Energy),0.01)
+    for i in Intensity:
+        Perturbed_intensity_vals.append(random.gauss(i,0.1))
+    Perturbed_intensity_vals=np.array(Perturbed_intensity_vals)
+    popt_plus,pcov_plus=curve_fit(fitfunc, Energy_vals, Perturbed_intensity_vals, p0=Guess_fano,bounds=Bounds_fano)
+    a=np.array(popt_plus)
+    
+    return a
+def maxparm(var,mean):
+    return 2.111713*(var**2)+mean
+#%%
+ellipse_vals=[]
+for i in Intensity_500ns:
+    ellipse_vals.append(PerturbingData(Energy, Intensity_500ns))
+ellipse_vals=np.array(ellipse_vals)
+#%%
+var_Fano=np.zeros(5)
+mean_Fano=np.zeros(5)
+for i in range(0,5):
+    var_Fano[i]=np.std(ellipse_vals[:,i])**2
+    mean_Fano[i]=np.mean(ellipse_vals[:,i])
+#%%
+ellipse_size=[]
+for i in ellipse_vals:
+    ellipse_size.append(ConfidenceEllipses(i, var_Fano,mean_Fano))
+#%%
+maxval=maxparm(var_Fano,mean_Fano)
+
+

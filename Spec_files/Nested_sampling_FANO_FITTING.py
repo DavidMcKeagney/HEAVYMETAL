@@ -9,6 +9,8 @@ import lmfit
 from lmfit import Model
 from scipy.interpolate import interp1d
 from scipy import signal
+from scipy import special
+from scipy import integrate
 import matplotlib.gridspec as gridspec
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,7 +30,7 @@ def epsilon(x,gamma):
      return (x-82.5)*2/gamma
 def Fano(x,q,gamma):
      return (q+epsilon(x,gamma))**2/(1+epsilon(x,gamma)**2)
-def fitfunc4(x,b,c,d,e,f):
+def fitfunc_no_Er(x,b,c,d,e,f):
      return Fano(x,b,c)*d + e*x + f
 #%% New parameters
 params=lmfit.Parameters()
@@ -39,7 +41,8 @@ params.add('d',value=0.06,min=-0.7,max=0.7) # intensity of profile
 params.add('e',value=-0.01,min=-0.03,max=0.03) # continuum slope
 params.add('f',value=-0.3,min=-2.4,max=2.4) # continuum constant
 #%%
-Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+#Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 #%%
@@ -79,7 +82,7 @@ def log_likelihood(theta):
     for key, value in params_dict.items():
         params1.add(key, value=value)
         #print(params1)
-    model = fitfunc4(Energy, **params1.valuesdict()) #my function is called fit_tot. This is basically the evaluation of your function
+    model = fitfunc_no_Er(Energy, **params1.valuesdict()) #my function is called fit_tot. This is basically the evaluation of your function
     residual = (model - Intensity_500ns) #/ err_ha #calculates the residuals. flux_ha is the "y" that you're fitting and err_ha are its errors
     return -0.5 * np.sum(residual**2) #calculates the log-likelihood of the fit, evaluated at the parameters you gave. 
 
@@ -98,7 +101,7 @@ ndim = len(params)  # Number of parameters
 sampler = NestedSampler(loglikelihood=log_likelihood, 
                         prior_transform=prior_transform, 
                         ndim=len(params), 
-                        nlive=1000*ndim, sample = 'rwalk')
+                        nlive=500*ndim, sample = 'rwalk')
 
 # Run the nested sampling
 
@@ -112,7 +115,7 @@ ind = np.argmax(dresults.logl)
 sols = dresults.samples[ind]
 #%% 
 plt.plot(Energy,Intensity_500ns)
-plt.plot(Energy,fitfunc4(Energy,sols[0],sols[1],sols[2],sols[3],sols[4]))
+plt.plot(Energy,fitfunc_no_Er(Energy,sols[0],sols[1],sols[2],sols[3],sols[4]))
 #plt.plot(Energy,fitfunc3(Energy,84.31,1.04,0.032,0.065,-0.005,0.66))
 #%%
 weights = np.exp(dresults['logwt'] - dresults['logz'][-1])  # Compute normalized weights
@@ -511,3 +514,23 @@ plt.xlabel('Energy [eV]')
 plt.ylabel('Absorbance [Arb.]')
 plt.grid(True)
 plt.legend()
+#%%
+def LikelihoodIntegrand(q,e,f,Gamma,E,I,d):
+    return (1/Fano(E, q, Gamma))*np.sqrt(len(Energy)*np.pi/8)*((special.erf(np.sqrt(2/len(Energy))*fitfunc_no_Er(E, q, Gamma, d, e, f)-I)-special.erf(np.sqrt(2/len(Energy))*fitfunc_no_Er(E, q, Gamma, -d, e, f)-I)))
+    
+
+def LikelihoodIntegral(E,I,d):
+    Gamma_range=np.arange(-30,30,0.01)
+    P_Gamma=[]
+    for i in Gamma_range:
+        P_Gamma.append(integrate.nquad(LikelihoodIntegrand,[[-8, 8], [-0.03, 0.03], [-2.4, 2.4]], args=(i, E, I, d))[0])
+    return P_Gamma,Gamma_range
+#%%
+L_integral=LikelihoodIntegral(Energy[292], Intensity_500ns[292],0.7)
+#%%
+Norm_fac=np.sum(L_integral[0])*0.01
+prob_vals=np.array(L_integral[0])/Norm_fac
+plt.plot(L_integral[1],prob_vals)
+plt.xlabel('Gamma')
+plt.ylabel('Probability')
+    
