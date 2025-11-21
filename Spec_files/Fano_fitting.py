@@ -128,16 +128,16 @@ plt.plot(sigma_file[:,0]+np.repeat(1.7,len(sigma_file[:,1])),sigma_file[:,1])
 plt.plot(Energy,7*Intensity_500ns)
 #%%
 def epsilon(x,gamma):
-    return (x-82.5)*2/gamma
+    return (x-82.5749)*2/gamma
 def Fano(x,q,gamma):
      return (q+epsilon(x,gamma))**2/(1+epsilon(x,gamma)**2)
-def fitfunc(x,a,b,c,d,e):
-     return  Fano(x,a,b)*c+d*x+e 
+def fitfunc(x,a,b,c,d):
+     return  Fano(x,a,b)*c+d
 #%%
-#Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
-Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=95)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=75,Eric_data_500ns[0]<=95)]
+Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+#Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
 #%%
 # Computes moving average
 def MovingAverage(window_size,array):
@@ -169,15 +169,15 @@ def MovingAverage(window_size,array):
 Avg_Intensity=MovingAverage(5, Intensity_500ns)
 Avg_Energy=MovingAverage(5, Energy)
 #%%
-Guess_fano=[2.73,0.27,0.005,0.01,0.6]
-Bounds_fano=([2,0.1,1e-6,-0.03,-2.4],[3,0.3,0.7,0.03,2.4])
+Guess_fano=[1.5,0.27,0.005,0.01]
+Bounds_fano=([1,0.1,1e-6,1e-6],[4,0.3,0.7,0.8])
 popt, pcov=curve_fit(fitfunc, Avg_Energy, Avg_Intensity, p0=Guess_fano,bounds=Bounds_fano)
 #%%
-plt.plot(Avg_Energy,fitfunc(np.array(Avg_Energy), popt[0], popt[1], popt[2], popt[3], popt[4]),label='fit')
-plt.plot(Avg_Energy,Avg_Intensity,label='smoothed data')
-Fano_plot1=Fano(Energy, 82.8314+1.4, 2.9, 0.26989)*0.004-0.005*Energy+0.68
-Fano_plot2=Fano(Energy, 79.1645+1.4, 2.5, 0.28415)*0.011-0.005*Energy+0.66
-Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.005-0.005*Energy+0.685
+plt.plot(Avg_Energy,fitfunc(np.array(Avg_Energy), popt[0], popt[1], popt[2],popt[3]),label='fit')
+plt.scatter(Avg_Energy,Avg_Intensity,label='smoothed data')
+#Fano_plot1=Fano(Energy, 82.8314+1.4, 2.9, 0.26989)*0.004-0.005*Energy+0.68
+#Fano_plot2=Fano(Energy, 79.1645+1.4, 2.5, 0.28415)*0.011-0.005*Energy+0.66
+#Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.005-0.005*Energy+0.685
 #plt.plot(Energy,Fano_plot3)
 #plt.plot(Energy,Fano_plot1)
 plt.legend()
