@@ -134,10 +134,12 @@ def Fano(x,q,gamma):
 def fitfunc(x,a,b,c,d):
      return  Fano(x,a,b)*c+d
 #%%
-Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
-#Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
+#Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+#Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
+#Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=84,Eric_data_500ns[0]<=85.5)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=84,Eric_data_500ns[0]<=85.5)]
 #%%
 # Computes moving average
 def MovingAverage(window_size,array):
@@ -222,5 +224,28 @@ for i in ellipse_vals:
     ellipse_size.append(ConfidenceEllipses(i, var_Fano,mean_Fano))
 #%%
 maxval=maxparm(var_Fano,mean_Fano)
+#%%
+def epsilon2(x,gamma):
+    return (x-84.3945)*2/gamma
+def Fano2(x,q,gamma):
+     return (q+epsilon2(x,gamma))**2/(1+epsilon2(x,gamma)**2)
+def fitfunc2(x,a,b,c,d):
+    return  Fano2(x,a,b)*c+d
 
+#%%
+Guess_fano=[1.5,0.27,0.005,0.01]
+Bounds_fano=([1,0.1,1e-6,1e-6],[4,0.3,0.7,0.8])
+popt, pcov=curve_fit(fitfunc2, Avg_Energy, Avg_Intensity, p0=Guess_fano,bounds=Bounds_fano)
+
+#%%
+plt.plot(Avg_Energy,fitfunc2(np.array(Avg_Energy), popt[0], popt[1], popt[2],popt[3]),label='fit')
+plt.scatter(Avg_Energy,Avg_Intensity,label='smoothed data')
+#Fano_plot1=Fano(Energy, 82.8314+1.4, 2.9, 0.26989)*0.004-0.005*Energy+0.68
+#Fano_plot2=Fano(Energy, 79.1645+1.4, 2.5, 0.28415)*0.011-0.005*Energy+0.66
+#Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.005-0.005*Energy+0.685
+#plt.plot(Energy,Fano_plot3)
+#plt.plot(Energy,Fano_plot1)
+plt.legend()
+plt.xlabel('Energy [eV]')
+plt.ylabel('Intensity')
 
