@@ -113,9 +113,9 @@ Au_I_J_1_5_2_5[:,0]+=np.repeat(1.4,len(Au_I_J_1_5_2_5[:,0]))
 Au_I_J_2_5_2_5[:,0]+=np.repeat(1.4,len(Au_I_J_2_5_2_5[:,0]))
 Au_I_J_2_5_3_5[:,0]+=np.repeat(1.4,len(Au_I_J_2_5_3_5[:,0]))
 #%%
-Au_I_J_1_5_2_5_int=10*0.015*Au_I_J_1_5_2_5[:,1]
-Au_I_J_2_5_2_5_int=10*0.32*Au_I_J_2_5_2_5[:,1]
-Au_I_J_2_5_3_5_int=10*0.02*Au_I_J_2_5_3_5[:,1]
+Au_I_J_1_5_2_5_int=Au_I_J_1_5_2_5[:,1]
+Au_I_J_2_5_2_5_int=Au_I_J_2_5_2_5[:,1]
+Au_I_J_2_5_3_5_int=Au_I_J_2_5_3_5[:,1]
 #%%
 Au_II_J_1_2=np.array(Au_II_J_1_2[4:]).astype(float)
 Au_II_J_2_2=np.array(Au_II_J_2_2[4:]).astype(float)
@@ -148,13 +148,21 @@ Au_I_J_2_5_3_5_int=np.concatenate((stand_in,Au_I_J_2_5_3_5_int))
 #list_of_arrays_AuII=[Au_II_J_1_2,Au_II_J_2_2,Au_II_J_2_3,Au_II_J_3_3,Au_II_J_3_4,Au_II_J_4_4,Au_II_J_4_5]
 #list_of_weights_AuII=[np.exp(-(3.4011/0.5)),np.exp(-(2.1513/0.5)),np.exp(-(2.1513/0.5)),np.exp(-(1.7873/0.5)),np.exp(-(1.7873/0.5)),np.exp(-(5.2425/0.5)),np.exp(-(5.2425/0.5))]
 #%%
-Au_II_J_1_2=np.exp(-(3.4011/2.44))*Au_II_J_1_2[:,1]
-Au_II_J_2_2=np.exp(-(2.1513/2.44))*Au_II_J_2_2[:,1]
-Au_II_J_2_3=np.exp(-(2.1513/2.44))*Au_II_J_2_3[:,1]
-Au_II_J_3_3=np.exp(-(1.7873/2.44))*Au_II_J_3_3[:,1]
-Au_II_J_3_4=np.exp(-(1.7873/2.44))*Au_II_J_3_4[:,1]
-Au_II_J_4_4=np.exp(-(5.2425/2.44))*Au_II_J_4_4[:,1]
-Au_II_J_4_5=np.exp(-(5.2425/2.44))*Au_II_J_4_5[:,1]
+Au_II_J_1_2=Au_II_J_1_2[:,1]
+Au_II_J_2_2=Au_II_J_2_2[:,1]
+Au_II_J_2_3=Au_II_J_2_3[:,1]
+Au_II_J_3_3=Au_II_J_3_3[:,1]
+Au_II_J_3_4=Au_II_J_3_4[:,1]
+Au_II_J_4_4=Au_II_J_4_4[:,1]
+Au_II_J_4_5=Au_II_J_4_5[:,1]
+#%%
+#Au_II_J_1_2=np.exp(-(3.4011/2.44))*Au_II_J_1_2[:,1]
+#Au_II_J_2_2=np.exp(-(2.1513/2.44))*Au_II_J_2_2[:,1]
+#Au_II_J_2_3=np.exp(-(2.1513/2.44))*Au_II_J_2_3[:,1]
+#Au_II_J_3_3=np.exp(-(1.7873/2.44))*Au_II_J_3_3[:,1]
+#Au_II_J_3_4=np.exp(-(1.7873/2.44))*Au_II_J_3_4[:,1]
+#Au_II_J_4_4=np.exp(-(5.2425/2.44))*Au_II_J_4_4[:,1]
+#Au_II_J_4_5=np.exp(-(5.2425/2.44))*Au_II_J_4_5[:,1]
 #%%
 Au_II_J_1_2_int=Au_II_J_1_2[:143]
 Au_II_J_2_2_int=Au_II_J_2_2[:143]
@@ -181,8 +189,10 @@ total_cross_sections_AuII=Au_II_J_1_2_int+Au_II_J_2_2_int+Au_II_J_2_3_int+Au_II_
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuI)
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuII)
 #plt.plot(Energy,total_cross_sections_AuI,label='AuI total')
-plt.plot(Energy_500ns,40*Intensity_500ns-np.repeat(4.5,len(Intensity_500ns)),label='Exp 500ns')
-plt.plot(Energy,0.45*total_cross_sections_AuI + 0.55*total_cross_sections_AuII,label='55% AuII, 45% AuI')
+plt.plot(Energy_500ns,170*Intensity_500ns-np.repeat(40,len(Intensity_500ns)),label='Exp 500ns')
+#plt.plot(Energy,Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
+plt.plot(Energy,0.6*Au_I_J_1_5_2_5_int+0.6*0.85*Au_II_J_1_2_int+0.3*Au_II_J_4_5_int+Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
+#plt.plot(Energy,0.775*total_cross_sections_AuI + 0.225*total_cross_sections_AuII,label='22.5% AuII, 77.5% AuI')
 plt.xlim(78,90)
 plt.legend()
 plt.xlabel('Energy [eV]')

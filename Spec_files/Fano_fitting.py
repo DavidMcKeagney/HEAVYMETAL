@@ -109,9 +109,9 @@ for i in range(0, (len(Intensity_500ns)-1)):
 plt.plot(Energy,best,color='red')
 plt.plot(Energy,Intensity_500ns)
 #%%
-Fano_plot1=Fano(Energy, 82.8314+1.4, 2.9, 0.26989)#*0.008-0.005*Energy+0.66
-Fano_plot2=Fano(Energy, 79.1645+1.4, 2.5, 0.28415)#*0.011-0.005*Energy+0.66
-Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)#*0.01-0.005*Energy+0.66
+Fano_plot1=Fano(Energy, 82.8314+1.4, 2.9, 0.26989)*0.008-0.005*Energy+0.66
+Fano_plot2=Fano(Energy, 79.1645+1.4, 2.5, 0.28415)*0.011-0.005*Energy+0.66
+Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.01-0.005*Energy+0.66
 #Fano_plot4=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)*0.01+Fano(Energy, 79.1645+1.45, 2.5, 0.28415)*0.011+Fano(Energy, 82.8314+1.45, 2.9, 0.26989)*0.007-0.005*Energy+0.64
 plt.plot(Energy,Fano_plot1)
 plt.plot(Energy,Fano_plot2)
