@@ -58,7 +58,10 @@ def TotalCrossSection2(list_of_arrays,list_of_weights):
     return Intensity_vals, energy_vals
 #%%
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
 #Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
+Energy_300ns=Eric_data_300ns[0][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
 Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 #%%
@@ -175,8 +178,8 @@ Au_II_J_4_5_int=Au_II_J_4_5[:143]
 total_cross_sections_AuI=Au_I_J_1_5_2_5_int+Au_I_J_2_5_2_5_int+Au_I_J_2_5_3_5_int
 total_cross_sections_AuII=Au_II_J_1_2_int+Au_II_J_2_2_int+Au_II_J_2_3_int+Au_II_J_3_3_int+Au_II_J_3_4_int+Au_II_J_4_4_int+Au_II_J_4_5_int
 #%%
-#plt.plot(Energy,Au_I_J_1_5_2_5_int,label='J:1.5-2.5')
-#plt.plot(Energy,Au_I_J_2_5_2_5_int,label='J:2.5-2.5')
+#plt.plot(Energy-np.repeat(0.15,len(Energy)),Au_I_J_1_5_2_5_int,label='J:1.5-2.5')
+plt.plot(Energy+np.repeat(0.15,len(Energy)),Au_I_J_2_5_2_5_int,label='J:2.5-2.5')
 #plt.plot(Energy,Au_I_J_2_5_3_5_int,label='J:2.5-3.5')
 #plt.plot(Energy,total_cross_sections_AuII,label='total AuII')
 #plt.plot(Energy,Au_II_J_1_2_int,label='J:1-2')
@@ -189,9 +192,11 @@ total_cross_sections_AuII=Au_II_J_1_2_int+Au_II_J_2_2_int+Au_II_J_2_3_int+Au_II_
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuI)
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuII)
 #plt.plot(Energy,total_cross_sections_AuI,label='AuI total')
-plt.plot(Energy_500ns,170*Intensity_500ns-np.repeat(40,len(Intensity_500ns)),label='Exp 500ns')
+#plt.plot(Energy_300ns,210*Intensity_300ns-np.repeat(230,len(Intensity_300ns)))
+plt.plot(Energy_300ns,15*Intensity_300ns-np.repeat(14,len(Intensity_300ns)))
+#plt.plot(Energy_500ns,170*Intensity_500ns-np.repeat(40,len(Intensity_500ns)),label='Exp 500ns')
 #plt.plot(Energy,Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
-plt.plot(Energy,0.6*Au_I_J_1_5_2_5_int+0.6*0.85*Au_II_J_1_2_int+0.3*Au_II_J_4_5_int+Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
+#plt.plot(Energy,0.8*0.4*Au_I_J_1_5_2_5_int+0.8*0.4*0.85*Au_II_J_1_2_int+0.8*0.4*0.3*Au_II_J_4_5_int+0.6*Au_II_J_2_3_int+0.6*0.85*Au_II_J_3_4_int+0.6*0.3*Au_I_J_2_5_3_5_int)
 #plt.plot(Energy,0.775*total_cross_sections_AuI + 0.225*total_cross_sections_AuII,label='22.5% AuII, 77.5% AuI')
 plt.xlim(78,90)
 plt.legend()
