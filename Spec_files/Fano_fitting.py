@@ -143,7 +143,7 @@ def fitfunc(x,a,b,c,d):
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
 Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_350ns.txt',dtype=float).T
 Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=78,Eric_data_350ns[0]<=90)]
-#Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=90)]
 #Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
 #Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=84,Eric_data_500ns[0]<=85.5)]
 Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=90)]
@@ -256,4 +256,12 @@ plt.scatter(Energy,Intensity_350ns,label='350ns')
 plt.legend()
 plt.xlabel('Energy [eV]')
 plt.ylabel('Intensity')
-
+#%%
+def CombinedFano(E,A_1,A_2):
+    return 0.227*A_2*Fano(E,80.174,3.374,0.401)+0.773*A_1*Fano(E,80.5645,2.5,0.28415)
+#%%
+plt.plot(Energy,CombinedFano(Energy,0.13,0.8),label='combined')
+plt.plot(Energy,15*Intensity_500ns-np.repeat(3.5,len(Energy)),label='exp 500ns')
+#plt.plot(Energy,0.01*Fano(Energy,80.174,3.374,0.401),label='Plus')
+#plt.plot(Energy,0.034*Fano(Energy,80.5645,2.5,0.28415),label='neutral')
+plt.legend()
