@@ -56,6 +56,10 @@ def TotalCrossSection2(list_of_arrays,list_of_weights):
                 Intensity_vals[i] += sigma[mask, 1][0] * w
 
     return Intensity_vals, energy_vals
+def epsilon(x,Er,gamma):
+    return (x-Er)*2/gamma
+def Fano(x,Er,q,gamma):
+     return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 #%%
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
@@ -178,22 +182,30 @@ Au_II_J_4_5_int=Au_II_J_4_5[:143]
 total_cross_sections_AuI=Au_I_J_1_5_2_5_int+Au_I_J_2_5_2_5_int+Au_I_J_2_5_3_5_int
 total_cross_sections_AuII=Au_II_J_1_2_int+Au_II_J_2_2_int+Au_II_J_2_3_int+Au_II_J_3_3_int+Au_II_J_3_4_int+Au_II_J_4_4_int+Au_II_J_4_5_int
 #%%
+Fano_3_4=Fano(Energy, (79.4882-1.7873+0.7), 2.66, 0.28568)
+Fano_2_3=Fano(Energy,(79.1685-2.15125+0.7),2.62, 0.28694)
+Fano_2_3_2=Fano(Energy, (82.8240-2.15125+0.7),3.03,0.27548)
+#%%
 #plt.plot(Energy-np.repeat(0.15,len(Energy)),Au_I_J_1_5_2_5_int,label='J:1.5-2.5')
-plt.plot(Energy+np.repeat(0.15,len(Energy)),Au_I_J_2_5_2_5_int,label='J:2.5-2.5')
+#plt.plot(Energy+np.repeat(0.15,len(Energy)),Au_I_J_2_5_2_5_int,label='J:2.5-2.5')
 #plt.plot(Energy,Au_I_J_2_5_3_5_int,label='J:2.5-3.5')
 #plt.plot(Energy,total_cross_sections_AuII,label='total AuII')
 #plt.plot(Energy,Au_II_J_1_2_int,label='J:1-2')
 #plt.plot(Energy,Au_II_J_2_2_int,label='J:2-2')
+plt.plot(Energy,Fano_3_4)
+plt.plot(Energy,Fano_2_3)
+plt.plot(Energy,Fano_2_3_2)
 #plt.plot(Energy,Au_II_J_2_3_int,label='J:2-3')
 #plt.plot(Energy,Au_II_J_3_3_int,label='J:3-3')
 #plt.plot(Energy,Au_II_J_3_4_int,label='J:3-4')
+#plt.plot(Energy, Au_II_J_2_3_int+Au_II_J_3_4_int,label='J:3-4+2-3')
 #plt.plot(Energy,Au_II_J_4_4_int,label='J:4-4')
 #plt.plot(Energy,Au_II_J_4_5_int,label='J:4-5')
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuI)
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuII)
 #plt.plot(Energy,total_cross_sections_AuI,label='AuI total')
 #plt.plot(Energy_300ns,210*Intensity_300ns-np.repeat(230,len(Intensity_300ns)))
-plt.plot(Energy_300ns,15*Intensity_300ns-np.repeat(14,len(Intensity_300ns)))
+#plt.plot(Energy_300ns,15*Intensity_300ns-np.repeat(14,len(Intensity_300ns)))
 #plt.plot(Energy_500ns,170*Intensity_500ns-np.repeat(40,len(Intensity_500ns)),label='Exp 500ns')
 #plt.plot(Energy,Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
 #plt.plot(Energy,0.8*0.4*Au_I_J_1_5_2_5_int+0.8*0.4*0.85*Au_II_J_1_2_int+0.8*0.4*0.3*Au_II_J_4_5_int+0.6*Au_II_J_2_3_int+0.6*0.85*Au_II_J_3_4_int+0.6*0.3*Au_I_J_2_5_3_5_int)
