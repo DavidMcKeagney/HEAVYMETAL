@@ -143,10 +143,10 @@ Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype
 #Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
 #Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_350ns.txt',dtype=float).T
 #Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=78,Eric_data_350ns[0]<=90)]
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=81,Eric_data_500ns[0]<=100)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=79,Eric_data_500ns[0]<=81)]
 #Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=82.2,Eric_data_500ns[0]<=83)]
 #Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=84,Eric_data_500ns[0]<=85.5)]
-Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=81,Eric_data_500ns[0]<=100)]
+Energy=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=79,Eric_data_500ns[0]<=81)]
 #%%
 # Computes moving average
 def MovingAverage(window_size,array):
@@ -266,22 +266,22 @@ plt.plot(Energy,15*Intensity_500ns-np.repeat(3.5,len(Energy)),label='exp 500ns')
 #plt.plot(Energy,0.034*Fano(Energy,80.5645,2.5,0.28415),label='neutral')
 plt.legend()
 #%%
-def Quartic(x,a,b,c,d,e):
-    return a+ b*(x-82.49)+c*((x-82.49)**2)+d*((x-82.49)**3)+e*((x-82.49)**2)
+def Quartic(x,a,b,c,d,e,f,g,h):
+    return a+ b*(x-80.124)+c*((x-80.124)**2)+d*((x-80.124)**3)+e*((x-80.124)**4)+f*((x-80.124)**5)+g*((x-80.124)**6)+h*((x-80.124)**7)
 #%%
-Guess_quartic=[0.1,0.1,0.1,0.1,0.1]
+Guess_quartic=[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]
 popt,pcov=curve_fit(Quartic, Energy, Intensity_500ns, p0=Guess_quartic)
 fit_quartic=Quartic(Energy,*popt)
 #%%
 plt.plot(Energy,fit_quartic,label='model')
 plt.plot(Energy,Intensity_500ns,label='exp')
 #%%
-Gamma=np.sqrt(-popt[4]/(48*popt[2]))
-alpha=-(popt[3]*(Gamma**3)/96)
-A=(popt[2]*(Gamma**2)/16) + 0.5*np.sqrt((popt[2]*(Gamma**2)/16)**2 + 4*(alpha**2))
-q=alpha/A
+Gamma=np.sqrt(-(48*popt[2])/popt[4])
+alpha=((12*popt[2])/(Gamma*popt[3]))
+q=0.5*(alpha+np.sqrt(alpha**2 + 4))
+A=((Gamma**2)*popt[2]/(8*(1-(q**2))))
 m=popt[1]- 4*(A*q/Gamma)
-c=popt[0]-m*82.49- 4*(A*q/Gamma)
+c=popt[0]-m*80.124- 4*(A*q/Gamma)
 #%%
-plt.plot(Energy,Fano(Energy,82.49,q,Gamma)*A + m*Energy + c)
+plt.plot(Energy,Fano(Energy,82.49,q,Gamma)*A)
 plt.plot(Energy,Intensity_500ns,label='exp')
