@@ -61,14 +61,49 @@ def epsilon(x,Er,gamma):
 def Fano(x,Er,q,gamma):
      return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 #%%
-Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
-#Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
-#Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+#Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+#Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
+Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
 Energy_300ns=Eric_data_300ns[0][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
 Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
+#%%
+Au_I_J_2_5_3_5_f=[]
+Au_I_J_2_5_2_5_f=[]
+Au_I_J_1_5_2_5_f=[]
+with open('C:\\Users\Padmin\Downloads\Au.I.J=2.5-3.5.sigmaf') as file:
+    for lines in file:
+        Au_I_J_2_5_3_5_f.append(lines.split())
+with open('C:\\Users\Padmin\Downloads\Au.I.J=2.5-2.5.sigmaf') as file:
+    for lines in file:
+        Au_I_J_2_5_2_5_f.append(lines.split())
+with open('C:\\Users\Padmin\Downloads\Au.I.J=1.5-2.5.sigmaf') as file:
+    for lines in file:
+        Au_I_J_1_5_2_5_f.append(lines.split())
+
+
+Au_I_J_1_5_2_5_f=np.array(Au_I_J_1_5_2_5_f[4:]).astype(float)
+Au_I_J_2_5_2_5_f=np.array(Au_I_J_2_5_2_5_f[4:]).astype(float)
+Au_I_J_2_5_3_5_f=np.array(Au_I_J_2_5_3_5_f[4:]).astype(float)
+
+Au_I_J_1_5_2_5_f[:,0]+=np.repeat(1.4,len(Au_I_J_1_5_2_5_f[:,0]))
+Au_I_J_2_5_2_5_f[:,0]+=np.repeat(1.4,len(Au_I_J_2_5_2_5_f[:,0]))
+Au_I_J_2_5_3_5_f[:,0]+=np.repeat(1.4,len(Au_I_J_2_5_3_5_f[:,0]))
+
+Au_I_J_1_5_2_5_int_f=Au_I_J_1_5_2_5_f[:,1]
+Au_I_J_2_5_2_5_int_f=Au_I_J_2_5_2_5_f[:,1]
+Au_I_J_2_5_3_5_int_f=Au_I_J_2_5_3_5_f[:,1]
+
+Au_I_J_1_5_2_5_int_f=Au_I_J_1_5_2_5_int_f[:136]
+Au_I_J_2_5_2_5_int_f=Au_I_J_2_5_2_5_int_f[:136]
+Au_I_J_2_5_3_5_int_f=Au_I_J_2_5_3_5_int_f[:136]
+
+stand_in=np.zeros(7)
+Au_I_J_1_5_2_5_int_f=np.concatenate((stand_in,Au_I_J_1_5_2_5_int_f))
+Au_I_J_2_5_2_5_int_f=np.concatenate((stand_in,Au_I_J_2_5_2_5_int_f))
+Au_I_J_2_5_3_5_int_f=np.concatenate((stand_in,Au_I_J_2_5_3_5_int_f))
 
 #%%
 Au_I_J_2_5_3_5=[]
@@ -239,7 +274,13 @@ total_cross_sections_AuI_sr=Fano_plot1+Fano_plot2+Fano_plot3
 #plt.plot(Energy,Au_I_J_2_5_2_5_new_int,label='J:2.5-2.5 new')
 #plt.plot(Energy,Au_I_J_2_5_3_5_new_int,label='J:2.5-3.5 new')
 #plt.plot(Energy,total_cross_sections_AuII,label='total AuII')
-plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.1,len(Energy)),label='J:1-2')
+plt.plot(Energy,Au_I_J_1_5_2_5_int_f,label='J: 1.5-2.5 sigmaf')
+plt.plot(Energy,Au_I_J_2_5_2_5_int_f,label='J: 2.5-2.5 sigmaf')
+plt.plot(Energy,Au_I_J_2_5_3_5_int_f,label='J: 2.5-3.5 sigma')
+plt.plot(Energy,Fano_plot1,label='J: 2.5-2.5 Fano')
+plt.plot(Energy,Fano_plot2,label='J: 2.5-3.5 Fano')
+plt.plot(Energy,Fano_plot3,label='J: 1.5-2.5 Fano')
+#plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.1,len(Energy)),label='J:1-2')
 #plt.plot(Energy,Au_II_J_2_2_int,label='J:2-2')
 #plt.plot(Energy,Fano_3_4)
 #plt.plot(Energy,Fano_2_3)
@@ -252,12 +293,12 @@ plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.1,len(Energy)),label='J:1-2')
 #plt.plot(Energy,1/170*Au_II_J_3_4_int+np.repeat(0.23,len(Energy)),label='J:3-4')
 #plt.plot(Energy, 1/170*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.23,len(Energy)),label='J:3-4+2-3')
 #plt.plot(Energy,Au_II_J_4_4_int,label='J:4-4')
-plt.plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.1,len(Energy)),label='J:4-5')
+#plt.plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.1,len(Energy)),label='J:4-5')
 #plt.plot(Energy,Au_II_J_4_5_int+Au_II_J_1_2_int,label='J: 1-2 + 4-5')
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuI)
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuII)
 #plt.plot(Energy,total_cross_sections_AuI,label='AuI total')
-plt.plot(Energy_300ns,Intensity_300ns,label='300ns')
+#plt.plot(Energy_300ns,Intensity_300ns,label='300ns')
 #plt.plot(Energy_300ns,15*Intensity_300ns-np.repeat(14,len(Intensity_300ns)))
 #plt.plot(Energy_500ns,Intensity_500ns,label='Exp 500ns')
 #plt.plot(Energy,Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
@@ -265,7 +306,7 @@ plt.plot(Energy_300ns,Intensity_300ns,label='300ns')
 #plt.plot(Energy,0.875*total_cross_sections_AuI_sr + 0.125*total_cross_sections_AuII,label='12.5% AuII, 87.5% AuI')
 plt.xlim(78,90)
 plt.legend()
-plt.title('Au II Fano Features 300ns ')
+#plt.title('Au II Fano Features 300ns ')
 plt.xlabel('Energy [eV]')
 plt.ylabel('Cross section [mb]')
 #plt.ylim(0.2,0.4)
