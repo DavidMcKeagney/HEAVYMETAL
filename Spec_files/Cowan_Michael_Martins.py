@@ -61,14 +61,15 @@ def epsilon(x,Er,gamma):
 def Fano(x,Er,q,gamma):
      return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 #%%
-#Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-#Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
-Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
-Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
+#Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
+#Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
 Energy_300ns=Eric_data_300ns[0][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
 Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
+
 #%%
 Au_I_J_2_5_3_5=[]
 Au_I_J_2_5_2_5=[]
