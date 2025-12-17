@@ -8,6 +8,9 @@ Created on Tue Jul 29 10:28:22 2025
 import numpy as np 
 import function_library_phd as flp
 import matplotlib.pyplot as plt
+
+plt.rcParams.update({'font.size': 22})
+plt.rcParams["figure.figsize"] = (15,10)
 #%%
 spec_file_1_5=[]
 with open('C:/Users/David McKeagney/Desktop/au.sub.1.5.spec') as file:
@@ -64,16 +67,16 @@ with open('C:/Users/David McKeagney/Desktop/au.sub.2.9.spec') as file:
             spec_file_2_9.append(lines.split())
 spec_file_2_9=np.array(spec_file_2_9)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
-Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=62,Eric_data_500ns[0]<=100)]
+Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=62,Eric_data_500ns[0]<=100)]
 Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
-Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=78,Eric_data_450ns[0]<=100)]
+Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=62,Eric_data_450ns[0]<=100)]
 Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
-Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=78,Eric_data_400ns[0]<=100)]
+Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=62,Eric_data_400ns[0]<=100)]
 Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_350ns.txt',dtype=float).T
-Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=78,Eric_data_350ns[0]<=100)]
+Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=62,Eric_data_350ns[0]<=100)]
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_300ns.txt',dtype=float).T
-Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=62,Eric_data_300ns[0]<=100)]
 #%%
 spec_file_1_2_0=[]
 with open('C:/Users/David McKeagney/Desktop/au1.sub.2.0.spec') as file:
@@ -554,7 +557,7 @@ plt.plot(Energy_500ns,Norm_intensitiy_500ns,label='500ns')
 plt.xlabel('Energy [eV]')
 plt.ylabel('Intensity')
 plt.legend()
-#plt.xlim(79,85)
+plt.xlim(78,86)
 plt.grid(True)
 #%% 4f-5d AuII
 au_spec_4_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='2',au_spec_II[:,8]=='4')]
@@ -733,10 +736,12 @@ moving_avg_450ns=MovingAverage(5, Intensity_450ns)
 moving_avg_400ns=MovingAverage(5, Intensity_400ns)
 moving_avg_energy=MovingAverage(5, Energy_500ns)
 #%%
-plt.plot(moving_avg_energy,moving_avg_500ns,label='500ns')
-plt.plot(moving_avg_energy,moving_avg_450ns,label='450ns')
-plt.plot(moving_avg_energy,moving_avg_400ns,label='400ns')
+plt.plot(Energy_500ns,Intensity_500ns,label='500ns')
+plt.plot(Energy_500ns,Intensity_400ns,label='400ns')
+plt.plot(Energy_500ns,Intensity_300ns,label='300ns')
+#plt.plot(moving_avg_energy,moving_avg_400ns,label='400ns')
 plt.xlabel('Energy [eV]')
 plt.ylabel('Intensity')
-plt.title('5 pt smoothing experimental data')
+#plt.title('5 pt smoothing experimental data')
 plt.legend()
+plt.xlim(62,100)
