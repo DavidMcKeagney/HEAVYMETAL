@@ -64,8 +64,8 @@ def epsilon(x,Er,gamma):
 def Fano(x,Er,q,gamma):
      return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 #%%
-Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
 #Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
 #Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
@@ -112,13 +112,13 @@ Au_I_J_2_5_3_5_int_f=np.concatenate((stand_in,Au_I_J_2_5_3_5_int_f))
 Au_I_J_2_5_3_5=[]
 Au_I_J_2_5_2_5=[]
 Au_I_J_1_5_2_5=[]
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-3.5.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-3.5.sigma') as file:
     for lines in file:
         Au_I_J_2_5_3_5.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-2.5.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-2.5.sigma') as file:
     for lines in file:
         Au_I_J_2_5_2_5.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=1.5-2.5.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=1.5-2.5.sigma') as file:
     for lines in file:
         Au_I_J_1_5_2_5.append(lines.split())
 #%%
@@ -143,25 +143,25 @@ Au_II_J_3_3=[]
 Au_II_J_3_4=[]
 Au_II_J_4_4=[]
 Au_II_J_4_5=[]
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=1.0-2.0.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=1.0-2.0.sigma') as file:
     for lines in file:
         Au_II_J_1_2.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-2.0.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-2.0.sigma') as file:
     for lines in file:
         Au_II_J_2_2.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-3.0.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-3.0.sigma') as file:
     for lines in file:
         Au_II_J_2_3.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-3.0.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-3.0.sigma') as file:
     for lines in file:
         Au_II_J_3_3.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-4.0.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-4.0.sigma') as file:
     for lines in file:
         Au_II_J_3_4.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-4.0.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-4.0.sigma') as file:
     for lines in file:
         Au_II_J_4_4.append(lines.split())
-with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-5.0.sigma') as file:
+with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-5.0.sigma') as file:
     for lines in file:
         Au_II_J_4_5.append(lines.split())
 
@@ -283,31 +283,31 @@ total_cross_sections_AuI_sr=Fano_plot1+Fano_plot2+Fano_plot3
 #plt.plot(Energy,Fano_plot1,label='J: 2.5-2.5 Fano')
 #plt.plot(Energy,Fano_plot2,label='J: 2.5-3.5 Fano')
 #plt.plot(Energy,Fano_plot3,label='J: 1.5-2.5 Fano')
-#plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.1,len(Energy)),label='J:1-2')
+plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.1,len(Energy)),label='J:1-2')
 #plt.plot(Energy,Au_II_J_2_2_int,label='J:2-2')
 #plt.plot(Energy,Fano_3_4)
 #plt.plot(Energy,Fano_2_3)
 #plt.plot(Energy,Fano_2_3_2)
-plt.plot(Energy,0.009*Fano_plot1+np.repeat(0.24,len(Energy)),label='J:2.5-2.5')
-plt.plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
-plt.plot(Energy,0.01*Fano_plot3+np.repeat(0.25,len(Energy)),label='J:1.5-2.5')
+#plt.plot(Energy,0.009*Fano_plot1+np.repeat(0.24,len(Energy)),label='J:2.5-2.5')
+#plt.plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
+#plt.plot(Energy,0.01*Fano_plot3+np.repeat(0.25,len(Energy)),label='J:1.5-2.5')
 #plt.plot(Energy,1/170*Au_II_J_2_3_int+np.repeat(0.23,len(Energy)),label='J:2-3')
 #plt.plot(Energy,Au_II_J_3_3_int,label='J:3-3')
 #plt.plot(Energy,1/170*Au_II_J_3_4_int+np.repeat(0.23,len(Energy)),label='J:3-4')
 #plt.plot(Energy, 1/170*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.23,len(Energy)),label='J:3-4+2-3')
 #plt.plot(Energy,Au_II_J_4_4_int,label='J:4-4')
-#plt.plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.1,len(Energy)),label='J:4-5')
+plt.plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.1,len(Energy)),label='J:4-5')
 #plt.plot(Energy,Au_II_J_4_5_int+Au_II_J_1_2_int,label='J: 1-2 + 4-5')
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuI)
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuII)
 #plt.plot(Energy,total_cross_sections_AuI,label='AuI total')
-#plt.plot(Energy_300ns,Intensity_300ns,label='300ns')
+plt.plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
 #plt.plot(Energy_300ns,15*Intensity_300ns-np.repeat(14,len(Intensity_300ns)))
-plt.plot(Energy_500ns,Intensity_500ns,label='Exp 500ns')
+#plt.plot(Energy_500ns,Intensity_500ns,label='Exp 500ns',color='black')
 #plt.plot(Energy,Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
 #plt.plot(Energy,0.8*0.4*Au_I_J_1_5_2_5_int+0.8*0.4*0.85*Au_II_J_1_2_int+0.8*0.4*0.3*Au_II_J_4_5_int+0.6*Au_II_J_2_3_int+0.6*0.85*Au_II_J_3_4_int+0.6*0.3*Au_I_J_2_5_3_5_int)
 #plt.plot(Energy,0.875*total_cross_sections_AuI_sr + 0.125*total_cross_sections_AuII,label='12.5% AuII, 87.5% AuI')
-plt.xlim(78,90)
+plt.xlim(78,86)
 plt.legend()
 #plt.title('Au II Fano Features 300ns ')
 plt.xlabel('Energy [eV]')

@@ -8,6 +8,9 @@ Created on Wed Sep 24 11:55:06 2025
 import numpy as np
 import matplotlib.pyplot as plt 
 import function_library_phd as flp
+
+plt.rcParams.update({'font.size': 22})
+plt.rcParams["figure.figsize"] = (15,10)
 #%% AU I RTDLDA
 AuI=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI.dat',dtype=float)
 AuI_5d96s2_1_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI_5d96s2_1_5.dat',dtype=float)
@@ -198,19 +201,19 @@ AuII_energies_moving_avg= MovingAverage(5, AuII_energies)
 #plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),AuI_moving_avg,label='AuI moving average')
 #plt.plot(Energy,265*Intensity_500ns_exp,label='500ns')
 #plt.plot(Energy,250*Intensity_450ns_exp,label='450ns')
-plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),0.95*np.array(AuI_moving_avg) + 0.05*np.array(AuII_moving_avg),label='95% AuI, 5% AuII')
-plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),0.9*np.array(AuI_moving_avg) + 0.1*np.array(AuII_moving_avg),label='90% AuI, 10% AuII')
-plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),0.8*np.array(AuI_moving_avg) + 0.2*np.array(AuII_moving_avg),label='80% AuI, 20% AuII')
-plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),0.75*np.array(AuI_moving_avg) + 0.25*np.array(AuII_moving_avg),label='75% AuI, 25% AuII')
-plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),0.65*np.array(AuI_moving_avg) + 0.35*np.array(AuII_moving_avg),label='65% AuI, 35% AuII')
+plt.plot(AuI_energies_moving_avg,0.95*np.array(AuI_moving_avg) + 0.05*np.array(AuII_moving_avg),label='95% AuI, 5% AuII')
+plt.plot(AuI_energies_moving_avg,0.9*np.array(AuI_moving_avg) + 0.1*np.array(AuII_moving_avg),label='90% AuI, 10% AuII')
+plt.plot(AuI_energies_moving_avg,0.8*np.array(AuI_moving_avg) + 0.2*np.array(AuII_moving_avg),label='80% AuI, 20% AuII')
+plt.plot(AuI_energies_moving_avg,0.75*np.array(AuI_moving_avg) + 0.25*np.array(AuII_moving_avg),label='75% AuI, 25% AuII')
+plt.plot(AuI_energies_moving_avg,0.65*np.array(AuI_moving_avg) + 0.35*np.array(AuII_moving_avg),label='65% AuI, 35% AuII')
 #plt.vlines(94.9,0,120,colors='red',linestyles='--')
 #plt.vlines(98.5,0,120,colors='red',linestyles='--')
 #plt.vlines(97,0,120,colors='red',linestyles='--')
 #plt.vlines(99.7,0,120,colors='blue',linestyles='--')
 #plt.vlines(96.4,0,120,colors='red',linestyles='--')
-plt.legend()
-plt.grid()
-plt.xlim(79,110)
+plt.legend(fontsize=18)
+#plt.grid()
+plt.xlim(78,100)
 plt.xlabel('Energy [eV]')
 plt.ylabel('Averaged Cross Section [mb]')
 #%%
