@@ -67,16 +67,16 @@ with open('C:/Users/David McKeagney/Desktop/au.sub.2.9.spec') as file:
             spec_file_2_9.append(lines.split())
 spec_file_2_9=np.array(spec_file_2_9)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=62,Eric_data_500ns[0]<=100)]
-Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=62,Eric_data_500ns[0]<=100)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=86)]
+Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=86)]
 Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
-Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=62,Eric_data_450ns[0]<=100)]
+Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=78,Eric_data_450ns[0]<=86)]
 Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
-Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=62,Eric_data_400ns[0]<=100)]
+Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=78,Eric_data_400ns[0]<=86)]
 Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_350ns.txt',dtype=float).T
-Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=62,Eric_data_350ns[0]<=100)]
+Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=78,Eric_data_350ns[0]<=86)]
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_300ns.txt',dtype=float).T
-Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=62,Eric_data_300ns[0]<=100)]
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=86)]
 #%%
 spec_file_1_2_0=[]
 with open('C:/Users/David McKeagney/Desktop/au1.sub.2.0.spec') as file:
@@ -555,8 +555,9 @@ plt.plot(Energy_500ns,Norm_intensitiy_400ns,label='400ns')
 plt.plot(Energy_500ns,Norm_intensitiy_450ns,label='450ns')
 plt.plot(Energy_500ns,Norm_intensitiy_500ns,label='500ns')
 plt.xlabel('Energy [eV]')
-plt.ylabel('Intensity')
+plt.ylabel('Absorbance (scaled)')
 plt.legend()
+plt.ylim(0.0051,0.0099)
 plt.xlim(78,86)
 plt.grid(True)
 #%% 4f-5d AuII
