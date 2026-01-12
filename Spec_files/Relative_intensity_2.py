@@ -67,16 +67,16 @@ with open('C:/Users/David McKeagney/Desktop/au.sub.2.9.spec') as file:
             spec_file_2_9.append(lines.split())
 spec_file_2_9=np.array(spec_file_2_9)[1:,:]
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
-Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=86)]
-Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=86)]
+Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=50,Eric_data_500ns[0]<=110)]
+Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=50,Eric_data_500ns[0]<=110)]
 Eric_data_450ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_450ns.txt',dtype=float).T
-Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=78,Eric_data_450ns[0]<=86)]
+Intensity_450ns=Eric_data_450ns[1][np.logical_and(Eric_data_450ns[0]>=50,Eric_data_450ns[0]<=110)]
 Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
-Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=78,Eric_data_400ns[0]<=86)]
+Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=50,Eric_data_400ns[0]<=110)]
 Eric_data_350ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_350ns.txt',dtype=float).T
-Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=78,Eric_data_350ns[0]<=86)]
+Intensity_350ns=Eric_data_350ns[1][np.logical_and(Eric_data_350ns[0]>=50,Eric_data_350ns[0]<=110)]
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Desktop/Eric_data_300ns.txt',dtype=float).T
-Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=86)]
+Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=50,Eric_data_300ns[0]<=110)]
 #%%
 spec_file_1_2_0=[]
 with open('C:/Users/David McKeagney/Desktop/au1.sub.2.0.spec') as file:
@@ -742,7 +742,8 @@ plt.plot(Energy_500ns,Intensity_400ns,label='400ns')
 plt.plot(Energy_500ns,Intensity_300ns,label='300ns')
 #plt.plot(moving_avg_energy,moving_avg_400ns,label='400ns')
 plt.xlabel('Energy [eV]')
-plt.ylabel('Intensity')
+plt.ylabel('Absorbance')
 #plt.title('5 pt smoothing experimental data')
 plt.legend()
-plt.xlim(62,100)
+plt.xlim(62,99.5)
+plt.ylim(0.05,1.7)
