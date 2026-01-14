@@ -46,6 +46,7 @@ AuII_4f135d106s_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYM
 #%% Au I RTDLDA 4f channels
 AuI_4f135d106s2_2_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI_4f135d106s2_2_5.dat',dtype=float)
 AuI_4f135d106s2_3_5=np.loadtxt('C:/Users/Padmin/OneDrive/Documents/GitHub/HEAVYMETAL/RTDLDA_Files/AuI_4f135d106s2_3_5.dat',dtype=float)
+
 #%% Summing up all the intensities of Au I
 AuI_energies=AuI[:,0]
 AuI_intensities=AuI[:,1]+AuI_5d96s2_1_5[:,1]+AuI_5d96s2_2_5[:,1]+AuI_4f135d106s2_2_5[30:,1]+AuI_4f135d106s2_3_5[30:,1]
@@ -196,6 +197,10 @@ AuII_moving_avg= MovingAverage(5, AuII_intensity_new_energies)
 AuI_moving_avg= MovingAverage(5, AuI_intensities_new_energies)
 AuI_energies_moving_avg= MovingAverage(5, AuI_energies_new_energies)
 AuII_energies_moving_avg= MovingAverage(5, AuII_energies)
+#%% Channel averaging 
+AuII_chan_avg=np.array(AuII_moving_avg)*(1/14)
+Au_I_chan_avg=np.array(AuI_moving_avg)*(1/5)
+
 #%%
 #plt.plot(AuII_energies_moving_avg,AuII_moving_avg,label='AuII moving average')
 #plt.plot(AuI_energies_moving_avg+ np.repeat(0.8,len(AuI_energies_moving_avg)),AuI_moving_avg,label='AuI moving average')
@@ -213,9 +218,19 @@ plt.plot(AuI_energies_moving_avg,0.65*np.array(AuI_moving_avg) + 0.35*np.array(A
 #plt.vlines(96.4,0,120,colors='red',linestyles='--')
 plt.legend(fontsize=18)
 #plt.grid()
-plt.xlim(78,100)
+plt.xlim(78,99.5)
+plt.ylim(35,130)
 plt.xlabel('Energy [eV]')
 plt.ylabel('Averaged Cross Section [mb]')
+#%%
+plt.plot(AuI_energies_moving_avg,0.95*Au_I_chan_avg + 0.05*AuII_chan_avg,label='95% AuI, 5% AuII')
+plt.plot(AuI_energies_moving_avg,0.9*Au_I_chan_avg + 0.1*AuII_chan_avg,label='90% AuI, 10% AuII')
+plt.plot(AuI_energies_moving_avg,0.8*Au_I_chan_avg + 0.2*AuII_chan_avg,label='80% AuI, 20% AuII')
+plt.plot(AuI_energies_moving_avg,0.75*Au_I_chan_avg + 0.25*AuII_chan_avg,label='75% AuI, 25% AuII')
+plt.plot(AuI_energies_moving_avg,0.65*Au_I_chan_avg + 0.35*AuII_chan_avg,label='65% AuI, 35% AuII')
+plt.xlabel('Energy [eV]')
+plt.ylabel('Smoothed cross sections')
+plt.legend()
 #%%
 def epsilon(x,Er,gamma):
     return (x-Er)*2/gamma
