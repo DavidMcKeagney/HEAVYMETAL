@@ -8,8 +8,8 @@ Created on Thu Nov 13 11:23:20 2025
 import numpy as np
 import matplotlib.pyplot as plt
 
-#plt.rcParams.update({'font.size': 22})
-#plt.rcParams["figure.figsize"] = (15,10)
+plt.rcParams.update({'font.size': 22})
+plt.rcParams["figure.figsize"] = (15,10)
 #%%
 # Computes moving average
 def MovingAverage(window_size,array):
@@ -64,8 +64,8 @@ def epsilon(x,Er,gamma):
 def Fano(x,Er,q,gamma):
      return (q+epsilon(x,Er,gamma))**2/(1+epsilon(x,Er,gamma)**2)
 #%%
-Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
-Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
+Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
+Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
 #Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
 #Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
@@ -76,13 +76,13 @@ Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_
 Au_I_J_2_5_3_5_f=[]
 Au_I_J_2_5_2_5_f=[]
 Au_I_J_1_5_2_5_f=[]
-with open('C:\\Users\Padmin\Downloads\Au.I.J=2.5-3.5.sigmaf') as file:
+with open('C:\\Users\David McKeagney\Downloads\Au.I.J=2.5-3.5.sigmaf') as file:
     for lines in file:
         Au_I_J_2_5_3_5_f.append(lines.split())
-with open('C:\\Users\Padmin\Downloads\Au.I.J=2.5-2.5.sigmaf') as file:
+with open('C:\\Users\David McKeagney\Downloads\Au.I.J=2.5-2.5.sigmaf') as file:
     for lines in file:
         Au_I_J_2_5_2_5_f.append(lines.split())
-with open('C:\\Users\Padmin\Downloads\Au.I.J=1.5-2.5.sigmaf') as file:
+with open('C:\\Users\David McKeagney\Downloads\Au.I.J=1.5-2.5.sigmaf') as file:
     for lines in file:
         Au_I_J_1_5_2_5_f.append(lines.split())
 
@@ -112,26 +112,26 @@ Au_I_J_2_5_3_5_int_f=np.concatenate((stand_in,Au_I_J_2_5_3_5_int_f))
 Au_I_J_2_5_3_5=[]
 Au_I_J_2_5_2_5=[]
 Au_I_J_1_5_2_5=[]
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-3.5.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-3.5.sigma') as file:
     for lines in file:
         Au_I_J_2_5_3_5.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-2.5.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=2.5-2.5.sigma') as file:
     for lines in file:
         Au_I_J_2_5_2_5.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=1.5-2.5.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.I.J=1.5-2.5.sigma') as file:
     for lines in file:
         Au_I_J_1_5_2_5.append(lines.split())
 #%%
 Au_I_J_1_5_2_5_new=[]
 Au_I_J_2_5_2_5_new=[]
 Au_I_J_2_5_3_5_new=[]
-with open('C:\\Users\Padmin\Downloads\Au.I.J=1.5-2.5_new.sigma') as file:
+with open('C:\\Users\David McKeagney\Downloads\Au.I.J=1.5-2.5_new.sigma') as file:
     for lines in file:
         Au_I_J_1_5_2_5_new.append(lines.split())
-with open('C:\\Users\Padmin\Downloads\Au.I.J=2.5-2.5_new.sigma') as file:
+with open('C:\\Users\David McKeagney\Downloads\Au.I.J=2.5-2.5_new.sigma') as file:
     for lines in file:
         Au_I_J_2_5_2_5_new.append(lines.split())
-with open('C:\\Users\Padmin\Downloads\Au.I.J=2.5-3.5_new.sigma') as file:
+with open('C:\\Users\David McKeagney\Downloads\Au.I.J=2.5-3.5_new.sigma') as file:
     for lines in file:
         Au_I_J_2_5_3_5_new.append(lines.split())
 
@@ -143,25 +143,25 @@ Au_II_J_3_3=[]
 Au_II_J_3_4=[]
 Au_II_J_4_4=[]
 Au_II_J_4_5=[]
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=1.0-2.0.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=1.0-2.0.sigma') as file:
     for lines in file:
         Au_II_J_1_2.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-2.0.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-2.0.sigma') as file:
     for lines in file:
         Au_II_J_2_2.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-3.0.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-3.0.sigma') as file:
     for lines in file:
         Au_II_J_2_3.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-3.0.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-3.0.sigma') as file:
     for lines in file:
         Au_II_J_3_3.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-4.0.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-4.0.sigma') as file:
     for lines in file:
         Au_II_J_3_4.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-4.0.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-4.0.sigma') as file:
     for lines in file:
         Au_II_J_4_4.append(lines.split())
-with open('C:\\Users\Padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-5.0.sigma') as file:
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-5.0.sigma') as file:
     for lines in file:
         Au_II_J_4_5.append(lines.split())
 
@@ -357,19 +357,21 @@ ax2.set_ylim(0.23,0.39)
 fig.legend(loc='upper right')
 plt.show()
 #%%
-fig,axes=plt.subplots(2,2)
-axes[1,0].plot(Energy,0.009*Fano_plot1+np.repeat(0.24,len(Energy)),label='J:2.5-2.5')
-axes[1,0].plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
-axes[1,0].plot(Energy,0.01*Fano_plot3+np.repeat(0.25,len(Energy)),label='J:1.5-2.5')
-axes[1,0].plot(Energy_500ns,Intensity_500ns,label='500ns',color='black')
-axes[0,0].plot(Energy,1/38*Au_II_J_2_3_int+np.repeat(0.95,len(Energy)),label='J:2-3')
-axes[0,0].plot(Energy,1/38*Au_II_J_3_4_int+np.repeat(0.95,len(Energy)),label='J:3-4')
-axes[0,0].plot(Energy, 1/38*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.95,len(Energy)),label='J:Summed')
-axes[0,0].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
-axes[0,1].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
-axes[0,1].plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy)),label='J:1-2')
-axes[0,1].plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.05,len(Energy)),label='J:4-5')
-axes[0,1].plot(Energy,0.005*(Au_II_J_4_5_int+Au_II_J_1_2_int)+np.repeat(1.05,len(Energy)),label='J: 1-2 + 4-5')
+fig,axes=plt.subplots(3) #, figsize=(8, 10))
+#fig.subplots_adjust(hspace=0.4, wspace=0.7)
+axes[0].plot(Energy,0.009*Fano_plot1+np.repeat(0.24,len(Energy)),label='J:2.5-2.5')
+axes[0].plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
+axes[0].plot(Energy,0.01*Fano_plot3+np.repeat(0.25,len(Energy)),label='J:1.5-2.5')
+axes[0].plot(Energy_500ns,Intensity_500ns,label='500ns',color='black')
+axes[1].plot(Energy,1/38*Au_II_J_2_3_int+np.repeat(0.95,len(Energy)),label='J:2-3')
+axes[1].plot(Energy,1/38*Au_II_J_3_4_int+np.repeat(0.95,len(Energy)),label='J:3-4')
+axes[1].plot(Energy, 1/38*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.95,len(Energy)),label='J:Summed')
+axes[1].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
+axes[2].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
+axes[2].plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy)),label='J:1-2')
+axes[2].plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.05,len(Energy)),label='J:4-5')
+axes[2].plot(Energy,0.005*(Au_II_J_4_5_int+Au_II_J_1_2_int)+np.repeat(1.05,len(Energy)),label='J: 1-2 + 4-5')
+
 for ax in axes.flat:
     ax.set(xlabel='Energy [eV]', ylabel='Absorbance')
 
