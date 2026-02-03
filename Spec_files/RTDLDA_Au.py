@@ -195,11 +195,11 @@ def MovingAverage(window_size,array):
 #%%
 AuII_moving_avg= MovingAverage(5, AuII_intensity_new_energies)
 AuI_moving_avg= MovingAverage(5, AuI_intensities_new_energies)
-AuI_energies_moving_avg= MovingAverage(5, AuI_energies_new_energies)
+AuI_energies_moving_avg= MovingAverage(5, AuI_energies_new_energies)[:497]
 AuII_energies_moving_avg= MovingAverage(5, AuII_energies)
 #%% Channel averaging 
-AuII_chan_avg=np.array(AuII_moving_avg)*(1/14)
-Au_I_chan_avg=np.array(AuI_moving_avg)*(1/5)
+AuII_chan_avg=np.array(AuII_moving_avg)[20:]
+Au_I_chan_avg=np.array(AuI_moving_avg)[:497]
 
 #%%
 #plt.plot(AuII_energies_moving_avg,AuII_moving_avg,label='AuII moving average')
@@ -211,6 +211,7 @@ plt.plot(AuI_energies_moving_avg,0.9*np.array(AuI_moving_avg) + 0.1*np.array(AuI
 plt.plot(AuI_energies_moving_avg,0.8*np.array(AuI_moving_avg) + 0.2*np.array(AuII_moving_avg),label='80% AuI, 20% AuII')
 plt.plot(AuI_energies_moving_avg,0.75*np.array(AuI_moving_avg) + 0.25*np.array(AuII_moving_avg),label='75% AuI, 25% AuII')
 plt.plot(AuI_energies_moving_avg,0.65*np.array(AuI_moving_avg) + 0.35*np.array(AuII_moving_avg),label='65% AuI, 35% AuII')
+#plt.plot(AuI_energies_moving_avg,0.05*np.array(AuI_moving_avg) + 0.95*np.array(AuII_moving_avg),label='5% AuI, 95% AuII')
 #plt.vlines(94.9,0,120,colors='red',linestyles='--')
 #plt.vlines(98.5,0,120,colors='red',linestyles='--')
 #plt.vlines(97,0,120,colors='red',linestyles='--')
@@ -219,18 +220,18 @@ plt.plot(AuI_energies_moving_avg,0.65*np.array(AuI_moving_avg) + 0.35*np.array(A
 plt.legend(fontsize=18)
 #plt.grid()
 plt.xlim(78,99.5)
-plt.ylim(35,130)
+#plt.ylim(35,130)
 plt.xlabel('Energy [eV]')
 plt.ylabel('Averaged Cross Section [mb]')
 #%%
-plt.plot(AuI_energies_moving_avg,0.95*Au_I_chan_avg + 0.05*AuII_chan_avg,label='95% AuI, 5% AuII')
-plt.plot(AuI_energies_moving_avg,0.9*Au_I_chan_avg + 0.1*AuII_chan_avg,label='90% AuI, 10% AuII')
-plt.plot(AuI_energies_moving_avg,0.8*Au_I_chan_avg + 0.2*AuII_chan_avg,label='80% AuI, 20% AuII')
-plt.plot(AuI_energies_moving_avg,0.75*Au_I_chan_avg + 0.25*AuII_chan_avg,label='75% AuI, 25% AuII')
-plt.plot(AuI_energies_moving_avg,0.65*Au_I_chan_avg + 0.35*AuII_chan_avg,label='65% AuI, 35% AuII')
+plt.plot(AuI_energies_moving_avg,0.7*Au_I_chan_avg + 0.3*AuII_chan_avg,label='70% AuI, 30% AuII')
+plt.plot(AuI_energies_moving_avg,0.6*Au_I_chan_avg + 0.4*AuII_chan_avg,label='60% AuI, 40% AuII')
+plt.plot(AuI_energies_moving_avg,0.35*Au_I_chan_avg + 0.65*AuII_chan_avg,label='35% AuI, 65% AuII')
+plt.plot(AuI_energies_moving_avg,0.05*Au_I_chan_avg + 0.95*AuII_chan_avg,label='5% AuI, 95% AuII')
 plt.xlabel('Energy [eV]')
 plt.ylabel('Smoothed cross sections')
 plt.legend()
+plt.xlim(78,99.5)
 #%%
 def epsilon(x,Er,gamma):
     return (x-Er)*2/gamma
@@ -242,4 +243,69 @@ Fano2=Fano(np.array(AuI_energies_moving_avg),79.1645+1.4, 2.5, 0.28415)
 Fano3=Fano(np.array(AuI_energies_moving_avg),81.2532+1.4, 2.73, 0.26989)
 plt.plot(np.array(AuI_energies_moving_avg)+ np.repeat(0.7,len(AuI_energies_moving_avg)),0.9*(np.array(AuI_moving_avg)+Fano1+Fano2+Fano3) + 0.1*np.array(AuII_moving_avg),label='90% AuI, 10% AuII')
 plt.plot(Energy,270*Intensity_500ns_exp,label='500ns')
+plt.legend()
+#%%
+AuII_intensity_new_energies_4f=[]
+for E in AuI_5d96s2_1_5[:,0]:
+    a=0
+    if len(AuII_4f135d96s2_2_5_2_5[:,0][AuII_4f135d96s2_2_5_2_5[:,0]==E])>0:
+        a+=AuII_4f135d96s2_2_5_2_5[:,1][AuII_4f135d96s2_2_5_2_5[:,0]==E]
+    if len(AuII_4f135d96s2_2_5_1_5[:,0][AuII_4f135d96s2_2_5_1_5[:,0]==E])>0:
+        a+=AuII_4f135d96s2_2_5_1_5[:,1][AuII_4f135d96s2_2_5_1_5[:,0]==E]
+    if len(AuII_4f135d96s2_3_5_1_5[:,0][AuII_4f135d96s2_3_5_1_5[:,0]==E])>0:
+        a+=AuII_4f135d96s2_3_5_1_5[:,1][AuII_4f135d96s2_3_5_1_5[:,0]==E]
+    if len(AuII_4f135d96s2_3_5_2_5[:,0][AuII_4f135d96s2_3_5_2_5[:,0]==E])>0:
+        a+=AuII_4f135d96s2_3_5_2_5[:,1][AuII_4f135d96s2_3_5_2_5[:,0]==E]
+    if len(AuII_4f135d106s_2_5[:,0][AuII_4f135d106s_2_5[:,0]==E])>0:
+        a+=AuII_4f135d106s_2_5[:,1][AuII_4f135d106s_2_5[:,0]==E]
+    if len(AuII_4f135d106s_3_5[:,0][AuII_4f135d106s_3_5[:,0]==E])>0:
+        a+=AuII_4f135d106s_3_5[:,1][AuII_4f135d106s_3_5[:,0]==E]
+    AuII_intensity_new_energies_4f.append(a)
+
+AuII_intensity_new_energies_4f=np.array(AuII_intensity_new_energies_4f)[:,0]
+#%%
+AuII_intensity_new_energies_5d=[]
+for E in AuI_5d96s2_1_5[:,0]:
+    a=0
+    if len(AuII_5d96s_1_5_new_energies[:,0][AuII_5d96s_1_5_new_energies[:,0]==E])>0:
+        a+=AuII_5d96s_1_5_new_energies[:,1][AuII_5d96s_1_5_new_energies[:,0]==E]
+    if len(AuII_new_energies[:,0][AuII_new_energies[:,0]==E])>0:
+        a+=AuII_new_energies[:,1][AuII_new_energies[:,0]==E]
+    if len(AuII_5d86s2_2_5_new_energies[:,0][AuII_5d86s2_2_5_new_energies[:,0]==E])>0:
+        a+=AuII_5d86s2_2_5_new_energies[:,1][AuII_5d86s2_2_5_new_energies[:,0]==E]
+    if len(AuII_5d86s2_1_5_new_energies[:,0][AuII_5d86s2_1_5_new_energies[:,0]==E]>0):
+        a+=AuII_5d86s2_1_5_new_energies[:,1][AuII_5d86s2_1_5_new_energies[:,0]==E]
+    if len(AuII_5d86s2_2_5_1_5_new_energies[:,0][AuII_5d86s2_2_5_1_5_new_energies[:,0]==E])>0:
+        a+=AuII_5d86s2_2_5_1_5_new_energies[:,1][AuII_5d86s2_2_5_1_5_new_energies[:,0]==E]
+    if len(AuII_5d96s_2_5_new_energies[:,0][AuII_5d96s_2_5_new_energies[:,0]==E])>0:
+        a+=AuII_5d96s_2_5_new_energies[:,1][AuII_5d96s_2_5_new_energies[:,0]==E]
+    AuII_intensity_new_energies_5d.append(a)
+
+
+AuII_intensity_new_energies_5d=np.array(AuII_intensity_new_energies_5d)[:,0]
+#%%
+AuI_energies_new_energies=AuI_new_energies[:,0]
+AuI_intensities_new_energies_5d=AuI_new_energies[:,1]+AuI_5d96s2_1_5_new_energies[:,1]+AuI_5d96s2_2_5_new_energies[30:,1]
+#%%
+AuI_intensities_new_energies_4f=AuI_4f135d106s2_2_5[30:,1]+AuI_4f135d106s2_3_5[30:,1]
+#%%
+plt.plot(AuI_5d96s2_2_5[:,0],AuII_intensity_new_energies_4f)
+#%%
+plt.plot(AuI_5d96s2_2_5[:,0],AuII_intensity_new_energies_5d)
+plt.plot(AuI_energies,AuI_intensities_new_energies_5d)
+#%%
+AuII_moving_avg_4f=MovingAverage(5, AuII_intensity_new_energies_4f)[16:]
+AuII_moving_avg_5d=MovingAverage(5, AuII_intensity_new_energies_5d)[16:]
+AuI_moving_avg_5d=MovingAverage(5, AuI_intensities_new_energies_5d)[:501]
+AuI_moving_avg_4f=MovingAverage(5, AuI_intensities_new_energies_4f)[:501]
+AuI_energies_moving_avg_5d=MovingAverage(5, AuI_energies_new_energies)[:501]
+#%%
+plt.plot(AuI_energies_moving_avg_5d,AuII_moving_avg_5d)
+plt.plot(AuI_energies_moving_avg_5d,AuI_moving_avg_5d)
+#%%
+plt.plot(AuI_energies_moving_avg_5d,0.95*(1/3)*np.array(AuI_moving_avg_5d)+0.95*0.5*np.array(AuI_moving_avg_4f)+0.05*(1/6)*(np.array(AuII_moving_avg_5d)+np.array(AuII_moving_avg_4f)),label='95% Au I, 5% Au II')
+plt.plot(AuI_energies_moving_avg_5d,0.9*(1/3)*np.array(AuI_moving_avg_5d)+0.9*0.5*np.array(AuI_moving_avg_4f)+0.1*(1/6)*(np.array(AuII_moving_avg_5d)+np.array(AuII_moving_avg_4f)),label='90% Au I, 10% Au II')
+plt.plot(AuI_energies_moving_avg_5d,0.8*(1/3)*np.array(AuI_moving_avg_5d)+0.8*0.5*np.array(AuI_moving_avg_4f)+0.2*(1/6)*(np.array(AuII_moving_avg_5d)+np.array(AuII_moving_avg_4f)),label='80% Au I, 20% Au II')
+plt.plot(AuI_energies_moving_avg_5d,0.75*(1/3)*np.array(AuI_moving_avg_5d)+0.75*0.5*np.array(AuI_moving_avg_4f)+0.25*(1/6)*(np.array(AuII_moving_avg_5d)+np.array(AuII_moving_avg_4f)),label='75% Au I, 25% Au II')
+plt.plot(AuI_energies_moving_avg_5d,0.65*(1/3)*np.array(AuI_moving_avg_5d)+0.65*0.5*np.array(AuI_moving_avg_4f)+0.35*(1/6)*(np.array(AuII_moving_avg_5d)+np.array(AuII_moving_avg_4f)),label='65% Au I, 35% Au II')
 plt.legend()

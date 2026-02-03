@@ -8,8 +8,8 @@ Created on Thu Nov 13 11:23:20 2025
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.rcParams.update({'font.size': 22})
-plt.rcParams["figure.figsize"] = (15,10)
+#plt.rcParams.update({'font.size': 22})
+#plt.rcParams["figure.figsize"] = (15,10)
 #%%
 # Computes moving average
 def MovingAverage(window_size,array):
@@ -295,7 +295,7 @@ New_Fano_plot_2_5_2_5=0.009*Fano_plot1+bck_500ns
 #plt.plot(Energy,Fano_plot1,label='J: 2.5-2.5 Fano')
 #plt.plot(Energy,Fano_plot2,label='J: 2.5-3.5 Fano')
 #plt.plot(Energy,Fano_plot3,label='J: 1.5-2.5 Fano')
-#plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.1,len(Energy)),label='J:1-2')
+plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy)),label='J:1-2')
 #plt.plot(Energy,Au_II_J_2_2_int,label='J:2-2')
 #plt.plot(Energy,Fano_3_4)
 #plt.plot(Energy,Fano_2_3)
@@ -308,17 +308,17 @@ New_Fano_plot_2_5_2_5=0.009*Fano_plot1+bck_500ns
 #plt.plot(Energy,1/38*Au_II_J_3_4_int+np.repeat(0.95,len(Energy)),label='J:3-4')
 #plt.plot(Energy, 1/38*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.95,len(Energy)),label='J:Summed')
 #plt.plot(Energy,Au_II_J_4_4_int,label='J:4-4')
-#plt.plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.1,len(Energy)),label='J:4-5')
-#plt.plot(Energy,Au_II_J_4_5_int+Au_II_J_1_2_int,label='J: 1-2 + 4-5')
+plt.plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.05,len(Energy)),label='J:4-5')
+plt.plot(Energy,0.005*(Au_II_J_4_5_int+Au_II_J_1_2_int)+np.repeat(1.05,len(Energy)),label='J:Summed')
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuI)
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuII)
 #plt.plot(Energy,total_cross_sections_AuI,label='AuI total')
-#plt.plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
+plt.plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
 #plt.plot(Energy_300ns,15*Intensity_300ns-np.repeat(14,len(Intensity_300ns)))
-plt.plot(Energy,New_Fano_plot_1_5_2_5,label='J:1.5-2.5')
-plt.plot(Energy,New_Fano_plot_2_5_2_5,label='J:2.5-2.5')
-plt.plot(Energy,New_Fano_plot_2_5_3_5,label='J:2.5-3.5')
-plt.plot(Energy_500ns,Intensity_500ns,label='500ns',color='black')
+#plt.plot(Energy,New_Fano_plot_1_5_2_5,label='J:1.5-2.5')
+#plt.plot(Energy,New_Fano_plot_2_5_2_5,label='J:2.5-2.5')
+#plt.plot(Energy,New_Fano_plot_2_5_3_5,label='J:2.5-3.5')
+#plt.plot(Energy_500ns,Intensity_500ns,label='500ns',color='black')
 #plt.plot(Energy,Au_II_J_2_3_int+0.85*Au_II_J_3_4_int+0.3*Au_I_J_2_5_3_5_int)
 #plt.plot(Energy,0.8*0.4*Au_I_J_1_5_2_5_int+0.8*0.4*0.85*Au_II_J_1_2_int+0.8*0.4*0.3*Au_II_J_4_5_int+0.6*Au_II_J_2_3_int+0.6*0.85*Au_II_J_3_4_int+0.6*0.3*Au_I_J_2_5_3_5_int)
 #plt.plot(Energy,0.875*total_cross_sections_AuI_sr + 0.125*total_cross_sections_AuII,label='12.5% AuII, 87.5% AuI')
@@ -356,5 +356,33 @@ ax2.set_ylim(0.23,0.39)
 
 fig.legend(loc='upper right')
 plt.show()
+#%%
+fig,axes=plt.subplots(2,2)
+axes[1,0].plot(Energy,0.009*Fano_plot1+np.repeat(0.24,len(Energy)),label='J:2.5-2.5')
+axes[1,0].plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
+axes[1,0].plot(Energy,0.01*Fano_plot3+np.repeat(0.25,len(Energy)),label='J:1.5-2.5')
+axes[1,0].plot(Energy_500ns,Intensity_500ns,label='500ns',color='black')
+axes[0,0].plot(Energy,1/38*Au_II_J_2_3_int+np.repeat(0.95,len(Energy)),label='J:2-3')
+axes[0,0].plot(Energy,1/38*Au_II_J_3_4_int+np.repeat(0.95,len(Energy)),label='J:3-4')
+axes[0,0].plot(Energy, 1/38*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.95,len(Energy)),label='J:Summed')
+axes[0,0].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
+axes[0,1].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
+axes[0,1].plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy)),label='J:1-2')
+axes[0,1].plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.05,len(Energy)),label='J:4-5')
+axes[0,1].plot(Energy,0.005*(Au_II_J_4_5_int+Au_II_J_1_2_int)+np.repeat(1.05,len(Energy)),label='J: 1-2 + 4-5')
+for ax in axes.flat:
+    ax.set(xlabel='Energy [eV]', ylabel='Absorbance')
+
+for ax in axes.flat:
+    ax.label_outer()
+    
+for ax in axes.flat:
+    ax.set_xlim(78,86)
+#axes[0].set_xlim(78,86)
+#axes[1].set_xlim(78,86)
+#axes[2].set_xlim(78,86)
+#axes[0].legend()
+#axes[1].legend()
+#axes[2].legend()
 
     
