@@ -357,7 +357,7 @@ ax2.set_ylim(0.23,0.39)
 fig.legend(loc='upper right')
 plt.show()
 #%%
-fig,axes=plt.subplots(3) #, figsize=(8, 10))
+fig,axes=plt.subplots(3, figsize=(9, 10))
 #fig.subplots_adjust(hspace=0.4, wspace=0.7)
 axes[0].plot(Energy,0.009*Fano_plot1+np.repeat(0.24,len(Energy)),label='J:2.5-2.5')
 axes[0].plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
@@ -367,19 +367,36 @@ axes[1].plot(Energy,1/38*Au_II_J_2_3_int+np.repeat(0.95,len(Energy)),label='J:2-
 axes[1].plot(Energy,1/38*Au_II_J_3_4_int+np.repeat(0.95,len(Energy)),label='J:3-4')
 axes[1].plot(Energy, 1/38*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.95,len(Energy)),label='J:Summed')
 axes[1].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
-axes[2].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
 axes[2].plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy)),label='J:1-2')
 axes[2].plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.05,len(Energy)),label='J:4-5')
-axes[2].plot(Energy,0.005*(Au_II_J_4_5_int+Au_II_J_1_2_int)+np.repeat(1.05,len(Energy)),label='J: 1-2 + 4-5')
-
-for ax in axes.flat:
-    ax.set(xlabel='Energy [eV]', ylabel='Absorbance')
-
+axes[2].plot(Energy,0.005*(Au_II_J_4_5_int+Au_II_J_1_2_int)+np.repeat(1.05,len(Energy)),label='J:Summed')
+axes[2].plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
+#for ax in axes.flat:
+#    ax.set(xlabel='Energy [eV]', ylabel='Absorbance')
+axes[1].set_ylabel('Absorbance',fontsize='x-large')
+axes[2].set_xlabel('Energy [eV]', fontsize='x-large')
 for ax in axes.flat:
     ax.label_outer()
     
 for ax in axes.flat:
     ax.set_xlim(78,86)
+for ax in axes.flat:
+    ax.legend(fontsize=12)
+
+axes[0].set_ylim(0.2,0.43)
+axes[0].set_yticks([0.25,0.35],minor=True)
+axes[1].set_ylim(0.9,1.67)
+axes[1].set_yticks([1,1.3,1.6])
+axes[1].set_yticks([1.15,1.45],minor=True)
+axes[2].set_ylim(0.9,1.67)
+axes[2].set_yticks([1,1.3,1.6])
+axes[2].set_yticks([1.15,1.45],minor=True)
+#axes[1].set_yticks([0.9,1.2],minor=True)
+#axes[2].set_yticks([0.9,1.2],minor=True)
+for ax in axes.flat:
+    ax.set_xticks([79,81,83,85],minor=True)
+for ax in axes.flat:
+    ax.tick_params(axis='both',which='minor',length=3)
 #axes[0].set_xlim(78,86)
 #axes[1].set_xlim(78,86)
 #axes[2].set_xlim(78,86)

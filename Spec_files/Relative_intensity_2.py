@@ -561,7 +561,7 @@ plt.ylabel('Absorbance (scaled)')
 plt.legend()
 plt.ylim(0.46,0.94)
 plt.xlim(78,86)
-plt.grid(True)
+#plt.grid(True)
 #%% 4f-5d AuII
 au_spec_4_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='2',au_spec_II[:,8]=='4')]
 au_spec_8_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='3',au_spec_II[:,8]=='8')]
