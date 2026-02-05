@@ -551,16 +551,18 @@ Norm_intensitiy_400ns=1/np.sum(Intensity_400ns)*Intensity_400ns*scale_factor
 Norm_intensitiy_450ns=1/np.sum(Intensity_450ns)*Intensity_450ns*scale_factor
 Norm_intensitiy_500ns=1/np.sum(Intensity_500ns)*Intensity_500ns*scale_factor
 #%%
+plt.figure(figsize=(9,10))
 plt.plot(Energy_500ns,Norm_intensitiy_300ns,label='300ns')
 plt.plot(Energy_500ns,Norm_intensitiy_350ns,label='350ns')
 plt.plot(Energy_500ns,Norm_intensitiy_400ns,label='400ns')
 plt.plot(Energy_500ns,Norm_intensitiy_450ns,label='450ns')
 plt.plot(Energy_500ns,Norm_intensitiy_500ns,label='500ns')
-plt.xlabel('Energy [eV]')
-plt.ylabel('Absorbance (scaled)')
+plt.xlabel('Energy [eV]', fontsize='xx-large')
+plt.ylabel('Absorbance (scaled)',fontsize='xx-large')
 plt.legend()
 plt.ylim(0.46,0.94)
 plt.xlim(78,86)
+plt.savefig('replacement_spectra_large_labels.png',format='png',dpi=300)
 #plt.grid(True)
 #%% 4f-5d AuII
 au_spec_4_II=au_spec_II[np.logical_and(au_spec_II[:,3]=='2',au_spec_II[:,8]=='4')]
@@ -743,8 +745,8 @@ plt.plot(Energy_500ns,Intensity_500ns,label='500ns')
 plt.plot(Energy_500ns,Intensity_400ns,label='400ns')
 plt.plot(Energy_500ns,Intensity_300ns,label='300ns')
 #plt.plot(moving_avg_energy,moving_avg_400ns,label='400ns')
-plt.xlabel('Energy [eV]')
-plt.ylabel('Absorbance')
+plt.xlabel('Energy [eV]',fontsize='xx-large')
+plt.ylabel('Absorbance',fontsize='xx-large')
 #plt.title('5 pt smoothing experimental data')
 plt.legend()
 plt.xlim(62,99.5)
