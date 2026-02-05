@@ -357,7 +357,7 @@ ax2.set_ylim(0.23,0.39)
 fig.legend(loc='upper right')
 plt.show()
 #%%
-fig,axes=plt.subplots(3, figsize=(9, 10))
+fig,axes=plt.subplots(3,figsize=(9, 10))
 #fig.subplots_adjust(hspace=0.4, wspace=0.7)
 axes[0].plot(Energy,0.009*Fano_plot1+np.repeat(0.24,len(Energy)),label='J:2.5-2.5')
 axes[0].plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
@@ -397,6 +397,18 @@ for ax in axes.flat:
     ax.set_xticks([79,81,83,85],minor=True)
 for ax in axes.flat:
     ax.tick_params(axis='both',which='minor',length=3)
+    
+labels=['a)','b)','c)']
+    
+for ax, label in zip(axes, labels):
+    # Place label in upper-left corner of each subplot
+    ax.text(
+        0.02, 0.95, label, 
+        transform=ax.transAxes,  # Coordinates relative to axes
+        fontsize=14, fontweight='bold',
+        va='top', ha='left'
+    )
+
 #axes[0].set_xlim(78,86)
 #axes[1].set_xlim(78,86)
 #axes[2].set_xlim(78,86)
