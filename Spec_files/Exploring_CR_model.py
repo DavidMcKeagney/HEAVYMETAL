@@ -9,6 +9,7 @@ from scipy.integrate import ode
 import numpy as np
 import matplotlib.pyplot as plt 
 import random
+from numpy.linalg import inv
 #%%
 e=1.602176634e-19
 m_e=9.1093837015e-31
@@ -86,9 +87,21 @@ def ForwardEuler(A,N_0,dt,t_fin):
         if i==0:
             N_fin[:,a]=N_0.T
         else:
-            N_0+=N_0+ dt*np.matmul(A,N_0)
+            N_0=N_0+ dt*np.matmul(A,N_0)
             N_fin[:,a]=N_0.T
         
+    return N_fin,t_steps
+
+def BackwardEuler(A,N_0,dt,t_fin):
+    t_steps=np.arange(0,t_fin+dt,dt)
+    N_fin=np.zeros((len(N_0),len(t_steps)))
+    for a,i in enumerate(t_steps):
+        if i==0:
+            N_fin[:,a]=N_0.T
+        else:
+            N_0=np.matmul(inv(np.identity(len(N_0))-dt*A),N_0)
+            N_fin[:,a]=N_0.T
+                        
     return N_fin,t_steps
     
 #%%
@@ -126,7 +139,13 @@ plt.plot(t,av_dN)
 #%% #Testing forward Euler method 
 
 N_0=np.array([[1],[1]]).astype(float)
-A=np.array([[-1,0],[0,-1]]).astype(float)
+A=np.array([[1,1],[1,1]]).astype(float)
 #%%
 FE_results=ForwardEuler(A, N_0, 0.01, 5)
-
+BE_results=BackwardEuler(A, N_0, 0.001, 5)
+#%%
+plt.plot(BE_results[1],BE_results[0][0],label='Backward')
+plt.plot(FE_results[1],FE_results[0][0],label='Forward')
+plt.plot(BE_results[1],np.exp(2*BE_results[1]),label='analytical')
+plt.legend()
+#%%

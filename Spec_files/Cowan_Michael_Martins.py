@@ -415,5 +415,21 @@ for ax, label in zip(axes, labels):
 #axes[0].legend()
 #axes[1].legend()
 #axes[2].legend()
-
-    
+#%%
+scaled_shifted_4_5=0.005*Au_II_J_4_5_int+np.repeat(1.05,len(Energy))
+scaled_shifted_1_2=0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy))
+np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au II\J=4-5.dat',np.transpose([Energy,Au_II_J_4_5_int,scaled_shifted_4_5]))
+#%%
+np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au II\J=1-2.dat',np.transpose([Energy,Au_II_J_1_2_int,scaled_shifted_1_2]))
+#%%
+scaled_shifted_2_3=1/38*Au_II_J_2_3_int+np.repeat(0.95,len(Energy))    
+scaled_shifted_3_4=1/38*Au_II_J_3_4_int+np.repeat(0.95,len(Energy))
+np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au II\J=2-3.dat',np.transpose([Energy,Au_II_J_2_3_int,scaled_shifted_2_3])) 
+np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au II\J=3-4.dat',np.transpose([Energy,Au_II_J_3_4_int,scaled_shifted_3_4]))
+#%%
+scaled_shifted_2_5_2_5=0.009*Fano_plot1+np.repeat(0.24,len(Energy))
+scaled_shifted_2_5_3_5=0.008*Fano_plot2+np.repeat(0.28,len(Energy))
+scaled_shifted_1_5_2_5=0.01*Fano_plot3+np.repeat(0.25,len(Energy))
+np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au I\J=2.5-2.5.dat',np.transpose([Energy,Fano_plot1,scaled_shifted_2_5_2_5]))
+np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au I\J=2.5-3.5.dat',np.transpose([Energy,Fano_plot2,scaled_shifted_2_5_3_5]))
+np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au I\J=1.5-2.5.dat',np.transpose([Energy,Fano_plot3,scaled_shifted_1_5_2_5]))
