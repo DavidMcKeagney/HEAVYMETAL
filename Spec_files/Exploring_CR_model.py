@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import random
 from numpy.linalg import inv
+from numpy.linalg import eig
 #%%
 e=1.602176634e-19
 m_e=9.1093837015e-31
@@ -103,6 +104,21 @@ def BackwardEuler(A,N_0,dt,t_fin):
             N_fin[:,a]=N_0.T
                         
     return N_fin,t_steps
+
+def AlternateScheme(A,N_0,dt,t_fin):
+    t_steps=np.arange(0,t_fin+dt,dt)
+    N_fin=np.zeros((len(N_0),len(t_steps)))
+    for a,i in enumerate(t_steps):
+        if i==0:
+            N_fin[:,a]=N_0.T
+        else:
+            N_0=np.matmul(inv(np.identity(len(N_0))-0.5*dt*A),np.matmul(np.identity(len(N_0))+0.5*dt*A,N_0))
+            N_fin[:,a]=N_0.T
+                        
+    return N_fin,t_steps
+            
+            
+    
     
 #%%
 def N_0(gamma,D,I,N_0J):
@@ -141,11 +157,13 @@ plt.plot(t,av_dN)
 N_0=np.array([[1],[1]]).astype(float)
 A=np.array([[1,1],[1,1]]).astype(float)
 #%%
-FE_results=ForwardEuler(A, N_0, 0.01, 5)
-BE_results=BackwardEuler(A, N_0, 0.001, 5)
+FE_results=ForwardEuler(A, N_0, 0.001, 5)
+BE_results=BackwardEuler(A, N_0, 0.0001, 5)
+AS_results=AlternateScheme(A, N_0, 0.01, 5)
 #%%
 plt.plot(BE_results[1],BE_results[0][0],label='Backward')
 plt.plot(FE_results[1],FE_results[0][0],label='Forward')
+plt.plot(AS_results[1],AS_results[0][0],label='Alternate Scheme')
 plt.plot(BE_results[1],np.exp(2*BE_results[1]),label='analytical')
 plt.legend()
 #%%
