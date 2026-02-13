@@ -21,11 +21,22 @@ A_peturb=1.1
 Gamma=1
 Gamma_peturb=1.1
 
-xrange=np.arange(-2,2,0.01)
+xrange=np.arange(-4,4,0.01)
 #%%
 plt.plot(xrange,Lortentzian(A, xrange, Gamma),label='Unbroadened')
 plt.plot(xrange,Lortentzian(A_peturb, xrange, Gamma_peturb),label='Broadened')
 plt.legend()
 plt.xlabel('Energy (arb. units)')
 plt.ylabel('Intensity (arb. units)')
+plt.show()
+#%%
+def Fano(x,Gamma,Er,q):
+    return (0.5*q*Gamma + x-Er)**2/((0.5*Gamma)**2 + (x-Er)**2)
+#%%
+plt.plot(xrange,Fano(xrange,0.5*Gamma,0,0.5),label='q=0.5')
+plt.plot(xrange,Fano(xrange,0.5*Gamma,0,1),label='q=1')
+plt.plot(xrange,Fano(xrange,0.5*Gamma,0,2),label='q=2')
+plt.legend()
+plt.xlabel('Energy (arb. units)')
+plt.ylabel('Cross section (arb. units)')
 plt.show()
