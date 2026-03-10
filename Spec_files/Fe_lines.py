@@ -38,7 +38,7 @@ with open('C:/Users/David McKeagney/Downloads/Fe_lines.csv') as file:
 #%%
 data=NISTformat(NIST_values)[:, :19]  
 #%%
+# Save the array to a CSV file
+np.savetxt("C:/Users/David McKeagney/Downloads/data.csv", data, fmt='%s')
 
-
-#data[a][b]=data[a][b].replace('(','').replace(')','')
 #%%

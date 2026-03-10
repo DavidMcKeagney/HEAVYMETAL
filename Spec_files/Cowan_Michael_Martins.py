@@ -237,13 +237,13 @@ Au_II_J_3_4=Au_II_J_3_4[:,1]
 Au_II_J_4_4=Au_II_J_4_4[:,1]
 Au_II_J_4_5=Au_II_J_4_5[:,1]
 #%%
-#Au_II_J_1_2=np.exp(-(3.4011/1.67))*Au_II_J_1_2[:,1]
-#Au_II_J_2_2=np.exp(-(2.1513/1.67))*Au_II_J_2_2[:,1]
-#Au_II_J_2_3=np.exp(-(2.1513/1.67))*Au_II_J_2_3[:,1]
-#Au_II_J_3_3=np.exp(-(1.7873/1.67))*Au_II_J_3_3[:,1]
-#Au_II_J_3_4=np.exp(-(1.7873/1.67))*Au_II_J_3_4[:,1]
-#Au_II_J_4_4=np.exp(-(5.2425/1.67))*Au_II_J_4_4[:,1]
-#Au_II_J_4_5=np.exp(-(5.2425/1.67))*Au_II_J_4_5[:,1]
+Au_II_J_1_2=np.exp(-(3.4011/4.2))*Au_II_J_1_2[:,1]
+Au_II_J_2_2=np.exp(-(2.1513/4.2))*Au_II_J_2_2[:,1]
+Au_II_J_2_3=np.exp(-(2.1513/4.2))*Au_II_J_2_3[:,1]
+Au_II_J_3_3=np.exp(-(1.7873/4.2))*Au_II_J_3_3[:,1]
+Au_II_J_3_4=np.exp(-(1.7873/4.2))*Au_II_J_3_4[:,1]
+Au_II_J_4_4=np.exp(-(5.2425/4.2))*Au_II_J_4_4[:,1]
+Au_II_J_4_5=np.exp(-(5.2425/4.2))*Au_II_J_4_5[:,1]
 #%%
 Au_II_J_1_2_int=Au_II_J_1_2[:143]
 Au_II_J_2_2_int=Au_II_J_2_2[:143]
@@ -280,6 +280,11 @@ New_Fano_plot_1_5_2_5=0.008*Fano_plot3+bck_500ns
 New_Fano_plot_2_5_3_5=0.007*Fano_plot2+bck_500ns
 New_Fano_plot_2_5_2_5=0.009*Fano_plot1+bck_500ns
 #%%
+def SynthSpec(a,b):
+    return a*(Au_II_J_2_3_int+Au_II_J_3_4_int)+b*(Au_II_J_1_2_int+Au_II_J_4_5_int) +bck_300ns
+#%%
+Test_spec=SynthSpec(0.038,0.007)
+#%%
 #plt.plot(Energy, total_cross_sections_AuI_sr,label='Single Fano')
 #plt.plot(Energy, total_cross_sections_AuI,label='Michaels Calculated cross sections')
 #plt.plot(Energy,Au_I_J_1_5_2_5_int,label='J:1.5-2.5')
@@ -296,7 +301,7 @@ New_Fano_plot_2_5_2_5=0.009*Fano_plot1+bck_500ns
 #plt.plot(Energy,Fano_plot2,label='J: 2.5-3.5 Fano')
 #plt.plot(Energy,Fano_plot3,label='J: 1.5-2.5 Fano')
 plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy)),label='J:1-2')
-#plt.plot(Energy,Au_II_J_2_2_int,label='J:2-2')
+#plt.plot(Energy,1/38*Au_II_J_2_2_int,label='J:2-2')
 #plt.plot(Energy,Fano_3_4)
 #plt.plot(Energy,Fano_2_3)
 #plt.plot(Energy,Fano_2_3_2)
@@ -304,15 +309,16 @@ plt.plot(Energy,0.005*Au_II_J_1_2_int+np.repeat(1.05,len(Energy)),label='J:1-2')
 #plt.plot(Energy,0.008*Fano_plot2+np.repeat(0.28,len(Energy)),label='J:2.5-3.5')
 #plt.plot(Energy,0.01*Fano_plot3+np.repeat(0.25,len(Energy)),label='J:1.5-2.5')
 #plt.plot(Energy,1/38*Au_II_J_2_3_int+np.repeat(0.95,len(Energy)),label='J:2-3')
-#plt.plot(Energy,Au_II_J_3_3_int,label='J:3-3')
+#plt.plot(Energy,1/38*Au_II_J_3_3_int+np.repeat(1.05,len(Energy)),label='J:3-3')
 #plt.plot(Energy,1/38*Au_II_J_3_4_int+np.repeat(0.95,len(Energy)),label='J:3-4')
 #plt.plot(Energy, 1/38*(Au_II_J_2_3_int+Au_II_J_3_4_int)+np.repeat(0.95,len(Energy)),label='J:Summed')
-#plt.plot(Energy,Au_II_J_4_4_int,label='J:4-4')
+#plt.plot(Energy,0.005*Au_II_J_4_4_int+np.repeat(1.05,len(Energy)),label='J:4-4')
 plt.plot(Energy,0.005*Au_II_J_4_5_int+np.repeat(1.05,len(Energy)),label='J:4-5')
 plt.plot(Energy,0.005*(Au_II_J_4_5_int+Au_II_J_1_2_int)+np.repeat(1.05,len(Energy)),label='J:Summed')
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuI)
 #plt.plot(moving_avg_energy,tcs_mov_avg_AuII)
 #plt.plot(Energy,total_cross_sections_AuI,label='AuI total')
+#plt.plot(Energy,Test_spec-np.repeat(0.05,len(Energy)),label='synth spec')
 plt.plot(Energy_300ns,Intensity_300ns,label='300ns',color='black')
 #plt.plot(Energy_300ns,15*Intensity_300ns-np.repeat(14,len(Intensity_300ns)))
 #plt.plot(Energy,New_Fano_plot_1_5_2_5,label='J:1.5-2.5')
