@@ -237,13 +237,13 @@ Au_II_J_3_4=Au_II_J_3_4[:,1]
 Au_II_J_4_4=Au_II_J_4_4[:,1]
 Au_II_J_4_5=Au_II_J_4_5[:,1]
 #%%
-Au_II_J_1_2=np.exp(-(3.4011/4.2))*Au_II_J_1_2[:,1]
-Au_II_J_2_2=np.exp(-(2.1513/4.2))*Au_II_J_2_2[:,1]
-Au_II_J_2_3=np.exp(-(2.1513/4.2))*Au_II_J_2_3[:,1]
-Au_II_J_3_3=np.exp(-(1.7873/4.2))*Au_II_J_3_3[:,1]
-Au_II_J_3_4=np.exp(-(1.7873/4.2))*Au_II_J_3_4[:,1]
-Au_II_J_4_4=np.exp(-(5.2425/4.2))*Au_II_J_4_4[:,1]
-Au_II_J_4_5=np.exp(-(5.2425/4.2))*Au_II_J_4_5[:,1]
+Au_II_J_1_2=np.exp(-(3.4011/3.1))*Au_II_J_1_2[:,1]
+Au_II_J_2_2=np.exp(-(2.1513/3.1))*Au_II_J_2_2[:,1]
+Au_II_J_2_3=np.exp(-(2.1513/3.1))*Au_II_J_2_3[:,1]
+Au_II_J_3_3=np.exp(-(1.7873/3.1))*Au_II_J_3_3[:,1]
+Au_II_J_3_4=np.exp(-(1.7873/3.1))*Au_II_J_3_4[:,1]
+Au_II_J_4_4=np.exp(-(5.2425/3.1))*Au_II_J_4_4[:,1]
+Au_II_J_4_5=np.exp(-(5.2425/3.1))*Au_II_J_4_5[:,1]
 #%%
 Au_II_J_1_2_int=Au_II_J_1_2[:143]
 Au_II_J_2_2_int=Au_II_J_2_2[:143]
@@ -253,7 +253,7 @@ Au_II_J_3_4_int=Au_II_J_3_4[:143]
 Au_II_J_4_4_int=Au_II_J_4_4[:143]
 Au_II_J_4_5_int=Au_II_J_4_5[:143]
 #%%
-total_cross_sections_AuI=Au_I_J_1_5_2_5_int+Au_I_J_2_5_2_5_int+Au_I_J_2_5_3_5_int
+#total_cross_sections_AuI=Au_I_J_1_5_2_5_int+Au_I_J_2_5_2_5_int+Au_I_J_2_5_3_5_int
 total_cross_sections_AuII=Au_II_J_2_2_int+Au_II_J_2_3_int+Au_II_J_3_3_int+Au_II_J_3_4_int+Au_II_J_4_4_int+Au_II_J_4_5_int
 #%%
 total_cross_sections_AuI_new=Au_I_J_1_5_2_5_new_int+Au_I_J_2_5_2_5_new_int+Au_I_J_2_5_3_5_new_int
@@ -439,3 +439,93 @@ scaled_shifted_1_5_2_5=0.01*Fano_plot3+np.repeat(0.25,len(Energy))
 np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au I\J=2.5-2.5.dat',np.transpose([Energy,Fano_plot1,scaled_shifted_2_5_2_5]))
 np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au I\J=2.5-3.5.dat',np.transpose([Energy,Fano_plot2,scaled_shifted_2_5_3_5]))
 np.savetxt('C:\\Users\David McKeagney\Desktop\Data Availabilty- Fano Resonances\Theoretical Data\Au I\J=1.5-2.5.dat',np.transpose([Energy,Fano_plot3,scaled_shifted_1_5_2_5]))
+#%%
+Au_III_J_0_5_0_5=[]
+Au_III_J_0_5_1_5=[]
+Au_III_J_1_5_1_5=[]
+Au_III_J_1_5_2_5=[]
+Au_III_J_2_5_2_5=[]
+Au_III_J_2_5_3_5=[]
+Au_III_J_3_5_3_5=[]
+Au_III_J_3_5_4_5=[]
+Au_III_J_4_5_4_5=[]
+Au_III_J_4_5_5_5=[]
+Au_III_J_5_5_5_5=[]
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=0.5-0.5.sigma') as file:
+    for lines in file:
+        Au_III_J_0_5_0_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=0.5-1.5.sigma') as file:
+    for lines in file:
+        Au_III_J_0_5_1_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=1.5-1.5.sigma') as file:
+    for lines in file:
+        Au_III_J_1_5_1_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=1.5-2.5.sigma') as file:
+    for lines in file:
+        Au_III_J_1_5_2_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=2.5-2.5.sigma') as file:
+    for lines in file:
+        Au_III_J_2_5_2_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=2.5-3.5.sigma') as file:
+    for lines in file:
+        Au_III_J_2_5_3_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=3.5-3.5.sigma') as file:
+    for lines in file:
+        Au_III_J_3_5_3_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=3.5-4.5.sigma') as file:
+    for lines in file:
+        Au_III_J_3_5_4_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=4.5-4.5.sigma') as file:
+    for lines in file:
+        Au_III_J_4_5_4_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=4.5-5.5.sigma') as file:
+    for lines in file:
+        Au_III_J_4_5_5_5.append(lines.split())
+with open('C:\\Users\David McKeagney\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.III.J=5.5-5.5.sigma') as file:
+    for lines in file:
+        Au_III_J_5_5_5_5.append(lines.split())
+#%%
+Au_III_J_0_5_0_5=np.array(Au_III_J_0_5_0_5[4:]).astype(float)
+Au_III_J_0_5_1_5=np.array(Au_III_J_0_5_1_5[4:]).astype(float)
+Au_III_J_1_5_1_5=np.array(Au_III_J_1_5_1_5[4:]).astype(float)
+Au_III_J_1_5_2_5=np.array(Au_III_J_1_5_2_5[4:]).astype(float)
+Au_III_J_2_5_2_5=np.array(Au_III_J_2_5_2_5[4:]).astype(float)
+Au_III_J_2_5_3_5=np.array(Au_III_J_2_5_3_5[4:]).astype(float)
+Au_III_J_3_5_3_5=np.array(Au_III_J_3_5_3_5[4:]).astype(float)
+Au_III_J_3_5_4_5=np.array(Au_III_J_3_5_4_5[4:]).astype(float)
+Au_III_J_4_5_4_5=np.array(Au_III_J_4_5_4_5[4:]).astype(float)
+Au_III_J_4_5_5_5=np.array(Au_III_J_4_5_5_5[4:]).astype(float)
+Au_III_J_5_5_5_5=np.array(Au_III_J_5_5_5_5[4:]).astype(float)
+Energy_AuIII=Au_III_J_0_5_0_5[:,0]
+#%%
+plt.plot(Energy_AuIII,np.exp(-(5.8297+0.8390)/5.4)*Au_III_J_0_5_0_5[:,1],label='AuIII: J=0.5 - 0.5')
+plt.plot(Energy_AuIII,np.exp(-(5.8297+0.8390)/5.4)*Au_III_J_0_5_1_5[:,1],label='AuIII: J=0.5 - 1.5')
+plt.plot(Energy_AuIII,np.exp(-(0.7801+0.8390)/5.4)*Au_III_J_1_5_1_5[:,1],label='AuIII: J=1.5 - 1.5')
+plt.plot(Energy_AuIII,np.exp(-(0.7801+0.8390)/5.4)*Au_III_J_1_5_2_5[:,1],label='AuIII: J=1.5 - 2.5')
+plt.plot(Energy_AuIII,Au_III_J_2_5_2_5[:,1],label='AuIII: J=2.5 - 2.5')
+plt.plot(Energy_AuIII,Au_III_J_2_5_3_5[:,1],label='AuIII: J=2.5 - 3.5')
+plt.plot(Energy_AuIII,np.exp(-(3.5370+0.8390)/5.4)*Au_III_J_3_5_3_5[:,1],label='AuIII: J=3.5 - 3.5')
+plt.plot(Energy_AuIII,np.exp(-(3.5370+0.8390)/5.4)*Au_III_J_3_5_4_5[:,1],label='AuIII: J=3.5 - 4.5')
+plt.plot(Energy_AuIII,np.exp(-(2.8096+0.8390)/5.4)*Au_III_J_4_5_4_5[:,1],label='AuIII: J=4.5 - 4.5')
+plt.plot(Energy_AuIII,np.exp(-(2.8096+0.8390)/5.4)*Au_III_J_4_5_5_5[:,1],label='AuIII: J=4.5 - 5.5')
+plt.plot(Energy_AuIII,np.exp(-(13.2294+0.8390)/5.4)*Au_III_J_5_5_5_5[:,1],label='AuIII: J=5.5 - 5.5')
+plt.legend()
+#%%
+Au_III_J_0_5_0_5_w=np.exp(-(5.8297+0.8390)/5.4)*Au_III_J_0_5_0_5[:,1]
+Au_III_J_0_5_1_5_w=np.exp(-(5.8297+0.8390)/5.4)*Au_III_J_0_5_1_5[:,1]
+Au_III_J_1_5_1_5_w=np.exp(-(0.7801+0.8390)/5.4)*Au_III_J_1_5_1_5[:,1]
+Au_III_J_1_5_2_5_w=np.exp(-(0.7801+0.8390)/5.4)*Au_III_J_1_5_2_5[:,1]
+Au_III_J_3_5_3_5_w=np.exp(-(3.5370+0.8390)/5.4)*Au_III_J_3_5_3_5[:,1]
+Au_III_J_3_5_4_5_w=np.exp(-(3.5370+0.8390)/5.4)*Au_III_J_3_5_4_5[:,1]
+Au_III_J_4_5_4_5_w=np.exp(-(2.8096+0.8390)/5.4)*Au_III_J_4_5_4_5[:,1]
+Au_III_J_4_5_5_5_w=np.exp(-(2.8096+0.8390)/5.4)*Au_III_J_4_5_5_5[:,1]
+Au_III_J_5_5_5_5_w=np.exp(-(13.2294+0.8390)/5.4)*Au_III_J_5_5_5_5[:,1]
+#%%
+AuIII_tot_T_5_4=Au_III_J_0_5_0_5_w+Au_III_J_0_5_1_5_w+Au_III_J_1_5_1_5_w+Au_III_J_1_5_2_5_w+Au_III_J_2_5_2_5[:,1]+Au_III_J_2_5_3_5[:,1]+Au_III_J_3_5_3_5_w+Au_III_J_3_5_4_5_w+Au_III_J_4_5_4_5_w+Au_III_J_4_5_5_5_w+Au_III_J_5_5_5_5_w
+#%%
+Au_I_J_2_5_3_5_int=np.exp(-1.3931/3.1)*Au_I_J_2_5_3_5_int_f
+AuIII_tot_T_5_4_int=AuIII_tot_T_5_4[:143]
+plt.plot(Energy_AuIII[:143]+np.repeat(0.45,len(Energy)),0.669*total_cross_sections_AuII)
+plt.plot(Energy_300ns,15*Intensity_300ns)
+plt.plot(Au_I_J_2_5_3_5_f[:143,0]-np.repeat(0.8,len(Energy)),0.206*Au_I_J_2_5_3_5_int+np.repeat(17.8,len(Au_I_J_2_5_3_5_int)))
+plt.xlim(78,86)
