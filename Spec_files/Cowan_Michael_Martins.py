@@ -71,6 +71,7 @@ def Gaussian(x,FWHM,mu):
 Eric_data_500ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_500ns.txt',dtype=float).T
 Eric_data_300ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_300ns.txt',dtype=float).T
 Eric_data_250ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_250ns.txt',dtype=float).T
+Eric_data_400ns=np.loadtxt('C:/Users/David McKeagney/Downloads/Eric_data_400ns.txt',dtype=float).T
 #Eric_data_300ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_300ns.txt',dtype=float).T
 #Eric_data_500ns=np.loadtxt('C:/Users/Padmin/Downloads/Eric_data_500ns.txt',dtype=float).T
 Intensity_300ns=Eric_data_300ns[1][np.logical_and(Eric_data_300ns[0]>=78,Eric_data_300ns[0]<=100)]
@@ -79,6 +80,8 @@ Intensity_500ns=Eric_data_500ns[1][np.logical_and(Eric_data_500ns[0]>=78,Eric_da
 Energy_500ns=Eric_data_500ns[0][np.logical_and(Eric_data_500ns[0]>=78,Eric_data_500ns[0]<=100)]
 Intensity_250ns=Eric_data_250ns[1][np.logical_and(Eric_data_250ns[0]>=78,Eric_data_250ns[0]<=100)]
 Energy_250ns=Eric_data_250ns[0][np.logical_and(Eric_data_250ns[0]>=78,Eric_data_250ns[0]<=100)]
+Intensity_400ns=Eric_data_400ns[1][np.logical_and(Eric_data_400ns[0]>=78,Eric_data_400ns[0]<=100)]
+Energy_400ns=Eric_data_400ns[0][np.logical_and(Eric_data_400ns[0]>=78,Eric_data_400ns[0]<=100)]
 #%%
 Au_I_J_2_5_3_5_f=[]
 Au_I_J_2_5_2_5_f=[]
@@ -244,13 +247,13 @@ Au_II_J_3_4=Au_II_J_3_4[:,1]
 Au_II_J_4_4=Au_II_J_4_4[:,1]
 Au_II_J_4_5=Au_II_J_4_5[:,1]
 #%%
-Au_II_J_1_2=np.exp(-(3.4011/3.3))*Au_II_J_1_2[:,1]
-Au_II_J_2_2=np.exp(-(2.1513/3.3))*Au_II_J_2_2[:,1]
-Au_II_J_2_3=np.exp(-(2.1513/3.3))*Au_II_J_2_3[:,1]
-Au_II_J_3_3=np.exp(-(1.7873/3.3))*Au_II_J_3_3[:,1]
-Au_II_J_3_4=np.exp(-(1.7873/3.3))*Au_II_J_3_4[:,1]
-Au_II_J_4_4=np.exp(-(5.2425/3.3))*Au_II_J_4_4[:,1]
-Au_II_J_4_5=np.exp(-(5.2425/3.3))*Au_II_J_4_5[:,1]
+Au_II_J_1_2=np.exp(-(3.4011/3))*Au_II_J_1_2[:,1]
+Au_II_J_2_2=np.exp(-(2.1513/3))*Au_II_J_2_2[:,1]
+Au_II_J_2_3=np.exp(-(2.1513/3))*Au_II_J_2_3[:,1]
+Au_II_J_3_3=np.exp(-(1.7873/3))*Au_II_J_3_3[:,1]
+Au_II_J_3_4=np.exp(-(1.7873/3))*Au_II_J_3_4[:,1]
+Au_II_J_4_4=np.exp(-(5.2425/3))*Au_II_J_4_4[:,1]
+Au_II_J_4_5=np.exp(-(5.2425/3))*Au_II_J_4_5[:,1]
 #%%
 Au_II_J_1_2_int=Au_II_J_1_2[:143]
 Au_II_J_2_2_int=Au_II_J_2_2[:143]
@@ -276,9 +279,9 @@ Fano_plot3=Fano(Energy, 81.2532+1.4, 2.73, 0.26989)
 total_cross_sections_AuI_sr=Fano_plot1+Fano_plot2+Fano_plot3
 #%%
 def bckg_500(x):
-    return -0.003*x+0.432
+    return -0.003*x+0.582
 def bckg_300(x):
-    return -0.015*x+1.956
+    return -0.015*x+1.976
 
 bck_500ns=bckg_500(Energy)
 bck_300ns=bckg_300(Energy)
@@ -519,21 +522,21 @@ plt.plot(Energy_AuIII,np.exp(-(2.8096+0.8390)/5.4)*Au_III_J_4_5_5_5[:,1],label='
 plt.plot(Energy_AuIII,np.exp(-(13.2294+0.8390)/5.4)*Au_III_J_5_5_5_5[:,1],label='AuIII: J=5.5 - 5.5')
 plt.legend()
 #%%
-Au_III_J_0_5_0_5_w=np.exp(-(5.8297+0.8390)/3.3)*Au_III_J_0_5_0_5[:,1]
-Au_III_J_0_5_1_5_w=np.exp(-(5.8297+0.8390)/3.3)*Au_III_J_0_5_1_5[:,1]
-Au_III_J_1_5_1_5_w=np.exp(-(0.7801+0.8390)/3.3)*Au_III_J_1_5_1_5[:,1]
-Au_III_J_1_5_2_5_w=np.exp(-(0.7801+0.8390)/3.3)*Au_III_J_1_5_2_5[:,1]
-Au_III_J_3_5_3_5_w=np.exp(-(3.5370+0.8390)/3.3)*Au_III_J_3_5_3_5[:,1]
-Au_III_J_3_5_4_5_w=np.exp(-(3.5370+0.8390)/3.3)*Au_III_J_3_5_4_5[:,1]
-Au_III_J_4_5_4_5_w=np.exp(-(2.8096+0.8390)/3.3)*Au_III_J_4_5_4_5[:,1]
-Au_III_J_4_5_5_5_w=np.exp(-(2.8096+0.8390)/3.3)*Au_III_J_4_5_5_5[:,1]
-Au_III_J_5_5_5_5_w=np.exp(-(13.2294+0.8390)/3.3)*Au_III_J_5_5_5_5[:,1]
+Au_III_J_0_5_0_5_w=np.exp(-(5.8297+0.8390)/3)*Au_III_J_0_5_0_5[:,1]
+Au_III_J_0_5_1_5_w=np.exp(-(5.8297+0.8390)/3)*Au_III_J_0_5_1_5[:,1]
+Au_III_J_1_5_1_5_w=np.exp(-(0.7801+0.8390)/3)*Au_III_J_1_5_1_5[:,1]
+Au_III_J_1_5_2_5_w=np.exp(-(0.7801+0.8390)/3)*Au_III_J_1_5_2_5[:,1]
+Au_III_J_3_5_3_5_w=np.exp(-(3.5370+0.8390)/3)*Au_III_J_3_5_3_5[:,1]
+Au_III_J_3_5_4_5_w=np.exp(-(3.5370+0.8390)/3)*Au_III_J_3_5_4_5[:,1]
+Au_III_J_4_5_4_5_w=np.exp(-(2.8096+0.8390)/3)*Au_III_J_4_5_4_5[:,1]
+Au_III_J_4_5_5_5_w=np.exp(-(2.8096+0.8390)/3)*Au_III_J_4_5_5_5[:,1]
+Au_III_J_5_5_5_5_w=np.exp(-(13.2294+0.8390)/3)*Au_III_J_5_5_5_5[:,1]
 #%%
 AuIII_tot_T_3_1=Au_III_J_0_5_0_5_w+Au_III_J_0_5_1_5_w+Au_III_J_1_5_1_5_w+Au_III_J_1_5_2_5_w+Au_III_J_2_5_2_5[:,1]+Au_III_J_2_5_3_5[:,1]+Au_III_J_3_5_3_5_w+Au_III_J_3_5_4_5_w+Au_III_J_4_5_4_5_w+Au_III_J_4_5_5_5_w+Au_III_J_5_5_5_5_w
 #%%
-Au_I_J_2_5_3_5_int=np.exp(-1.3931/3.5)*Au_I_J_2_5_3_5_int_f
-Au_I_J_2_5_2_5_int=np.exp(-1.3931/3.5)*Au_I_J_2_5_2_5_int_f
-Au_I_J_1_5_2_5_int=np.exp(-2.97397/3.5)*Au_I_J_1_5_2_5_int_f
+Au_I_J_2_5_3_5_int=np.exp(-1.3931/3)*Au_I_J_2_5_3_5_int_f
+Au_I_J_2_5_2_5_int=np.exp(-1.3931/3)*Au_I_J_2_5_2_5_int_f
+Au_I_J_1_5_2_5_int=np.exp(-2.97397/3)*Au_I_J_1_5_2_5_int_f
 AuIII_tot_T_3_1_int=AuIII_tot_T_3_1[:143]
 #plt.plot(Energy,0.669*total_cross_sections_AuII)
 #plt.plot(Energy_300ns,18*Intensity_300ns-np.repeat(13.8,len(Intensity_300ns)),label='300ns')
@@ -558,7 +561,7 @@ plt.plot(Energy,Broad_AuII,label='Guassian Broadening')
 plt.plot(Energy,total_cross_sections_AuII,label='No Broadening')
 plt.legend()
 #%%
-Test_Synth_Spectra_300ns=0.11*(Au_I_J_2_5_3_5_int+Au_I_J_2_5_2_5_int+Au_I_J_1_5_2_5_int)+0.78*total_cross_sections_AuII+0.11*AuIII_tot_T_3_1_int
+Test_Synth_Spectra_300ns=0.22*(Au_I_J_2_5_3_5_int+Au_I_J_2_5_2_5_int+Au_I_J_1_5_2_5_int)+0.75*total_cross_sections_AuII+0.03*AuIII_tot_T_3_1_int
 def LinearBckSynthSpec(X,a,b,c):
     CS,E = X
     return a*CS + b*E +c
@@ -574,12 +577,13 @@ sub_Intensity_300ns = Eric_data_300ns[1, mask]
 #%%
 popt,cov=curve_fit(LinearBckSynthSpec, (Test_Synth_Spectra_300ns, sub_Energy_300ns), sub_Intensity_300ns,p0=[1/15,-0.01,1.7])
 #%%
-SynthSpec_LinBack=1/17*Test_Synth_Spectra_300ns+bck_300ns
+SynthSpec_LinBack=1/37*Test_Synth_Spectra_300ns+bck_500ns
 #%%
-plt.plot(Energy,SynthSpec_LinBack,label='78% AuII, 11% Au I, 11% Au III')
+plt.plot(Energy,SynthSpec_LinBack,label='75% AuII, 22% Au I,3% Au III')
 #plt.plot(Energy_250ns,Intensity_250ns,label='250ns')
-plt.plot(Energy_300ns,Intensity_300ns,label='300ns')
+#plt.plot(Energy_300ns,Intensity_300ns,label='300ns')
 #plt.plot(Energy_500ns,Intensity_500ns,label='500ns')
+plt.plot(Energy_400ns,Intensity_400ns,label='400ns')
 plt.xlim(78,86)
 plt.legend()
 plt.xlabel('Energy [eV]')

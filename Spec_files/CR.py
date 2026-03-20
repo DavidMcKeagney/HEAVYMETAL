@@ -76,5 +76,42 @@ plt.xlim(0.1,8)
 plt.xlabel('Te [eV]')
 plt.ylabel(' timescale [ns]')
 plt.legend()
+#%%
+def alphaR(IP,Te,Z):
+    return (5.2E-14)*((IP/Te)**(1/2))*(Z)*(0.429+(0.5*np.log(IP/Te)+(0.469*((Te/IP)**(1/2)))))
 
+def alpha3b(IP,Te,Z):
+    return ((2.97E-27))/((Te*(IP**2))*(4.88+(Te/IP)))
+def S(IP,Te,Z):
+    return (((9E-6)*((Te/IP)**(1/2)))/((IP**(3/2))*(4.88+(Te/IP))))*np.exp(-IP/Te)
+#%%
+Au_II_IP=20.203
+Pt_II_IP=18.56
+Ir_II_IP=17
+Au_I_IP=9.226
+Pt_I_IP=8.959
+Ir_I_IP=8.967
+Au_II_r=alphaR(Au_II_IP, Te, 1)+ne*alpha3b(Au_II_IP, Te, 1)
+Pt_II_r=alphaR(Pt_II_IP, Te, 1)+ne*alpha3b(Pt_II_IP, Te, 1)
+Ir_II_r=alphaR(Ir_II_IP, Te, 1)+ne*alpha3b(Ir_II_IP, Te, 1)
 
+Au_I_s=S(Au_I_IP,Te,0)
+Pt_I_s=S(Pt_I_IP, Te, 0)
+Ir_I_s=S(Ir_I_IP,Te,0)
+#%%
+plt.plot(Te,np.log10(Au_II_r),label='Au II')
+plt.plot(Te,np.log10(Pt_II_r),label='Pt II')
+plt.plot(Te,np.log10(Ir_II_r),label='Ir II')
+plt.xlabel('Te [eV]')
+plt.ylabel('log(Recombination) (s^-1)')
+plt.xlim(0,5)
+plt.ylim(-10,-6.5)
+plt.legend()
+#%%
+plt.plot(Te,Au_I_s/Au_II_r,label='Au')
+plt.plot(Te,Pt_I_s/Pt_II_r,label='Pt')
+plt.plot(Te,Ir_I_s/Ir_II_r,label='Ir')
+plt.xlabel('Te [eV]')
+plt.ylabel('n_II/n_I')
+#plt.xlim(0,5)
+plt.legend()
