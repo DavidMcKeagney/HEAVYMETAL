@@ -42,4 +42,8 @@ def V(x,l,Z):
 #%%
 sol=numerov( 0, 5, V, 0.001, 0, 0)
 #%%
-plt.plot(sol[1],sol[3][:,4878])
+x_vals=np.arange(0,5+0.001,0.001)
+analytical=np.sin(x_vals*(np.pi/5))
+plt.plot(sol[1],sol[3][:,4878],label='numerical')
+plt.plot(x_vals,np.sqrt(1/np.trapz(analytical**2,0.001,4.999))*analytical,label='analytical')
+plt.legend()
