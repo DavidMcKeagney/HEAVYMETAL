@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Mar 28 13:17:04 2026
+Created on Fri Apr 17 11:42:55 2026
 
 @author: padmin
 """
@@ -64,13 +64,13 @@ Au_I_J_2_5_3_5=np.array(Au_I_J_2_5_3_5[4:]).astype(float)
 
 Energy_AuI=Au_I_J_1_5_2_5[:,0]
 
-Au_I_J_2_5_3_5=(6/2)*np.exp(-1.3931/2.51)*Au_I_J_2_5_3_5[:,1]
-Au_I_J_2_5_2_5=(6/2)*np.exp(-1.3931/2.51)*Au_I_J_2_5_2_5[:,1]
-Au_I_J_2_5_1_5=(6/2)*np.exp(-1.3931/2.51)*Au_I_J_2_5_1_5[:,1]
-Au_I_J_1_5_2_5=(4/2)*np.exp(-2.97397/2.51)*Au_I_J_1_5_2_5[:,1]
+Au_I_J_2_5_3_5=np.exp(-1.3931/2.78)*Au_I_J_2_5_3_5[:,1]
+Au_I_J_2_5_2_5=np.exp(-1.3931/2.78)*Au_I_J_2_5_2_5[:,1]
+Au_I_J_2_5_1_5=np.exp(-1.3931/2.78)*Au_I_J_2_5_1_5[:,1]
+Au_I_J_1_5_2_5=np.exp(-2.97397/2.78)*Au_I_J_1_5_2_5[:,1]
 
 X_AuI=Au_I_J_1_5_2_5+Au_I_J_2_5_2_5+Au_I_J_2_5_3_5+Au_I_J_2_5_1_5
-X_AuI=0.41*X_AuI
+X_AuI=0.3*X_AuI
 X_AuI=np.column_stack((Energy_AuI,X_AuI))
 #%%
 # Au II Cross Sections
@@ -138,21 +138,21 @@ Au_II_J_4_5=np.array(Au_II_J_4_5[4:]).astype(float)
 
 Energy_AuII= Au_II_J_1_2[:,0]
 
-Au_II_J_1_0=3*np.exp(-(3.4011/2.51))*Au_II_J_1_0[:,1]
-Au_II_J_1_1=3*np.exp(-(3.4011/2.51))*Au_II_J_1_1[:,1]
-Au_II_J_1_2=3*np.exp(-(3.4011/2.51))*Au_II_J_1_2[:,1]
-Au_II_J_2_2=5*np.exp(-(2.1513/2.51))*Au_II_J_2_2[:,1]
-Au_II_J_2_1=5*np.exp(-(2.1513/2.51))*Au_II_J_2_1[:,1]
-Au_II_J_2_3=5*np.exp(-(2.1513/2.51))*Au_II_J_2_3[:,1]
-Au_II_J_3_3=7*np.exp(-(1.7873/2.51))*Au_II_J_3_3[:,1]
-Au_II_J_3_2=7*np.exp(-(1.7873/2.51))*Au_II_J_3_2[:,1]
-Au_II_J_3_4=7*np.exp(-(1.7873/2.51))*Au_II_J_3_4[:,1]
-Au_II_J_4_4=9*np.exp(-(5.2425/2.51))*Au_II_J_4_4[:,1]
-Au_II_J_4_3=9*np.exp(-(5.2425/2.51))*Au_II_J_4_3[:,1]
-Au_II_J_4_5=9*np.exp(-(5.2425/2.51))*Au_II_J_4_5[:,1]
+Au_II_J_1_0=np.exp(-(3.4011/2.78))*Au_II_J_1_0[:,1]
+Au_II_J_1_1=np.exp(-(3.4011/2.78))*Au_II_J_1_1[:,1]
+Au_II_J_1_2=np.exp(-(3.4011/2.78))*Au_II_J_1_2[:,1]
+Au_II_J_2_2=np.exp(-(2.1513/2.78))*Au_II_J_2_2[:,1]
+Au_II_J_2_1=np.exp(-(2.1513/2.78))*Au_II_J_2_1[:,1]
+Au_II_J_2_3=np.exp(-(2.1513/2.78))*Au_II_J_2_3[:,1]
+Au_II_J_3_3=np.exp(-(1.7873/2.78))*Au_II_J_3_3[:,1]
+Au_II_J_3_2=np.exp(-(1.7873/2.78))*Au_II_J_3_2[:,1]
+Au_II_J_3_4=np.exp(-(1.7873/2.78))*Au_II_J_3_4[:,1]
+Au_II_J_4_4=np.exp(-(5.2425/2.78))*Au_II_J_4_4[:,1]
+Au_II_J_4_3=np.exp(-(5.2425/2.78))*Au_II_J_4_3[:,1]
+Au_II_J_4_5=np.exp(-(5.2425/2.78))*Au_II_J_4_5[:,1]
 
 X_AuII=Au_II_J_1_2+Au_II_J_2_2+Au_II_J_2_3+Au_II_J_3_3+Au_II_J_3_4+Au_II_J_4_4+Au_II_J_4_5+Au_II_J_2_1+Au_II_J_3_2+Au_II_J_4_3+Au_II_J_1_1+Au_II_J_1_0
-X_AuII=0.59*X_AuII
+X_AuII=0.70*X_AuII
 X_AuII=np.column_stack((Energy_AuII,X_AuII))
 #%%
 # Au III Cross Sections
@@ -255,28 +255,28 @@ X_AuI_500ns=X_AuI[:,1]
 X_AuII_500ns=X_AuII[:,1]
 #CS=shifting_cross_sections(CS, X_AuIII, 0, 1e-8)
 #%%
-linear_500ns=linear_bck(X_AuI[:,0], -0.00, 0.13)
+linear_500ns=linear_bck(X_AuI[:,0], -0.00, 0.12)
 linear_450ns=linear_bck(X_AuI[:,0], -0.00, 0.185)
-linear_400ns=linear_bck(X_AuI[:,0], -0.00, 0.23)
+linear_400ns=linear_bck(X_AuI[:,0], -0.00, 0.22)
 linear_300ns=linear_bck(X_AuI[:,0], 0, 0.5)
 linear_350ns=linear_bck(X_AuI[:,0], 0, 0.31)
 
 #linear_300ns=linear_bck(X_AuI[:,0], -0.015, 1.93)
 #%%
 
-plt.plot(X_AuI[:,0]+np.repeat(0.74,len(X_AuI[:,0])),1/75*CS_300ns[:,1]+linear_300ns,label='Theoretical')
+plt.plot(X_AuI[:,0]+np.repeat(0.74,len(X_AuI[:,0])),1/40*CS_400ns[:,1]+linear_400ns,label='Theoretical')
 #plt.plot(X_AuI[:,0]+np.repeat(0.74,len(X_AuI[:,0])),1/100*X_AuI[:,1]+linear_300ns-np.repeat(0.05,len(X_AuI[:,1])),linestyle='dashed',label='Au I')
 #plt.plot(X_AuI[:,0]+np.repeat(0.74,len(X_AuI[:,0])),1/100*X_AuII[:,1]+linear_300ns-np.repeat(0.05,len(X_AuII[:,1])),linestyle='dashdot',label='Au II')
-#plt.plot(Energy_exp,data_500ns,color='black',label='500ns')
-plt.plot(Energy_exp,data_300ns,label='300ns')
+plt.plot(Energy_exp,data_400ns,color='black',label='400ns')
+#plt.plot(Energy_exp,data_300ns,label='300ns')
 #plt.plot(Energy_exp,data_250ns,label='250ns')
 #plt.plot(Energy_exp,data_200ns,label='200ns')
 #plt.plot(Energy_exp,data_400ns,label='400ns')
 plt.legend()
 plt.xlabel('Energy (eV)')
 plt.ylabel('Absorbance')
-plt.xlim(78,86)
-plt.ylim(0.8,1.7)
+plt.xlim(78,95)
+plt.ylim(0.3,0.7)
 #%%
 fig,axes=plt.subplots(2,3,figsize=(9, 10))
 axes[0,0].plot(X_AuI[:,0]+np.repeat(0.74,len(X_AuI[:,0])),1/290*CS_500ns[:,1]+linear_500ns)
@@ -413,20 +413,3 @@ plt.xlabel('Energy [eV]')
 plt.ylabel('Absorbance')
 plt.xlim(78,84)
 plt.ylim(0.77,1.6)
-#%%
-scaled_shifted_300ns=1/75*CS_300ns[:,1]+linear_300ns
-scaled_shifted_350ns=1/120*CS_350ns[:,1]+linear_350ns
-scaled_shifted_400ns=1/180*CS_400ns[:,1]+linear_400ns
-scaled_shifted_450ns=1/225*CS_450ns[:,1]+linear_450ns
-scaled_shifted_500ns=1/290*CS_500ns[:,1]+linear_500ns
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Theoretical data\synth_spec_300ns.dat',np.transpose([X_AuI[:,0],CS_300ns[:,1],X_AuI_300ns,X_AuII_300ns,scaled_shifted_300ns]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Theoretical data\synth_spec_350ns.dat',np.transpose([X_AuI[:,0],CS_350ns[:,1],X_AuI_350ns,X_AuII_350ns,scaled_shifted_350ns]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Theoretical data\synth_spec_400ns.dat',np.transpose([X_AuI[:,0],CS_400ns[:,1],X_AuI_400ns,X_AuII_400ns,scaled_shifted_400ns]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Theoretical data\synth_spec_450ns.dat',np.transpose([X_AuI[:,0],CS_450ns[:,1],X_AuI_450ns,X_AuII_450ns,scaled_shifted_450ns]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Theoretical data\synth_spec_500ns.dat',np.transpose([X_AuI[:,0],CS_500ns[:,1],X_AuI_500ns,X_AuII_500ns,scaled_shifted_500ns]))
-#%%
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_300ns.dat', np.transpose([Energy_exp[467:1320],data_300ns[467:1320]]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_350ns.dat', np.transpose([Energy_exp[467:1320],data_350ns[467:1320]]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_400ns.dat', np.transpose([Energy_exp[467:1320],data_400ns[467:1320]]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_450ns.dat', np.transpose([Energy_exp[467:1320],data_450ns[467:1320]]))
-np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_500ns.dat', np.transpose([Energy_exp[467:1320],data_500ns[467:1320]]))
