@@ -44,7 +44,7 @@ frac = np.zeros((int(len(Te)), int(Atomic_num+1)))
 # Rates
 for i in range (0,Atomic_num+1):
     S[:,i]=(((9E-6)*((Te/IPs[i])**(1/2)))/((IPs[i]**(3/2))*(4.88+(Te/IPs[i]))))*np.exp(-IPs[i]/Te)
-    alphaR[:,i]= (5.2E-14)*((IPs[i]/Te)**(1/2))*(i)*(0.429+(0.5*np.log(IPs[i]/Te)+(0.469*((Te/IPs[i])**(1/2)))))
+    alphaR[:,i]= (5.2E-14)*((IPs[i]/Te)**(1/2))*(i)*(0.429+(0.33*np.log(IPs[i]/Te)+(0.469*((Te/IPs[i])**(1/2)))))
     alpha3b[:,i]=((2.97E-27))/((Te*(IPs[i]**2))*(4.88+(Te/IPs[i])))
     if i>0:
         # n[:,0] already set to 1, calculate rest with rates above
@@ -78,12 +78,25 @@ plt.ylabel(' timescale [ns]')
 plt.legend()
 #%%
 def alphaR(IP,Te,Z):
-    return (5.2E-14)*((IP/Te)**(1/2))*(Z)*(0.429+(0.5*np.log(IP/Te)+(0.469*((Te/IP)**(1/2)))))
+    return (5.2E-14)*((IP/Te)**(1/2))*(Z)*(0.429+(0.33*np.log(IP/Te)+(0.469*((Te/IP)**(1/2)))))
 
 def alpha3b(IP,Te,Z):
     return ((2.97E-27))/((Te*(IP**2))*(4.88+(Te/IP)))
 def S(IP,Te,Z):
     return (((9E-6)*((Te/IP)**(1/2)))/((IP**(3/2))*(4.88+(Te/IP))))*np.exp(-IP/Te)
+def Density_limit(IP_I,IP_II,Te,Z):
+    limit=(S(IP_I,Te,Z)+alphaR(IP_II, Te, Z+1))**2/(4*alpha3b(IP_II, Te, Z+1)*S(IP_I, Te, Z))
+    return limit
+def z_bar_limit(IP_I,IP_II,Te,Z):
+    z_bar=S(IP_I, Te, Z)/(S(IP_I, Te, Z)+alphaR(IP_II, Te, Z+1))
+    return z_bar
+def z_bar_no_limit(IP_I,IP_II,Te,Z,rho_bar):
+    z_bar=2*S(IP_I, Te, Z)/(S(IP_I, Te, Z)+alphaR(IP_II, Te, Z+1)+np.sqrt((S(IP_I, Te, Z)+alphaR(IP_II, Te, Z+1))**2 + 4*rho_bar*alpha3b(IP_II, Te, Z)*S(IP_I, Te, Z)))
+    return z_bar
+def fitfunc(T,T_0,n):
+    return 1/(1+(T_0/T)**n)
+
+    
 #%%
 Au_II_IP=20.203
 Pt_II_IP=18.56
@@ -114,4 +127,22 @@ plt.plot(Te,Ir_I_s/Ir_II_r,label='Ir')
 plt.xlabel('Te [eV]')
 plt.ylabel('n_II/n_I')
 #plt.xlim(0,5)
+plt.legend()
+#%%
+Density_limit_Au=Density_limit(Au_I_IP, Au_II_IP, Te, 1)
+z_bar_Au=z_bar_limit(Au_I_IP, Au_II_IP, Te, 1)
+#%%
+z_bar_Au_no_limit1=z_bar_no_limit(Au_I_IP, Au_II_IP, Te, 1,1e21)
+z_bar_Au_no_limit2=z_bar_no_limit(Au_I_IP, Au_II_IP, Te, 1,1e19)
+z_bar_Au_no_limit3=z_bar_no_limit(Au_I_IP, Au_II_IP, Te, 1,1e17)
+#%%
+#plt.plot(Te,np.log10(Density_limit_Au))
+plt.plot(Te,z_bar_Au,label='low density limit')
+#plt.plot(Te, z_bar_Au_no_limit1,label='n_ion=1e21 cm^-3')
+#plt.plot(Te, z_bar_Au_no_limit2,label='n_ion=1e19 cm^-3')
+#plt.plot(Te, z_bar_Au_no_limit3,label='n_ion=1e17 cm^-3')
+plt.xlim(0,5)
+#plt.ylim(0,1)
+plt.xlabel('T (eV)')
+plt.ylabel('Z_bar')
 plt.legend()
