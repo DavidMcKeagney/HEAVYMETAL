@@ -34,8 +34,8 @@ def numerov(x_0,x_max,V,dx,l,Z):
     B=1/12*B
     H=-(1/(2*(dx**2)))*H
     A=H+np.matmul(B,Wmat)
-    H_new=np.matmul(LA.inv(B),A)
-    eigvalues,eigvectors=LA.eig(H_new)
+    #H_new=np.matmul(LA.inv(B),A)
+    eigvalues,eigvectors=LA.eigh((A , B))
     return x_points,x_in,eigvalues,eigvectors
 def V(x,l,Z):
     return Z/x + l*(l+1)/(x**2)
@@ -44,6 +44,8 @@ sol=numerov( 0, 5, V, 0.001, 0, 0)
 #%%
 x_vals=np.arange(0,5+0.001,0.001)[1:-1]
 analytical=np.sin(x_vals*(np.pi/5))
-plt.plot(sol[1],sol[3][:,4881],label='numerical')
-plt.plot(x_vals,np.sqrt(1/np.trapz(analytical**2,x=x_vals))*analytical,label='analytical')
+plt.plot(sol[1],np.sqrt(1/0.001)*sol[3][0][:,0],label='numerical')
+plt.plot(x_vals,np.sqrt(1/np.trapz(analytical**2,x_vals,dx=0.001))*analytical,label='analytical')
 plt.legend()
+#%%
+num_sol=sol[3][0][:,0]
