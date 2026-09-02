@@ -34,13 +34,22 @@ def Wigner(s,D):
     return (np.pi*s/(2*D**2))*np.exp(-np.pi*(s/(2*D))**2)     
 #%%
 Hf_level_info=[]
+Hf_lines=[]
 with open('C:\\Users\David McKeagney\Downloads\Hf_I.sorted') as file:
     for lines in file:
         Hf_level_info.append(lines.split())
+with open('C:\\Users\David McKeagney\Downloads\Hf_I.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            Hf_lines.append(lines.split())
 Hf_level_info=Hf_level_info[1:]
 Hf_level_info=[a[0:3] for a in Hf_level_info]
 Hf_level_info=np.array(Hf_level_info).astype(float)
 Hf_level_info[:,0]=Hf_level_info[:,0]+np.repeat(np.abs(Hf_level_info[0,0]), len(Hf_level_info[:,0]))
+Hf_lines=np.array(Hf_lines)
+#%%
+dE_Hf=Hf_lines[:,11].astype(float)
+gf_Hf=np.exp(Hf_lines[:,15].astype(float))
 #%%
 Hf_positive=Hf_level_info[Hf_level_info[:,1]>0]
 Hf_negative=Hf_level_info[Hf_level_info[:,1]<0]
@@ -84,4 +93,6 @@ s=np.arange(0,0.17,0.001)
 #%%
 plt.hist(spacing_4_neg,bins=20)
 plt.plot(s,Wigner(s, 0.0406))
+#%%
+plt.scatter(dE_Hf,gf_Hf/dE_Hf)
 #plt.xlim(0,0.1)
