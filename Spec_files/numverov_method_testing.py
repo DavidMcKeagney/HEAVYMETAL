@@ -31,11 +31,10 @@ def numerov(x_0,x_max,V,dx,l,Z):
         if i < n-1:
             H[i, i+1] = 1
             B[i, i+1] = 1
-        if i==1:
-            H[i,i] += -(1/12)*(Z/dx)
        
     B=1/12*B
     H=-(1/(2*(dx**2)))*H
+    H[0,0] += -(1/12)*(Z/dx)
     A=H+np.matmul(B,Wmat)
     #H_new=np.matmul(LA.inv(B),A)
     eigvalues,eigvectors=LA.eigh((A , B))
@@ -51,7 +50,7 @@ plt.plot(sol[1],sol[3][0][:,0],label='numerical')
 plt.plot(x_vals,np.sqrt(1/np.trapz(analytical**2,x_vals,dx=0.001))*analytical,label='analytical')
 plt.legend()
 #%%
-s_orbit_n_1=numerov(0, 10, V, 0.001, 0, 1)
+s_orbit_n_1=numerov(0, 10, V, 0.01, 1, 1)
 s_n_1_analytical=np.exp(-s_orbit_n_1[1])
 #%%
 plt.plot(s_orbit_n_1[1],-s_orbit_n_1[3][0][:,0],label='numerical')
