@@ -74,9 +74,9 @@ alpha_Au=saha_factor(g_ii_Au, g_i_Au, T_vals, X_Au)
 alpha_Pt=saha_factor(g_ii_Pt, g_i_Pt, T_vals, X_Pt)
 alpha_Ir=saha_factor(g_ii_Ir, g_i_Ir, T_vals, X_Ir)
 #%%
-Z_bar_Au=Z_bar_lte(T_vals, rho_vals, 1.674e-1, g_ii_Au, g_i_Au, X_Au)
-Z_bar_Pt=Z_bar_lte(T_vals, rho_vals, 1.674e-1, g_ii_Pt, g_i_Pt, X_Pt)
-Z_bar_Ir=Z_bar_lte(T_vals, rho_vals, 1.674e-1, g_ii_Ir, g_i_Ir, X_Ir)
+Z_bar_Au=Z_bar_lte(T_vals, 1e21, 1.674e-1, g_ii_Au, g_i_Au, X_Au)
+Z_bar_Pt=Z_bar_lte(T_vals, 1e21, 1.674e-1, g_ii_Pt, g_i_Pt, X_Pt)
+Z_bar_Ir=Z_bar_lte(T_vals, 1e21, 1.674e-1, g_ii_Ir, g_i_Ir, X_Ir)
 #%%
 alpha_Au_limit=saha_factor(g_ii_Au, g_i_Au, 3.48e4, X_Au)
 
