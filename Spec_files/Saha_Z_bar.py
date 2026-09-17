@@ -42,7 +42,7 @@ nt = np.zeros(int(len(Te)))
 
 for i in np.arange(0,Atomic_num+1):
     if i>0:
-        n[:,i]=Saha(1e16, g_AU[i-1], g_AU[i], IPs_AU[i-1], Te)*n[:,i-1]
+        n[:,i]=Saha(1e21, g_AU[i-1], g_AU[i], IPs_AU[i-1], Te)*n[:,i-1]
 
 nt=np.sum(n,1)
 

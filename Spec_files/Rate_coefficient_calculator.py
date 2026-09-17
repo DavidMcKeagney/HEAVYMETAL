@@ -8,6 +8,7 @@ Created on Tue Sep  8 15:45:20 2026
 import numpy as np
 import matplotlib.pyplot as plt
 from sympy.integrals.quadrature import gauss_laguerre
+import scipy.special as sc
 #%%
 #Important functions 
 # These functions together perform Gauss Laguerre quadrature to numerically integrate the Fano cross sections to get a photoionization rate for CR modelling
@@ -77,6 +78,11 @@ def PhotoIonizationRate(beta,E_r,E_0,Gamma,q):
     c=299792458
     A=8*np.pi/((h**2)*(c**3))
     return A*PI_rate
+def CollisionalIonization(beta,E_0,n_elec):
+    a=4.5e-14
+    me=9.1093897E-31
+    pre_fac=(n_elec*a/E_0)*np.sqrt(beta*8*(me)**3/np.pi)
+    return pre_fac*sc.expi(beta*E_0)
     
     
     
