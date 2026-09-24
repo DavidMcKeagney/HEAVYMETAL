@@ -76,7 +76,7 @@ def PhotoIonizationRate(beta,E_r,E_0,Gamma,q):
     
     h=4.135667696e-15
     c=299792458
-    A=8*np.pi/((h**2)*(c**3))
+    A=8*np.pi/((h**3)*(c**3))
     return A*PI_rate
 def CollisionalIonization(beta,E_0,n_elec):
     a=4.5e-14
@@ -91,6 +91,7 @@ num_points=np.arange(2,15)
 results=np.array([Convergence_test(n, 20, 1/2, 80.23, 20.203, 0.27) for n in num_points]).astype(float)
 #%%
 plt.plot(num_points,results)
+plt.xlabel('Number of points')
 #%%
 T_range=np.arange(0.1,2.05,0.05)
 beta=1/T_range
@@ -100,3 +101,4 @@ PI_rates=PhotoIonizationRate(beta, 80.23, 20.203, 0.27, 2.13)
 plt.plot(T_range,PI_rates)
 plt.xlabel('T (eV)')
 plt.ylabel('PI_rate (s^-1)')
+plt.yscale('log')
