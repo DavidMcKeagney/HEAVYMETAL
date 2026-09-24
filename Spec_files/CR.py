@@ -147,3 +147,11 @@ plt.xlim(0,2.55)
 plt.xlabel('T (eV)')
 plt.ylabel('Z_bar')
 plt.legend()
+#%%
+Z_bar_AU=np.dot(frac,np.arange(0,Atomic_num+1))
+#%%
+plt.plot(Te,Z_bar_AU)
+plt.xlim(0,3.5)
+plt.ylim(0,1.1)
+plt.xlabel('T_e')
+plt.ylabel('Z_bar')
