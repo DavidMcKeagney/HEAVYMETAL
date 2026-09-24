@@ -21,8 +21,8 @@ ec=1.60217733E-19
 # Electron density info
 wavelen = 1064*1e-9 # laser wavelength
 frac_ne= 1; # fraction of critical density
-ne=4*(np.pi**2)*(c**2)*me*esp0/((ec**2)*(wavelen**2))*(1E-6)*frac_ne # electron density
-
+#ne=4*(np.pi**2)*(c**2)*me*esp0/((ec**2)*(wavelen**2))*(1E-6)*frac_ne # electron density
+ne=1e18
 # Temperature info
 Te_start=0.01
 Te_step=0.01
@@ -44,9 +44,9 @@ frac = np.zeros((int(len(Te)), int(Atomic_num+1)))
 
 # Rates
 for i in range (0,Atomic_num+1):
-    S[:,i]=(((9E-6)*((Te/IPs_Hf[i])**(1/2)))/((IPs_Hf[i]**(3/2))*(4.88+(Te/IPs_Hf[i]))))*np.exp(-IPs_Hf[i]/Te)
-    alphaR[:,i]= (5.2E-14)*((IPs_Hf[i]/Te)**(1/2))*(i)*(0.429+(0.33*np.log(IPs_Hf[i]/Te)+(0.469*((Te/IPs_Hf[i])**(1/2)))))
-    alpha3b[:,i]=((2.97E-27))/((Te*(IPs_Hf[i]**2))*(4.88+(Te/IPs_Hf[i])))
+    S[:,i]=(((9E-6)*((Te/IPs_AU[i])**(1/2)))/((IPs_AU[i]**(3/2))*(4.88+(Te/IPs_AU[i]))))*np.exp(-IPs_AU[i]/Te)
+    alphaR[:,i]= (5.2E-14)*((IPs_AU[i]/Te)**(1/2))*(i)*(0.429+(0.33*np.log(IPs_AU[i]/Te)+(0.469*((Te/IPs_AU[i])**(1/2)))))
+    alpha3b[:,i]=((2.97E-27))/((Te*(IPs_AU[i]**2))*(4.88+(Te/IPs_AU[i])))
     if i>0:
         # n[:,0] already set to 1, calculate rest with rates above
         n[:,i]=(S[:,i-1]/(alphaR[:,i]+ne*alpha3b[:,i]))*n[:,i-1]

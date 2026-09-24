@@ -64,13 +64,13 @@ Au_I_J_2_5_3_5=np.array(Au_I_J_2_5_3_5[4:]).astype(float)
 
 Energy_AuI=Au_I_J_1_5_2_5[:,0]
 
-Au_I_J_2_5_3_5=(6/2)*np.exp(-1.3931/2.44)*Au_I_J_2_5_3_5[:,1]
-Au_I_J_2_5_2_5=(6/2)*np.exp(-1.3931/2.44)*Au_I_J_2_5_2_5[:,1]
-Au_I_J_2_5_1_5=(6/2)*np.exp(-1.3931/2.44)*Au_I_J_2_5_1_5[:,1]
-Au_I_J_1_5_2_5=(4/2)*np.exp(-2.97397/2.44)*Au_I_J_1_5_2_5[:,1]
+Au_I_J_2_5_3_5=(6/2)*np.exp(-1.3931/2.51)*Au_I_J_2_5_3_5[:,1]
+Au_I_J_2_5_2_5=(6/2)*np.exp(-1.3931/2.51)*Au_I_J_2_5_2_5[:,1]
+Au_I_J_2_5_1_5=(6/2)*np.exp(-1.3931/2.51)*Au_I_J_2_5_1_5[:,1]
+Au_I_J_1_5_2_5=(4/2)*np.exp(-2.97397/2.51)*Au_I_J_1_5_2_5[:,1]
 
 X_AuI=Au_I_J_1_5_2_5+Au_I_J_2_5_2_5+Au_I_J_2_5_3_5+Au_I_J_2_5_1_5
-X_AuI=0.45*X_AuI
+X_AuI=0.41*X_AuI
 X_AuI=np.column_stack((Energy_AuI,X_AuI))
 #%%
 # Au II Cross Sections
@@ -138,21 +138,21 @@ Au_II_J_4_5=np.array(Au_II_J_4_5[4:]).astype(float)
 
 Energy_AuII= Au_II_J_1_2[:,0]
 
-Au_II_J_1_0=3*np.exp(-(3.4011/2.44))*Au_II_J_1_0[:,1]
-Au_II_J_1_1=3*np.exp(-(3.4011/2.44))*Au_II_J_1_1[:,1]
-Au_II_J_1_2=3*np.exp(-(3.4011/2.44))*Au_II_J_1_2[:,1]
-Au_II_J_2_2=5*np.exp(-(2.1513/2.44))*Au_II_J_2_2[:,1]
-Au_II_J_2_1=5*np.exp(-(2.1513/2.44))*Au_II_J_2_1[:,1]
-Au_II_J_2_3=5*np.exp(-(2.1513/2.44))*Au_II_J_2_3[:,1]
-Au_II_J_3_3=7*np.exp(-(1.7873/2.44))*Au_II_J_3_3[:,1]
-Au_II_J_3_2=7*np.exp(-(1.7873/2.44))*Au_II_J_3_2[:,1]
-Au_II_J_3_4=7*np.exp(-(1.7873/2.44))*Au_II_J_3_4[:,1]
-Au_II_J_4_4=9*np.exp(-(5.2425/2.44))*Au_II_J_4_4[:,1]
-Au_II_J_4_3=9*np.exp(-(5.2425/2.44))*Au_II_J_4_3[:,1]
-Au_II_J_4_5=9*np.exp(-(5.2425/2.44))*Au_II_J_4_5[:,1]
+Au_II_J_1_0=3*np.exp(-(3.4011/2.51))*Au_II_J_1_0[:,1]
+Au_II_J_1_1=3*np.exp(-(3.4011/2.51))*Au_II_J_1_1[:,1]
+Au_II_J_1_2=3*np.exp(-(3.4011/2.51))*Au_II_J_1_2[:,1]
+Au_II_J_2_2=5*np.exp(-(2.1513/2.51))*Au_II_J_2_2[:,1]
+Au_II_J_2_1=5*np.exp(-(2.1513/2.51))*Au_II_J_2_1[:,1]
+Au_II_J_2_3=5*np.exp(-(2.1513/2.51))*Au_II_J_2_3[:,1]
+Au_II_J_3_3=7*np.exp(-(1.7873/2.51))*Au_II_J_3_3[:,1]
+Au_II_J_3_2=7*np.exp(-(1.7873/2.51))*Au_II_J_3_2[:,1]
+Au_II_J_3_4=7*np.exp(-(1.7873/2.51))*Au_II_J_3_4[:,1]
+Au_II_J_4_4=9*np.exp(-(5.2425/2.51))*Au_II_J_4_4[:,1]
+Au_II_J_4_3=9*np.exp(-(5.2425/2.51))*Au_II_J_4_3[:,1]
+Au_II_J_4_5=9*np.exp(-(5.2425/2.51))*Au_II_J_4_5[:,1]
 
 X_AuII=Au_II_J_1_2+Au_II_J_2_2+Au_II_J_2_3+Au_II_J_3_3+Au_II_J_3_4+Au_II_J_4_4+Au_II_J_4_5+Au_II_J_2_1+Au_II_J_3_2+Au_II_J_4_3+Au_II_J_1_1+Au_II_J_1_0
-X_AuII=0.55*X_AuII
+X_AuII=0.59*X_AuII
 X_AuII=np.column_stack((Energy_AuII,X_AuII))
 #%%
 # Au III Cross Sections
@@ -229,11 +229,11 @@ X_AuIII=0.0*X_AuIII
 X_AuIII=np.column_stack((Energy_AuIII,X_AuIII))
 #%%
 CS_300ns=shifting_cross_sections(X_AuII, X_AuI, -0.0,1e-8)
-CS_300ns=shifting_cross_sections(CS_300ns, X_AuIII, 0, 1e-8)
+#CS_300ns=shifting_cross_sections(CS_300ns, X_AuIII, 0, 1e-8)
 
 X_AuI_300ns=X_AuI[:,1]
 X_AuII_300ns=X_AuII[:,1]
-X_AuIII_300ns=X_AuIII[:,1]
+#X_AuIII_300ns=X_AuIII[:,1]
 #%%
 CS_350ns=shifting_cross_sections(X_AuII, X_AuI, -0.0,1e-8)
 #CS_350ns=shifting_cross_sections(CS_350ns, X_AuIII, 0, 1e-8)
@@ -430,3 +430,9 @@ np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_
 np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_400ns.dat', np.transpose([Energy_exp[467:1320],data_400ns[467:1320]]))
 np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_450ns.dat', np.transpose([Energy_exp[467:1320],data_450ns[467:1320]]))
 np.savetxt('C:\\Users\padmin\OneDrive\Desktop\Zenodo_data\Experimental data\Exp_500ns.dat', np.transpose([Energy_exp[467:1320],data_500ns[467:1320]]))
+#%%
+# Updating 300ns and 350ns snyth cross section with new temperatures
+scaled_shifted_300ns=1/75*CS_300ns[:,1]+linear_300ns
+scaled_shifted_350ns=1/120*CS_350ns[:,1]+linear_350ns
+np.savetxt('C:\\Users\padmin\OneDrive\Desktop\synth_spec_300ns.dat',np.transpose([X_AuI[:,0],CS_300ns[:,1],X_AuI_300ns,X_AuII_300ns,scaled_shifted_300ns]))
+np.savetxt('C:\\Users\padmin\OneDrive\Desktop\synth_spec_350ns.dat',np.transpose([X_AuI[:,0],CS_350ns[:,1],X_AuI_350ns,X_AuII_350ns,scaled_shifted_350ns]))
