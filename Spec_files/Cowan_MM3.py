@@ -26,6 +26,9 @@ def Gaussian(x,FWHM,mu):
     return 1/(Sigma*np.sqrt(2*np.pi))*(np.exp(-(x-mu)**2/(2*(Sigma)**2)))
 def linear_bck(x,b,c):
     return b*x+c
+def Fano(x,q,E_r,Gamma):
+    E=x-E_r
+    return ((q*Gamma/2)+E)**2/((Gamma/2)**2 + E**2)
 #%%
 Exp_data=np.loadtxt('C:\\Users\padmin\Downloads\\2023_07_19_absorption_shift0.8_eV.csv',dtype=str,delimiter=',')
 data_500ns=Exp_data[1:,44].astype(float)
@@ -64,13 +67,13 @@ Au_I_J_2_5_3_5=np.array(Au_I_J_2_5_3_5[4:]).astype(float)
 
 Energy_AuI=Au_I_J_1_5_2_5[:,0]
 
-Au_I_J_2_5_3_5=np.exp(-1.3931/2.78)*Au_I_J_2_5_3_5[:,1]
-Au_I_J_2_5_2_5=np.exp(-1.3931/2.78)*Au_I_J_2_5_2_5[:,1]
-Au_I_J_2_5_1_5=np.exp(-1.3931/2.78)*Au_I_J_2_5_1_5[:,1]
-Au_I_J_1_5_2_5=np.exp(-2.97397/2.78)*Au_I_J_1_5_2_5[:,1]
+Au_I_J_2_5_3_5=3*np.exp(-1.3931/1.3)*Au_I_J_2_5_3_5[:,1]
+Au_I_J_2_5_2_5=3*np.exp(-1.3931/1.3)*Au_I_J_2_5_2_5[:,1]
+Au_I_J_2_5_1_5=3*np.exp(-1.3931/1.3)*Au_I_J_2_5_1_5[:,1]
+Au_I_J_1_5_2_5=2*np.exp(-2.97397/1.3)*Au_I_J_1_5_2_5[:,1]
 
 X_AuI=Au_I_J_1_5_2_5+Au_I_J_2_5_2_5+Au_I_J_2_5_3_5+Au_I_J_2_5_1_5
-X_AuI=0.3*X_AuI
+X_AuI=0.6*X_AuI
 X_AuI=np.column_stack((Energy_AuI,X_AuI))
 #%%
 # Au II Cross Sections
@@ -138,21 +141,21 @@ Au_II_J_4_5=np.array(Au_II_J_4_5[4:]).astype(float)
 
 Energy_AuII= Au_II_J_1_2[:,0]
 
-Au_II_J_1_0=np.exp(-(3.4011/2.78))*Au_II_J_1_0[:,1]
-Au_II_J_1_1=np.exp(-(3.4011/2.78))*Au_II_J_1_1[:,1]
-Au_II_J_1_2=np.exp(-(3.4011/2.78))*Au_II_J_1_2[:,1]
-Au_II_J_2_2=np.exp(-(2.1513/2.78))*Au_II_J_2_2[:,1]
-Au_II_J_2_1=np.exp(-(2.1513/2.78))*Au_II_J_2_1[:,1]
-Au_II_J_2_3=np.exp(-(2.1513/2.78))*Au_II_J_2_3[:,1]
-Au_II_J_3_3=np.exp(-(1.7873/2.78))*Au_II_J_3_3[:,1]
-Au_II_J_3_2=np.exp(-(1.7873/2.78))*Au_II_J_3_2[:,1]
-Au_II_J_3_4=np.exp(-(1.7873/2.78))*Au_II_J_3_4[:,1]
-Au_II_J_4_4=np.exp(-(5.2425/2.78))*Au_II_J_4_4[:,1]
-Au_II_J_4_3=np.exp(-(5.2425/2.78))*Au_II_J_4_3[:,1]
-Au_II_J_4_5=np.exp(-(5.2425/2.78))*Au_II_J_4_5[:,1]
+Au_II_J_1_0=3*np.exp(-(3.4011/1.3))*Au_II_J_1_0[:,1]
+Au_II_J_1_1=3*np.exp(-(3.4011/1.3))*Au_II_J_1_1[:,1]
+Au_II_J_1_2=3*np.exp(-(3.4011/1.3))*Au_II_J_1_2[:,1]
+Au_II_J_2_2=5*np.exp(-(2.1513/1.3))*Au_II_J_2_2[:,1]
+Au_II_J_2_1=5*np.exp(-(2.1513/1.3))*Au_II_J_2_1[:,1]
+Au_II_J_2_3=5*np.exp(-(2.1513/1.3))*Au_II_J_2_3[:,1]
+Au_II_J_3_3=7*np.exp(-(1.7873/1.3))*Au_II_J_3_3[:,1]
+Au_II_J_3_2=7*np.exp(-(1.7873/1.3))*Au_II_J_3_2[:,1]
+Au_II_J_3_4=7*np.exp(-(1.7873/1.3))*Au_II_J_3_4[:,1]
+Au_II_J_4_4=9*np.exp(-(5.2425/1.3))*Au_II_J_4_4[:,1]
+Au_II_J_4_3=9*np.exp(-(5.2425/1.3))*Au_II_J_4_3[:,1]
+Au_II_J_4_5=9*np.exp(-(5.2425/1.3))*Au_II_J_4_5[:,1]
 
 X_AuII=Au_II_J_1_2+Au_II_J_2_2+Au_II_J_2_3+Au_II_J_3_3+Au_II_J_3_4+Au_II_J_4_4+Au_II_J_4_5+Au_II_J_2_1+Au_II_J_3_2+Au_II_J_4_3+Au_II_J_1_1+Au_II_J_1_0
-X_AuII=0.70*X_AuII
+X_AuII=0.4*X_AuII
 X_AuII=np.column_stack((Energy_AuII,X_AuII))
 #%%
 # Au III Cross Sections
@@ -413,3 +416,71 @@ plt.xlabel('Energy [eV]')
 plt.ylabel('Absorbance')
 plt.xlim(78,84)
 plt.ylim(0.77,1.6)
+#%%
+# Comparison of Mies to Fano
+Au_II_3_4=[]
+with open('C:\\Users\padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=3.0-4.0.sigma') as file:
+    for lines in file:
+        Au_II_3_4.append(lines.split())
+Au_II_3_4=np.array(Au_II_3_4[4:]).astype(float)
+Fano_3_4=Fano(Au_II_3_4[:,0], 2.13, 80.23, 0.28)
+Energy=Au_II_3_4[:,0]
+Mies_3_4=Au_II_3_4[:,1]
+#%%
+plt.plot(Energy,(1/np.trapz(Fano_3_4,Energy))*Fano_3_4,label='Fano')
+plt.plot(Energy+np.repeat(0.74,len(Energy)),(1/np.trapz(Mies_3_4,Energy))*Mies_3_4,label='Mies')
+plt.xlabel('Energy (eV)')
+plt.ylabel('\sigma(E)')
+plt.legend()
+#%%
+Fano_2_3=Fano(Energy, 3.05, 79.93, 0.44)
+Au_II_2_3=[]
+with open('C:\\Users\padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=2.0-3.0.sigma') as file:
+    for lines in file:
+        Au_II_2_3.append(lines.split())
+Au_II_2_3=np.array(Au_II_2_3[4:]).astype(float)
+Mies_2_3=Au_II_2_3[:,1]
+#%%
+plt.plot(Energy+np.repeat(0.74,len(Energy)),(1/np.trapz(Mies_2_3,Energy))*Mies_2_3,label='Mies')
+plt.plot(Energy,(1/np.trapz(Fano_2_3,Energy))*Fano_2_3,label='Fano')
+plt.xlabel('Energy (eV)')
+plt.ylabel('\sigma(E)')
+plt.legend()
+#%%
+Fano_1_2=Fano(Energy, 2.86, 82.28, 0.27)
+Au_II_1_2=[]
+with open('C:\\Users\padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=1.0-2.0.sigma') as file:
+    for lines in file:
+        Au_II_1_2.append(lines.split())
+Au_II_1_2=np.array(Au_II_1_2[4:]).astype(float)
+Mies_1_2=Au_II_1_2[:,1]
+#%%
+plt.plot(Energy+np.repeat(0.74,len(Energy)),(1/np.trapz(Mies_1_2,Energy))*Mies_1_2,label='Mies')
+plt.plot(Energy,(1/np.trapz(Fano_1_2,Energy))*Fano_1_2,label='Fano')
+plt.xlabel('Energy (eV)')
+plt.ylabel('\sigma(E)')
+plt.legend()
+#%%
+Fano_4_5=Fano(Energy, 2.81, 81.81, 0.47)
+Au_II_4_5=[]
+with open('C:\\Users\padmin\OneDrive\Documents\Github\HEAVYMETAL\Michael_Martins_cowan\Au.II.J=4.0-5.0.sigma') as file:
+    for lines in file:
+        Au_II_4_5.append(lines.split())
+Au_II_4_5=np.array(Au_II_4_5[4:]).astype(float)
+Mies_4_5=Au_II_4_5[:,1]
+#%%
+plt.plot(Energy+np.repeat(0.74,len(Energy)),(1/np.trapz(Mies_4_5,Energy))*Mies_4_5,label='Mies')
+plt.plot(Energy,(1/np.trapz(Fano_4_5,Energy))*Fano_4_5,label='Fano')
+plt.xlabel('Energy (eV)')
+plt.ylabel('\sigma(E)')
+plt.legend()
+#%%
+LTE_300ns=shifting_cross_sections(X_AuI, X_AuII, 0, 1e-8)
+#%%
+plt.plot(LTE_300ns[:,0]+np.repeat(0.74,len(LTE_300ns[:,0])),1/160*LTE_300ns[:,1]+np.repeat(0.14,len(LTE_300ns[:,0])))
+plt.plot(Energy_exp,data_500ns,label='500ns')
+plt.xlim(78.5,84)
+plt.ylim(0.17,0.37)
+plt.xlabel('eV')
+plt.ylabel('Absorbance')
+plt.legend()
