@@ -49,9 +49,9 @@ Hf_I=np.array(Hf_I)
 Hf_II=np.array(Hf_II)
 Hf_III=np.array(Hf_III)
 #%%
-Hf_I_np=Hf_I[Hf_I[:,8].astype(float)<=5]
-Hf_II_np=Hf_II[Hf_II[:,8].astype(float)<=5]
-Hf_III_np=Hf_III[Hf_III[:,8].astype(float)<=5]
+Hf_I_np=Hf_I[Hf_I[:,8].astype(float)<=12]
+Hf_II_np=Hf_II[Hf_II[:,8].astype(float)<=12]
+Hf_III_np=Hf_III[Hf_III[:,8].astype(float)<=12]
 #Hf_I=Hf_I[Hf_I[:,11].astype(float)>=30]
 #Hf_II=Hf_II[Hf_II[:,11].astype(float)>=30]
 #Hf_III=Hf_III[Hf_III[:,11].astype(float)>=30]
@@ -64,22 +64,22 @@ dE_HfI_np=Hf_I_np[:,11].astype(float)
 dE_HfII_np=Hf_II_np[:,11].astype(float)
 dE_HfIII_np=Hf_III_np[:,11].astype(float)
 #%%
-Energy_vals=np.arange(0,100,0.01)
-sig_HfI=flp.ConvolvingFunc(0, Energy_vals, dE_HfI_np, gf_HfI_np, 0.05, 0, 0.01, 0)
-sig_HfII=flp.ConvolvingFunc(0, Energy_vals, dE_HfII_np, gf_HfII_np, 0.05, 0, 0.01, 0)
-sig_HfIII=flp.ConvolvingFunc(0, Energy_vals, dE_HfIII_np, gf_HfIII_np, 0.05, 0, 0.01, 0)
+Energy_vals=np.arange(0,100,0.1)
+sig_HfI=flp.ConvolvingFunc(0, Energy_vals, dE_HfI_np, gf_HfI_np, 0.05, 0, 0.1, 0)
+sig_HfII=flp.ConvolvingFunc(0, Energy_vals, dE_HfII_np, gf_HfII_np, 0.05, 0, 0.1, 0)
+sig_HfIII=flp.ConvolvingFunc(0, Energy_vals, dE_HfIII_np, gf_HfIII_np, 0.05, 0, 0.1, 0)
 #%%
 #plt.plot(Energy+np.repeat(7.2,len(Energy)),1/600*Hf_III,label='Hf III')
 #plt.plot(Energy+np.repeat(7.2,len(Energy)),1/600*Hf_II,label='Hf II')
 #plt.plot(Energy+np.repeat(7.2,len(Energy)),1/600*Hf_I,label='Hf I')
-plt.plot(Energy+np.repeat(7.2,len(Energy)),0.04*1/1800*Hf_I+0.46*1/1800*Hf_II+0.46*1/1800*Hf_III +0.04*1/1800*Hf_IV + np.repeat(0.82,len(Energy)),label='Hf I + II + III + IV')
+#plt.plot(Energy+np.repeat(7.2,len(Energy)),0.04*1/1800*Hf_I+0.46*1/1800*Hf_II+0.46*1/1800*Hf_III +0.04*1/1800*Hf_IV + np.repeat(0.82,len(Energy)),label='Hf I + II + III + IV')
 #plt.plot(Abs_55ns[:,0],Abs_55ns[:,1],label='55ns' )
 #plt.plot(Abs_55ns[:,0],Abs_75ns[:,1],label='75ns' )
 #plt.plot(Abs_55ns[:,0],Abs_95ns[:,1],label='95ns' )
 #plt.plot(Energy+np.repeat(7.2,len(Energy)),Hf_IV,label='Hf IV')
 #plt.plot(Energy,Hf_V,label='Hf V')
 #plt.plot(Energy,Hf_VI,label='Hf VI')
-#plt.plot(Energy_vals + np.repeat(17,len(Energy_vals)),1/20*sig_HfI,label='Hf I')
+plt.plot(Energy_vals + np.repeat(7.2,len(Energy_vals)),1/1500*sig_HfI + np.repeat(0.4,len(Energy_vals)),label='Hf I')
 #plt.plot(Energy_vals + np.repeat(15,len(Energy_vals)),1/5*sig_HfII, label='Hf II')
 #plt.plot(Energy_vals , sig_HfIII, label= 'Hf III')
 plt.plot(Abs_400ns[:,0],Abs_400ns[:,1],label='400ns')
@@ -94,9 +94,10 @@ plt.ylabel('Absorbance')
 #plt.stem(dE_HfI_np,gf_HfI_np,label='Hf I',linefmt='blue')
 #plt.stem(dE_HfII_np,gf_HfII_np,label='Hf II',linefmt='green')
 #plt.stem(dE_HfIII_np,gf_HfIII_np,label='Hf III',linefmt='orange')
-plt.plot(Energy_vals,1/20*sig_HfI,label='Hf I')
-plt.plot(Energy_vals,1/5*sig_HfII,label='Hf II')
+plt.plot(Energy_vals,1/80*sig_HfI,label='Hf I')
+plt.plot(Energy_vals,1/12*sig_HfII,label='Hf II')
 plt.plot(Energy_vals,sig_HfIII,label='Hf III')
 plt.legend()
 plt.xlabel('Energy (eV)')
-plt.ylabel('gf')
+plt.ylabel('scaled gf')
+plt.xlim(25,50)

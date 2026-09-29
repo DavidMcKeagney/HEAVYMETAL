@@ -35,10 +35,10 @@ def Wigner(s,D):
 #%%
 Hf_level_info=[]
 Hf_lines=[]
-with open('C:\\Users\David McKeagney\Downloads\Hf_I.sorted') as file:
+with open('C:\\Users\David McKeagney\Desktop\Hf_data\Hf_I\Hf_I.sorted') as file:
     for lines in file:
         Hf_level_info.append(lines.split())
-with open('C:\\Users\David McKeagney\Downloads\Hf_I.spec') as file:
+with open('C:\\Users\David McKeagney\Desktop\Hf_data\Hf_I\Hf_I.spec') as file:
     for lines in file:
         if len(lines.split())>16:
             Hf_lines.append(lines.split())
@@ -91,7 +91,7 @@ spacing_4_neg=levelspacing(Hf_negative, 4)
 #%%
 s=np.arange(0,0.17,0.001)
 #%%
-plt.hist(spacing_4_neg,bins=20)
+plt.hist(spacing_4_neg,bins=200)
 plt.plot(s,Wigner(s, 0.0406))
 #%%
 plt.scatter(dE_Hf,gf_Hf/dE_Hf)
