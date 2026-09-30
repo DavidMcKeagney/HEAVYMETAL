@@ -33,11 +33,11 @@ Abs_500ns=Abs_500ns[1:,:].astype(float)
 Hf_I=[]
 Hf_II=[]
 Hf_III=[]
-with open('C:\\Users\David McKeagney\Downloads\Hf_I.spec') as file:
+with open('C:\\Users\David McKeagney\Desktop\Hf_data\Hf_I\Hf_I.spec') as file:
     for lines in file:
         if len(lines.split())>16:
             Hf_I.append(lines.split())
-with open('C:\\Users\David McKeagney\Downloads\Hf_II.spec') as file:
+with open('C:\\Users\David McKeagney\Desktop\Hf_data\Hf_II\Hf_II.spec') as file:
     for lines in file:
         if len(lines.split())>16:
             Hf_II.append(lines.split())
@@ -50,8 +50,11 @@ Hf_II=np.array(Hf_II)
 Hf_III=np.array(Hf_III)
 #%%
 Hf_I_np=Hf_I[Hf_I[:,8].astype(float)<=12]
-Hf_II_np=Hf_II[Hf_II[:,8].astype(float)<=12]
-Hf_III_np=Hf_III[Hf_III[:,8].astype(float)<=12]
+Hf_II_np=Hf_II[Hf_II[:,8].astype(float)<=9]
+Hf_III_np=Hf_III[Hf_III[:,8].astype(float)<=5]
+Hf_I_4f=Hf_I[Hf_I[:,8].astype(float)>=12]
+Hf_II_4f=Hf_II[Hf_II[:,8].astype(float)>=9]
+Hf_III_4f=Hf_III[Hf_III[:,8].astype(float)>=5]
 #Hf_I=Hf_I[Hf_I[:,11].astype(float)>=30]
 #Hf_II=Hf_II[Hf_II[:,11].astype(float)>=30]
 #Hf_III=Hf_III[Hf_III[:,11].astype(float)>=30]
@@ -59,7 +62,17 @@ Hf_III_np=Hf_III[Hf_III[:,8].astype(float)<=12]
 gf_HfI_np=np.exp(Hf_I_np[:,15].astype(float))
 gf_HfII_np=np.exp(Hf_II_np[:,15].astype(float))
 gf_HfIII_np=np.exp(Hf_III_np[:,15].astype(float))
-
+gf_HfI_4f=np.exp(Hf_I_4f[:,15].astype(float))
+gf_HfII_4f=np.exp(Hf_II_4f[:,15].astype(float))
+gf_HfIII_4f=np.exp(Hf_III_4f[:,15].astype(float))
+#%%
+f_HfI_np=np.exp(Hf_I_np[:,15].astype(float))/(2*Hf_I_np[:,2].astype(float)+1)
+f_HfII_np=np.exp(Hf_II_np[:,15].astype(float))/(2*Hf_II_np[:,2].astype(float)+1)
+f_HfIII_np=np.exp(Hf_III_np[:,15].astype(float))/(2*Hf_III_np[:,2].astype(float)+1)
+f_HfI_4f=np.exp(Hf_I_4f[:,15].astype(float))/(2*Hf_I_4f[:,2].astype(float)+1)
+f_HfII_4f=np.exp(Hf_II_4f[:,15].astype(float))/(2*Hf_II_4f[:,2].astype(float)+1)
+f_HfIII_4f=np.exp(Hf_III_4f[:,15].astype(float))/(2*Hf_III_4f[:,2].astype(float)+1)
+#%%
 dE_HfI_np=Hf_I_np[:,11].astype(float)
 dE_HfII_np=Hf_II_np[:,11].astype(float)
 dE_HfIII_np=Hf_III_np[:,11].astype(float)
@@ -101,3 +114,9 @@ plt.legend()
 plt.xlabel('Energy (eV)')
 plt.ylabel('scaled gf')
 plt.xlim(25,50)
+#%%
+plt.axhline(np.sum(f_HfIII_np),label='np',color='red')
+plt.axhline(np.sum(f_HfIII_4f),label='4f')
+plt.legend()
+plt.ylabel('\Sigma_{ij} f_{ij}')
+plt.title('Hf III')
