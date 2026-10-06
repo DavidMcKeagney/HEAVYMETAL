@@ -8,6 +8,7 @@ Created on Mon Jul 27 15:27:51 2026
 import numpy as np
 import matplotlib.pyplot as plt 
 import function_library_phd as flp
+from scipy.optimize import curve_fit
 #%%
 def lvldensity(E,Evals,J):
     num_vals=np.zeros(len(E))
@@ -31,7 +32,10 @@ def lvldensityinterpolationdiff(E,Evals,rho):
     N_vals_diff=np.diff(N_vals)
     return N_vals_diff    
 def Wigner(s,D):
-    return (np.pi*s/(2*D**2))*np.exp(-np.pi*(s/(2*D))**2)     
+    return (np.pi*s/(2*D**2))*np.exp(-np.pi*(s/(2*D))**2)
+def N_ave_fit(E,a,rho,E_l):
+    return (2*rho/(a**2))*(np.exp(a*np.sqrt(E-E_l))*(a*np.sqrt(E-E_l)-1)+1)
+     
 #%%
 Hf_level_info=[]
 Hf_lines=[]
@@ -76,7 +80,7 @@ plt.legend()
 #%%
 plt.plot(Energy[:-1],rho_4_neg_slope)
 #%%
-Hf_negative=Hf_negative[np.logical_and(Hf_negative[:,0]>=10,Hf_negative[:,0]<=20)]
+Hf_negative=Hf_negative[np.logical_and(Hf_negative[:,0]>=20,Hf_negative[:,0]<=22)]
 #%%
 E_2_neg=Hf_negative[Hf_negative[:,2]==2][:,0]
 E_3_neg=Hf_negative[Hf_negative[:,2]==3][:,0]
@@ -89,10 +93,13 @@ spacing_3_neg=levelspacing(Hf_negative, 3)
 spacing_4_neg=levelspacing(Hf_negative, 4)
 #dN_3_neg=lvldensityinterpolationdiff(E_3_neg, Energy, rho_3_neg)
 #%%
-s=np.arange(0,0.17,0.001)
+Hf_negative_4=Hf_negative[Hf_negative[:,2]==4]
+avg_space_4=(Hf_negative_4[:,0][-1]-Hf_negative_4[:,0][0])/len(Hf_negative_4)
 #%%
-plt.hist(spacing_4_neg,bins=200)
-plt.plot(s,Wigner(s, 0.0406))
+s=np.arange(0,0.015,0.0001)
+#%%
+plt.hist(spacing_4_neg,bins=8)
+plt.plot(s,Wigner(s, 0.00408))
 #%%
 plt.scatter(dE_Hf,gf_Hf/dE_Hf)
 #plt.xlim(0,0.1)

@@ -62,14 +62,16 @@ def PhotoIonizationRate(beta,E_r,E_0,Gamma,q):
     
     x_r=E_r-E_0
     
-    C= 0.5*q*Gamma - x_r
+    A=x_r-q*Gamma/2
     
-    D= C + E_0
+    B=E_0-A
     
-    Mom_sum_zero= ((C*E_0)**2)*Moment_array[0]
-    Mom_sum_one= 2*D*C*E_0*Moment_array[1]
-    Mom_sum_two= (2*E_0 + D**2)*Moment_array[2]
-    Mom_sum_three= 2*D*Moment_array[3]
+    C=A*E_0
+    
+    Mom_sum_zero= ((C)**2)*Moment_array[0]
+    Mom_sum_one= -2*B*C*Moment_array[1]
+    Mom_sum_two= (-2*C + B**2)*Moment_array[2]
+    Mom_sum_three= 2*B*Moment_array[3]
     Mom_sum_four=Moment_array[4]
     
     PI_rate=np.exp(-beta*E_0)*(Mom_sum_four + Mom_sum_one + Mom_sum_two + Mom_sum_zero + Mom_sum_three)
