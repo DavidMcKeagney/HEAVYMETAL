@@ -21,14 +21,14 @@ def Lorentzian(x,beta,E_r,E_0,Gamma):
     x_r=beta*x_r
     return 1/(delta**2 + (x-x_r)**2)
 
-def Integral_Moments(n, i, j, beta,E_r,E_0,Gamma):
+def Integral_Moments(n, i, j, beta,E_r,E_0,Gamma,k):
     #i is the number of points included in the quadrature
     #j is the degree of precision of the floating point variables
     #n is the n-th order moment of the integral
     x_i,w_i=gauss_laguerre(i, j)
-    x_i=np.array(x_i)
+    x_i=np.array(x_i)/k
     w_i=np.array(w_i)
-    Integral_points= w_i*(x_i**n)*Lorentzian(x_i, beta, E_r, E_0, Gamma)
+    Integral_points= w_i*(x_i**n)*Lorentzian(x_i, beta, E_r, E_0, Gamma)*(k**(-i-1))
     Integral=np.sum(Integral_points)
     return Integral
 
