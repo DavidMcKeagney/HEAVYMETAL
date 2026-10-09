@@ -155,3 +155,5 @@ plt.xlim(0,3.5)
 plt.ylim(0,1.1)
 plt.xlabel('T_e')
 plt.ylabel('Z_bar')
+#%%
+plt.plot(Te,S)
