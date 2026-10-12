@@ -12,27 +12,34 @@ import scipy.special as sc
 #%%
 #Important functions 
 # These functions together perform Gauss Laguerre quadrature to numerically integrate the Fano cross sections to get a photoionization rate for CR modelling
-def Lorentzian(x,beta,E_r,E_0,Gamma):
+def Lorentzian(x,T,E_r,E_0,Gamma):
     #x is an array of energies
     #beta is an array of inverse temperatures
     #E_r,E_0,Gamma are are scalar parameters
-    delta=(beta*Gamma/2)
+    T_eff=2*T/Gamma
     x_r=E_r-E_0
-    x_r=beta*x_r
-    return 1/(delta**2 + (x-x_r)**2)
+    delta=2*x_r/Gamma
+    return 1/(1 + ((T_eff)*x-delta)**2)
 
-def Integral_Moments(n, i, j, beta,E_r,E_0,Gamma,k):
+def Integral_Moments(n, i, j, T,E_r,E_0,Gamma,k):
     #i is the number of points included in the quadrature
     #j is the degree of precision of the floating point variables
     #n is the n-th order moment of the integral
     x_i,w_i=gauss_laguerre(i, j)
     x_i=np.array(x_i)/k
     w_i=np.array(w_i)
-    Integral_points= w_i*(x_i**n)*Lorentzian(x_i, beta, E_r, E_0, Gamma)*(k**(-i-1))
-    Integral=np.sum(Integral_points)
+    
+    n = np.asarray(n).reshape(-1, 1, 1)
+    T = np.asarray(T).reshape(1, -1, 1)
+
+    x_i = np.asarray(x_i).reshape(1, 1, -1)
+    w_i = np.asarray(w_i).reshape(1, 1, -1)
+    
+    Integral_points= w_i*(x_i**n)*Lorentzian(x_i, T, E_r, E_0, Gamma)
+    Integral=np.sum(Integral_points,axis=-1)
     return Integral
 
-def Convergence_test(Moment_array,i, j, beta, E_r, E_0, Gamma):
+def Convergence_test(Moment_array, T, E_r, E_0, Gamma,k):
     n_array = np.arange(0, 3)
 
     #Moment_array = np.array([
@@ -40,13 +47,14 @@ def Convergence_test(Moment_array,i, j, beta, E_r, E_0, Gamma):
     #    for n in n_array
     #])
 
-    delta = beta * Gamma / 2
-    x_r = beta * (E_r - E_0)
 
+    x_r = E_r - E_0
+    delta=2*x_r/Gamma
+    T_eff= 2*T/Gamma
     return (
-        (delta**2 + x_r**2) * Moment_array[0]
-        - 2*x_r * Moment_array[1]
-        + Moment_array[2]
+        (delta**2 + 1) * Moment_array[0]
+        - (2*delta/k)*T_eff * Moment_array[1]
+        + ((T_eff/k)**2)*Moment_array[2]
     )
 def PhotoIonizationRate(beta,E_r,E_0,Gamma,q):
     #Factor In front of the integral is not included and needs to be added later, the factor is all the constants in front of the plank function
@@ -104,8 +112,8 @@ def PIONRATE(beta,tol1,tol2, E_r, E_0, Gamma, q):
         while tol_init>tol1:
             grid_num=1
             Ints=Integral_Moments(n_moments[:,None], grid_num, 20, beta[None,:], E_r, E_0, Gamma, n)
-            Convergence_val=Convergence_test(Ints[:3], grid_num, 20, beta, E_r, E_0, Gamma)
-            tol_init=np.abs(Convergence_val-1)
+            Convergence_val=Convergence_test(Ints[:3], grid_num, 20, beta, E_r, E_0, Gamma,n)
+            tol_init=np.max(np.abs(Convergence_val-1))
             grid_num+=1
         
         x_r=E_r-E_0
@@ -117,10 +125,10 @@ def PIONRATE(beta,tol1,tol2, E_r, E_0, Gamma, q):
         C=A*E_0
         
         Mom_sum_zero= ((C)**2)*Ints[0]
-        Mom_sum_one= -2*B*C*Ints[1]
-        Mom_sum_two= (-2*C + B**2)*Ints[2]
-        Mom_sum_three= 2*B*Ints[3]
-        Mom_sum_four=Ints[4]
+        Mom_sum_one= -2*B*C*(1/n**2)*Ints[1]
+        Mom_sum_two= (-2*C + B**2)*(1/beta)*(1/n**3)*Ints[2]
+        Mom_sum_three= 2*B*(1/beta**2)*(1/n**4)*Ints[3]
+        Mom_sum_four=(1/beta**3)*(1/n**5)*Ints[4]
         
         R_n=np.exp(-beta*E_0)*(Mom_sum_four + Mom_sum_one + Mom_sum_two + Mom_sum_zero + Mom_sum_three)
         if n == 1:
@@ -155,3 +163,11 @@ plt.plot(T_range,PI_rates)
 plt.xlabel('T (eV)')
 plt.ylabel('EII_rate (s^-1)')
 plt.yscale('log')
+#%%
+n_moments=np.arange(0,5)
+Test_ints=Integral_Moments(n_moments[:,None], 60, 20, T_range[None,:], 80.23, 20.203, 0.27, 2).astype(float)
+#%%
+Conv_vals=Convergence_test(Test_ints, T_range, 80.23, 20.203, 0.27, 2).astype(float)
+#%%
+plt.plot(beta,Test_ints[4])
+plt.xlim(0.2,1) 
