@@ -32,13 +32,13 @@ def Integral_Moments(n, i, j, beta,E_r,E_0,Gamma,k):
     Integral=np.sum(Integral_points)
     return Integral
 
-def Convergence_test(i, j, beta, E_r, E_0, Gamma):
+def Convergence_test(Moment_array,i, j, beta, E_r, E_0, Gamma):
     n_array = np.arange(0, 3)
 
-    Moment_array = np.array([
-        Integral_Moments(n, i, j, beta, E_r, E_0, Gamma)
-        for n in n_array
-    ])
+    #Moment_array = np.array([
+    #    Integral_Moments(n, i, j, beta, E_r, E_0, Gamma)
+    #    for n in n_array
+    #])
 
     delta = beta * Gamma / 2
     x_r = beta * (E_r - E_0)
@@ -92,6 +92,43 @@ def CollisionalIonizationRate(beta,E_0,n_elec,n_e):
     pre_fac=(a*n_elec/E_0)*np.sqrt(8*eV_to_erg*beta/(np.pi*me))
     return n_e*pre_fac*sc.exp1(beta*E_0)
     
+def PIONRATE(beta,tol1,tol2, E_r, E_0, Gamma, q):
+    R_array=None
+    for n in range(1,101):
+        if n==1:
+            R_n_1=np.zeros(len(beta))
+        else:
+            R_n_1=R_array[-1]
+        tol_init=1
+        n_moments=np.arange(0,5)
+        while tol_init>tol1:
+            grid_num=1
+            Ints=Integral_Moments(n_moments[:,None], grid_num, 20, beta[None,:], E_r, E_0, Gamma, n)
+            Convergence_val=Convergence_test(Ints[:3], grid_num, 20, beta, E_r, E_0, Gamma)
+            tol_init=np.abs(Convergence_val-1)
+            grid_num+=1
+        
+        x_r=E_r-E_0
+        
+        A=x_r-q*Gamma/2
+        
+        B=E_0-A
+        
+        C=A*E_0
+        
+        Mom_sum_zero= ((C)**2)*Ints[0]
+        Mom_sum_one= -2*B*C*Ints[1]
+        Mom_sum_two= (-2*C + B**2)*Ints[2]
+        Mom_sum_three= 2*B*Ints[3]
+        Mom_sum_four=Ints[4]
+        
+        R_n=np.exp(-beta*E_0)*(Mom_sum_four + Mom_sum_one + Mom_sum_two + Mom_sum_zero + Mom_sum_three)
+        if n == 1:
+            R_array=R_n
+        else:
+            R_array=np.vstack((R_array,R_n))
+        if np.max(np.abs(R_n_1-R_n))<tol2:
+            return np.sum(R_array,axis=0)
     
     
 #%%
