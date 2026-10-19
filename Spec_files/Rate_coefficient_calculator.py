@@ -101,7 +101,15 @@ def CollisionalIonizationRate(beta,E_0,n_elec,n_e):
     pre_fac=(a*n_elec/E_0)*np.sqrt(8*eV_to_erg*beta/(np.pi*me))
     return n_e*pre_fac*sc.exp1(beta*E_0)
     
-def PIONRATE(T,tol1,tol2, E_r, E_0, Gamma, q):
+def PIONRATE(T,tol1,tol2, E_r, E_0, Gamma, q, D):
+    #E_r is resonance position
+    #Gamma is the width
+    #E_0 is the ionization potential
+    #q is the q parameter
+    #D is the dipole matrix elements
+    
+    Cross_sec_fac=1.7106*E_r*(D**2)/((q**2)*Gamma)*1e-22
+    
     R_array=np.zeros(len(T))
     for n in range(1,101):
         if n==1:
@@ -110,8 +118,8 @@ def PIONRATE(T,tol1,tol2, E_r, E_0, Gamma, q):
             R_n_1=R_array
         tol_init=1
         n_moments=np.arange(0,5)
+        grid_num=1
         while tol_init>tol1:
-            grid_num=1
             Ints=Integral_Moments(n_moments[:,None], grid_num, 20, T[None,:], E_r, E_0, Gamma, n)
             Convergence_val=Convergence_test(Ints[:3], T, E_r, E_0, Gamma,n)
             tol_init=np.max(np.abs(Convergence_val-1))
@@ -131,17 +139,46 @@ def PIONRATE(T,tol1,tol2, E_r, E_0, Gamma, q):
         Mom_sum_three= 2*B*((T/n)**4)*Ints[3]
         Mom_sum_four=((T/n)**5)*Ints[4]
         
-        R_n=np.exp(-beta*E_0)*(Mom_sum_four + Mom_sum_one + Mom_sum_two + Mom_sum_zero + Mom_sum_three).astype(float)
+        R_n=np.exp(-E_0/T)*(Mom_sum_four + Mom_sum_one + Mom_sum_two + Mom_sum_zero + Mom_sum_three).astype(float)
         
         h=4.135667696e-15
         c=299792458
-        A=8*np.pi/((h**3)*(c**3))
+        A=8*np.pi/((h**3)*(c**2))
         
         R_array += R_n
         if np.max(np.abs(R_n_1-R_array))<tol2:
-            return A*R_array, n
+            return Cross_sec_fac*A*R_array, n
     return R_array
+def RadRecom(Temp,E_r,E_0,Gamma,q,g_i,g_j,D):
+    Cross_sec_fac=1.7106*E_r*(D**2)/((q**2)*Gamma)*1e-22
+    #Factor In front of the integral is not included and needs to be added later, the factor is all the constants in front of the plank function
+    n_array= np.arange(0,5)
     
+    
+    Moment_array=np.zeros((len(n_array),len(Temp)))
+    
+    for i,n in enumerate(n_array):
+        for j,T in enumerate(Temp):
+            Moment_array[i,j]+= (T**(n+1))*Integral_Moments(n, 8, 20, T, E_r, E_0, Gamma,1)
+    #Moment_array=np.array([(beta**(-n+1))*Integral_Moments(n,8,20,beta,E_r,E_0,Gamma) for n in n_array])
+    
+    x_r=E_r-E_0
+    
+    A=x_r-q*Gamma/2
+    
+    B=E_0-A
+    
+    C=A*E_0
+    
+    Mom_sum_zero= ((C)**2)*Moment_array[0]
+    Mom_sum_one= -2*B*C*Moment_array[1]
+    Mom_sum_two= (-2*C + B**2)*Moment_array[2]
+    Mom_sum_three= 2*B*Moment_array[3]
+    Mom_sum_four=Moment_array[4]
+    
+    RR_rate=Cross_sec_fac*1.30967e10*(g_i/g_j)*(Temp**(-3/2))*(Mom_sum_four + Mom_sum_one + Mom_sum_two + Mom_sum_zero + Mom_sum_three)
+    
+    return RR_rate    
     
 #%%
 num_points=np.arange(2,15)
@@ -179,6 +216,10 @@ plt.plot(T_range,Test_ints[0])
 #%%
 plt.plot(T_range,np.mean(Conv_vals-1))
 #%%
-PI_rates,n=PIONRATE(T_range, 1e-16, 1e-16, 80.23, 20.203, 0.27, 2.13)
+PI_rates,n=PIONRATE(T_range, 1e-16, 1e-16, 79.87, 9.226, 0.28, 2.50,0.45)
 #%%
 plt.plot(T_range,PI_rates)
+#%%
+RadRates=RadRecom(T_range, 79.87, 9.226, 0.28, 2.50, 1, 1,0.45)
+#%%
+plt.plot(T_range,1e21*RadRates)
