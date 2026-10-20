@@ -89,7 +89,7 @@ def PhotoIonizationRate(beta,E_r,E_0,Gamma,q):
     c=299792458
     A=8*np.pi/((h**3)*(c**3))
     return A*PI_rate
-def CollisionalIonizationRate(beta,E_0,n_elec,n_e):
+def CollisionalIonizationRate(T,E_0,n_elec,n_e):
     #a=4.5e-14
     #me=9.1093897E-31
     #kT_joule=(1/beta)*1.602176634e-19
@@ -98,8 +98,8 @@ def CollisionalIonizationRate(beta,E_0,n_elec,n_e):
     a = 4.5e-14                 # cm^2 eV^2
     me = 9.1093837e-28          # g
     eV_to_erg = 1.602176634e-12 # erg/eV
-    pre_fac=(a*n_elec/E_0)*np.sqrt(8*eV_to_erg*beta/(np.pi*me))
-    return n_e*pre_fac*sc.exp1(beta*E_0)
+    pre_fac=(a*n_elec/E_0)*np.sqrt(8*eV_to_erg/(T*np.pi*me))
+    return n_e*pre_fac*sc.exp1(E_0/T)
     
 def PIONRATE(T,tol1,tol2, E_r, E_0, Gamma, q, D):
     #E_r is resonance position
@@ -178,7 +178,46 @@ def RadRecom(Temp,E_r,E_0,Gamma,q,g_i,g_j,D):
     
     RR_rate=Cross_sec_fac*1.30967e10*(g_i/g_j)*(Temp**(-3/2))*(Mom_sum_four + Mom_sum_one + Mom_sum_two + Mom_sum_zero + Mom_sum_three)
     
-    return RR_rate    
+    return RR_rate  
+def recom_3b(T,E_0,n_elec,n_e,g_i,g_j):
+    h = 6.62607015e-34
+    me = 9.10938371e-31
+    eV = 1.602176634e-19
+
+    lam = h / np.sqrt(2 * np.pi * me * (T * eV)) # returns units of meters 
+    lam=100*lam
+    
+    saha_fac=0.5*(g_i/g_j)*(lam**3)*np.exp(E_0/T)
+    
+    return saha_fac*CollisionalIonizationRate(T, E_0, n_elec, n_e)/n_e
+    
+def Rad_Temps(T_e,n_e,tol,max_it,params):
+    #T_e and n_e are numpy arrays of electron temperature and density
+    #need to restructure all rate functions to be in terms of params
+    T_r_vals=np.zeros((len(T_e),len(n_e)))
+    for i,T_i in enumerate(T_e):
+        for j,n_j in enumerate(n_e):
+            T_0_r=1
+            n=0
+            tol_init=1 
+            while tol_init>tol:
+                if n==0:
+                    T_n_r=T_0_r
+                else:
+                    T_n_r=T_n1_r
+                T_n1_r=f(T_i,n_j,T_n_r,params) #need to define f
+                tol_init=np.abs(T_n1_r-T_n_r)
+                n+=1
+                if n>max_it:
+                    conv_val=1 
+                    break
+            T_r_vals[i,j]+=T_n1_r
+    if conv_val==1:
+        return None
+    else:
+        return T_r_vals
+        
+            
     
 #%%
 num_points=np.arange(2,15)
@@ -223,3 +262,6 @@ plt.plot(T_range,PI_rates)
 RadRates=RadRecom(T_range, 79.87, 9.226, 0.28, 2.50, 1, 1,0.45)
 #%%
 plt.plot(T_range,1e21*RadRates)
+#%%
+recom_3b_Au=recom_3b(T_range, 9.226, 2, 1e21, 1, 1)
+#%%
