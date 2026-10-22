@@ -30,31 +30,31 @@ Abs_500ns=Abs_500ns[1:,:].astype(float)
 #Abs_75ns=Abs_75ns[1:,:].astype(float)
 #Abs_95ns=Abs_95ns[1:,:].astype(float)
 #%%
-Hf_I=[]
-Hf_II=[]
-Hf_III=[]
+Hf_I_dis=[]
+Hf_II_dis=[]
+Hf_III_dis=[]
 with open('C:\\Users\David McKeagney\Desktop\Hf_data\Hf_I\Hf_I.spec') as file:
     for lines in file:
         if len(lines.split())>16:
-            Hf_I.append(lines.split())
+            Hf_I_dis.append(lines.split())
 with open('C:\\Users\David McKeagney\Desktop\Hf_data\Hf_II\Hf_II.spec') as file:
     for lines in file:
         if len(lines.split())>16:
-            Hf_II.append(lines.split())
+            Hf_II_dis.append(lines.split())
 with open('C:\\Users\David McKeagney\Downloads\Hf_III.spec') as file:
     for lines in file:
         if len(lines.split())>16:
-            Hf_III.append(lines.split())
-Hf_I=np.array(Hf_I)
-Hf_II=np.array(Hf_II)
-Hf_III=np.array(Hf_III)
+            Hf_III_dis.append(lines.split())
+Hf_I_dis=np.array(Hf_I_dis)
+Hf_II_dis=np.array(Hf_II_dis)
+Hf_III_dis=np.array(Hf_III_dis)
 #%%
-Hf_I_np=Hf_I[Hf_I[:,8].astype(float)<=12]
-Hf_II_np=Hf_II[Hf_II[:,8].astype(float)<=9]
-Hf_III_np=Hf_III[Hf_III[:,8].astype(float)<=5]
-Hf_I_4f=Hf_I[Hf_I[:,8].astype(float)>=12]
-Hf_II_4f=Hf_II[Hf_II[:,8].astype(float)>=9]
-Hf_III_4f=Hf_III[Hf_III[:,8].astype(float)>=5]
+Hf_I_np=Hf_I_dis[Hf_I_dis[:,8].astype(float)<=12]
+Hf_II_np=Hf_II_dis[Hf_II_dis[:,8].astype(float)<=9]
+Hf_III_np=Hf_III_dis[Hf_III_dis[:,8].astype(float)<=5]
+Hf_I_4f=Hf_I_dis[Hf_I_dis[:,8].astype(float)>=12]
+Hf_II_4f=Hf_II_dis[Hf_II_dis[:,8].astype(float)>=9]
+Hf_III_4f=Hf_III_dis[Hf_III_dis[:,8].astype(float)>=5]
 #Hf_I=Hf_I[Hf_I[:,11].astype(float)>=30]
 #Hf_II=Hf_II[Hf_II[:,11].astype(float)>=30]
 #Hf_III=Hf_III[Hf_III[:,11].astype(float)>=30]
@@ -82,9 +82,9 @@ sig_HfI=flp.ConvolvingFunc(0, Energy_vals, dE_HfI_np, gf_HfI_np, 0.05, 0, 0.1, 0
 sig_HfII=flp.ConvolvingFunc(0, Energy_vals, dE_HfII_np, gf_HfII_np, 0.05, 0, 0.1, 0)
 sig_HfIII=flp.ConvolvingFunc(0, Energy_vals, dE_HfIII_np, gf_HfIII_np, 0.05, 0, 0.1, 0)
 #%%
-#plt.plot(Energy+np.repeat(7.2,len(Energy)),1/600*Hf_III,label='Hf III')
-#plt.plot(Energy+np.repeat(7.2,len(Energy)),1/600*Hf_II,label='Hf II')
-#plt.plot(Energy+np.repeat(7.2,len(Energy)),1/600*Hf_I,label='Hf I')
+plt.plot(Energy+np.repeat(7.2,len(Energy)),1/2000*Hf_III + np.repeat(0.2,len(Hf_I)),label='Hf III PI')
+#plt.plot(Energy+np.repeat(6.4,len(Energy)),1/2000*Hf_II + np.repeat(0.2,len(Hf_I)),label='Hf II PI')
+#plt.plot(Energy+np.repeat(6.4,len(Energy)),1/2000*Hf_I + np.repeat(0.2,len(Hf_I)),label='Hf I PI')
 #plt.plot(Energy+np.repeat(7.2,len(Energy)),0.04*1/1800*Hf_I+0.46*1/1800*Hf_II+0.46*1/1800*Hf_III +0.04*1/1800*Hf_IV + np.repeat(0.82,len(Energy)),label='Hf I + II + III + IV')
 #plt.plot(Abs_55ns[:,0],Abs_55ns[:,1],label='55ns' )
 #plt.plot(Abs_55ns[:,0],Abs_75ns[:,1],label='75ns' )
@@ -92,12 +92,12 @@ sig_HfIII=flp.ConvolvingFunc(0, Energy_vals, dE_HfIII_np, gf_HfIII_np, 0.05, 0, 
 #plt.plot(Energy+np.repeat(7.2,len(Energy)),Hf_IV,label='Hf IV')
 #plt.plot(Energy,Hf_V,label='Hf V')
 #plt.plot(Energy,Hf_VI,label='Hf VI')
-#plt.plot(Energy_vals + np.repeat(7.2,len(Energy_vals)),1/1500*sig_HfI + np.repeat(0.4,len(Energy_vals)),label='Hf I')
-#plt.plot(Energy_vals + np.repeat(15,len(Energy_vals)),1/5*sig_HfII, label='Hf II')
+plt.plot(Energy_vals + np.repeat(6.4,len(Energy_vals)),1/2000*sig_HfI + np.repeat(0.2,len(Energy_vals)),label='Hf I')
+plt.plot(Energy_vals + np.repeat(6.4,len(Energy_vals)),1/350*sig_HfII+np.repeat(0.7,len(Energy_vals)), label='Hf II')
 #plt.plot(Energy_vals , sig_HfIII, label= 'Hf III')
 plt.plot(Abs_400ns[:,0],Abs_400ns[:,1],label='400ns')
 plt.plot(Abs_450ns[:,0],Abs_450ns[:,1],label='450ns')
-plt.plot(Abs_500ns[:,0],Abs_500ns[:,1],label='500ns')
+#plt.plot(Abs_500ns[:,0],Abs_500ns[:,1],label='500ns')
 plt.xlim(47,80)
 plt.ylim(0.1,1.12)
 plt.legend()
