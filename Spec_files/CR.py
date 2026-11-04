@@ -157,3 +157,9 @@ plt.xlabel('T_e')
 plt.ylabel('Z_bar')
 #%%
 plt.plot(Te,S)
+#%%
+plt.plot(Te,alphaR[:,1],label='radiative')
+plt.plot(Te,(1e21)*alpha3b[:,1],label='3 body')
+plt.xlim(0,5)
+plt.yscale('log')
+plt.legend()

@@ -263,8 +263,12 @@ def Rad_Temps(T_e, n_e, tol, max_it, params):
     # Return None if any combination fails to converge
     return None
     
-
-
+def IonFrac(Te,ne,params):
+    tol1, tol2, E_r, E_0, Gamma, q, D, g_i, g_j, n_elec,W = params
+    
+    frac= (ne*CollisionalIonizationRate(Te,params)+PIONRATE(Te,params))/(ne*RadRecom(Te, params)+(ne**2)*recom_3b(Te,params))
+    
+    return frac
             
     
 #%%
@@ -306,15 +310,56 @@ plt.plot(T_range,np.mean(Conv_vals-1))
 PI_rates,n=PIONRATE(T_range, 1e-16, 1e-16, 79.87, 9.226, 0.28, 2.50,0.45)
 #%%
 plt.plot(T_range,PI_rates)
-#%%
-RadRates=RadRecom(T_range, 79.87, 9.226, 0.28, 2.50, 1, 1,0.45)
-#%%
-plt.plot(T_range,1e21*RadRates)
-#%%
-recom_3b_Au=recom_3b(T_range, 9.226, 2, 1e21, 1, 1)
+
+
 #%%
 ne_grid=np.arange(1,10,0.1)*1e18
 T_range=np.arange(0.1,5.05,0.05)
-params_test=(1e-16,1e-16,79.87, 9.226, 0.28, 2.50, 0.45,1,1,2,0.5)
+params_test=(1e-16,1e-16,79.87, 9.226, 0.28, 2.50, 0.45,1,1,2,0.8)
+params_test_2=(1e-16,1e-16,79.87, 9.226, 0.28, 2.50, 0.45,1,1,2,0)
+#%%
+RadRates=RadRecom(T_range, params_test)
+#%%
+recom_3b_Au=recom_3b(T_range, params_test)
+#%%
+plt.plot(T_range,(1e21**2)*recom_3b_Au,label='3-body')
+plt.plot(T_range,1e21*RadRates,label='Radiative')
+plt.legend()
+plt.xlabel('T (eV)')
+plt.ylabel('Rates (s^-1)')
+plt.yscale('log')
+
 #%%
 T_radiation=Rad_Temps(T_range, ne_grid, 1e-8, 500, params_test)
+#%%
+
+f_ne_1=IonFrac(T_range, 1e21, params_test)
+
+f_ne_2=IonFrac(T_range, 1e18, params_test)
+
+f_ne_3=IonFrac(T_range, 1e16, params_test)
+#%%
+f_ne_4=IonFrac(T_range, 1e21, params_test_2)
+
+f_ne_5=IonFrac(T_range, 1e18, params_test_2)
+
+f_ne_6=IonFrac(T_range, 1e16, params_test_2)
+#%%
+Z_bar_1=1-(1/(1+f_ne_1))
+Z_bar_2=1-(1/(1+f_ne_2))
+Z_bar_3=1-(1/(1+f_ne_3))
+#%%
+Z_bar_4=1-(1/(1+f_ne_4))
+Z_bar_5=1-(1/(1+f_ne_5))
+Z_bar_6=1-(1/(1+f_ne_6))
+
+#%%
+plt.plot(T_range,Z_bar_1,label='ne=1e21 cm^-3, W=0.8')
+plt.plot(T_range,Z_bar_2,label='ne=1e18 cm^-3, W=0.8')
+plt.plot(T_range,Z_bar_3,label='ne=1e16 cm^-3, W=0.8')
+plt.plot(T_range,Z_bar_4,linestyle='dashed',label='ne=1e21 cm^-3, W=0')
+plt.plot(T_range,Z_bar_5,linestyle='dashed',label='ne=1e18 cm^-3, W=0')
+plt.plot(T_range,Z_bar_6,linestyle='dashed',label='ne=1e16 cm^-3, W=0')
+plt.xlabel('Te (eV)')
+plt.ylabel('Z_bar')
+plt.legend()

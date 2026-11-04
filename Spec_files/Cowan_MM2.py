@@ -140,16 +140,16 @@ Energy_AuII= Au_II_J_1_2[:,0]
 
 Au_II_J_1_0=3*np.exp(-(3.4011/2.51))*Au_II_J_1_0[:,1]
 Au_II_J_1_1=3*np.exp(-(3.4011/2.51))*Au_II_J_1_1[:,1]
-Au_II_J_1_2=3*np.exp(-(3.4011/2.51))*Au_II_J_1_2[:,1]
+#Au_II_J_1_2=3*np.exp(-(3.4011/2.51))*Au_II_J_1_2[:,1]
 Au_II_J_2_2=5*np.exp(-(2.1513/2.51))*Au_II_J_2_2[:,1]
 Au_II_J_2_1=5*np.exp(-(2.1513/2.51))*Au_II_J_2_1[:,1]
-Au_II_J_2_3=5*np.exp(-(2.1513/2.51))*Au_II_J_2_3[:,1]
+#Au_II_J_2_3=5*np.exp(-(2.1513/2.51))*Au_II_J_2_3[:,1]
 Au_II_J_3_3=7*np.exp(-(1.7873/2.51))*Au_II_J_3_3[:,1]
 Au_II_J_3_2=7*np.exp(-(1.7873/2.51))*Au_II_J_3_2[:,1]
-Au_II_J_3_4=7*np.exp(-(1.7873/2.51))*Au_II_J_3_4[:,1]
+#Au_II_J_3_4=7*np.exp(-(1.7873/2.51))*Au_II_J_3_4[:,1]
 Au_II_J_4_4=9*np.exp(-(5.2425/2.51))*Au_II_J_4_4[:,1]
 Au_II_J_4_3=9*np.exp(-(5.2425/2.51))*Au_II_J_4_3[:,1]
-Au_II_J_4_5=9*np.exp(-(5.2425/2.51))*Au_II_J_4_5[:,1]
+#Au_II_J_4_5=9*np.exp(-(5.2425/2.51))*Au_II_J_4_5[:,1]
 
 X_AuII=Au_II_J_1_2+Au_II_J_2_2+Au_II_J_2_3+Au_II_J_3_3+Au_II_J_3_4+Au_II_J_4_4+Au_II_J_4_5+Au_II_J_2_1+Au_II_J_3_2+Au_II_J_4_3+Au_II_J_1_1+Au_II_J_1_0
 X_AuII=0.59*X_AuII
