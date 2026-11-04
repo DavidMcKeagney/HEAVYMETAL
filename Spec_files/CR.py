@@ -22,7 +22,7 @@ ec=1.60217733E-19
 wavelen = 1064*1e-9 # laser wavelength
 frac_ne= 1; # fraction of critical density
 #ne=4*(np.pi**2)*(c**2)*me*esp0/((ec**2)*(wavelen**2))*(1E-6)*frac_ne # electron density
-ne=1e18
+ne=1e21
 # Temperature info
 Te_start=0.01
 Te_step=0.01
@@ -58,7 +58,7 @@ for i in range (0,Atomic_num+1):
     frac[:,i]=n[:,i]/nt
 #%%    
 plt.plot(Te, frac)
-plt.legend(["Hf I","Hf II","Hf III","Hf IV","Hf V","Hf VI"])
+plt.legend(["Au I","Au II","Au III","Au IV","Au V","Au VI"])
 plt.xlim([0.1, 20])
 #plt.ylim([0.01, 1])
 plt.xlabel('T_e [eV]')
