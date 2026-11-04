@@ -146,7 +146,7 @@ def ConvolvingFunc(q,x,E,amp,sig,gam,dE,flag):
     elif flag==3:
         while i< len(E):
             j=0
-            conv= amp[i]*voigt_profile(x-E[i],sig,gam[i]) 
+            conv= amp[i]*voigt_profile(x-E[i],sig,gam[i])*dE 
             while j<len(x):
                 Conv_Evals[j][i]+=conv[j]
                 j+=1
