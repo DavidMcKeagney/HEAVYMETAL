@@ -1,0 +1,173 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov  5 10:25:42 2026
+
+@author: David McKeagney
+"""
+
+import numpy as np
+import function_library_phd as flp
+import matplotlib.pyplot as plt
+#%%
+Hf_IV=[]
+Ta_IV=[]
+W_IV=[]
+Re_IV=[]
+
+
+with open('C:\\Users\David McKeagney\Downloads\Re_IV.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            Re_IV.append(lines.split())
+            
+with open('C:\\Users\David McKeagney\Downloads\Hf_IV.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            Hf_IV.append(lines.split())
+            
+with open('C:\\Users\David McKeagney\Downloads\Ta_IV.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            Ta_IV.append(lines.split())
+            
+
+with open('C:\\Users\David McKeagney\Downloads\W_IV.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            W_IV.append(lines.split())
+            
+Hf_IV=np.array(Hf_IV)
+Ta_IV=np.array(Ta_IV)
+W_IV=np.array(W_IV)            
+Re_IV=np.array(Re_IV)
+#%%
+Hf_V=[]
+Ta_V=[]
+W_V=[]
+Re_V=[]
+
+
+with open('C:\\Users\David McKeagney\Downloads\Re_V.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            Re_V.append(lines.split())
+            
+with open('C:\\Users\David McKeagney\Downloads\Hf_V.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            Hf_V.append(lines.split())
+            
+with open('C:\\Users\David McKeagney\Downloads\Ta_V.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            Ta_V.append(lines.split())
+            
+
+with open('C:\\Users\David McKeagney\Downloads\W_V.spec') as file:
+    for lines in file:
+        if len(lines.split())>16:
+            W_V.append(lines.split())
+            
+Hf_V=np.array(Hf_V)
+Ta_V=np.array(Ta_V)
+W_V=np.array(W_V)            
+Re_V=np.array(Re_V)
+
+#%%
+Hf_IV_np=Hf_IV[Hf_IV[:,8].astype(float)<=7]
+Ta_IV_np=Ta_IV[Ta_IV[:,8].astype(float)<=7]
+W_IV_np=W_IV[W_IV[:,8].astype(float)<=9]
+Re_IV_np=Re_IV[Re_IV[:,8].astype(float)<=12]
+#%%
+Hf_V_np=Hf_V[Hf_V[:,8].astype(float)<=6]
+Ta_V_np=Ta_V[Ta_V[:,8].astype(float)<=7]
+W_V_np=W_V[W_V[:,8].astype(float)<=7]
+Re_V_np=Re_V[Re_V[:,8].astype(float)<=9]
+#%%
+#gf_ReIII_np=np.exp(Re_III_np[:,15].astype(float))
+gf_ReIV_np=np.exp(Re_IV_np[:,15].astype(float)) 
+gf_HfIV_np=np.exp(Hf_IV_np[:,15].astype(float))
+gf_TaIV_np=np.exp(Ta_IV_np[:,15].astype(float))
+gf_WIV_np=np.exp(W_IV_np[:,15].astype(float)) 
+#%%
+gf_ReV_np=np.exp(Re_V_np[:,15].astype(float)) 
+gf_HfV_np=np.exp(Hf_V_np[:,15].astype(float))
+gf_TaV_np=np.exp(Ta_V_np[:,15].astype(float))
+gf_WV_np=np.exp(W_V_np[:,15].astype(float))    
+#%%
+#dE_ReIII_np=Re_III_np[:,11].astype(float)
+dE_ReIV_np=Re_IV_np[:,11].astype(float)
+dE_HfIV_np=Hf_IV_np[:,11].astype(float)
+dE_TaIV_np=Ta_IV_np[:,11].astype(float)
+dE_WIV_np=W_IV_np[:,11].astype(float)
+#%%
+dE_ReV_np=Re_V_np[:,11].astype(float)
+dE_HfV_np=Hf_V_np[:,11].astype(float)
+dE_TaV_np=Ta_V_np[:,11].astype(float)
+dE_WV_np=W_V_np[:,11].astype(float)
+#%%
+#plt.stem(dE_ReIII_np,gf_ReIII_np,label='Re III')
+plt.stem(dE_HfIV_np,gf_HfIV_np,label='Hf IV',linefmt='blue')
+plt.stem(dE_TaIV_np,gf_TaIV_np,label='Ta IV',linefmt='green')
+plt.stem(dE_WIV_np,gf_WIV_np,label='W IV',linefmt='orange')
+plt.stem(dE_ReIV_np,gf_ReIV_np,label='Re IV',linefmt='red')
+plt.legend()
+plt.xlabel('Energy (eV)') 
+#%%
+#plt.stem(dE_ReIII_np,gf_ReIII_np,label='Re III')
+plt.stem(dE_HfV_np,gf_HfV_np,label='Hf V',linefmt='blue')
+plt.stem(dE_TaV_np,gf_TaV_np,label='Ta V',linefmt='green')
+plt.stem(dE_WV_np,gf_WV_np,label='W V',linefmt='orange')
+plt.stem(dE_ReV_np,gf_ReV_np,label='Re V',linefmt='red')
+plt.legend()
+plt.xlabel('Energy (eV)')
+#%%
+
+Hf_IV_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_HfIV', dtype=float)
+Ta_IV_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_TaIV', dtype=float)
+W_IV_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_WIV', dtype=float)
+Re_IV_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_ReIV', dtype=float) 
+
+Hf_IV_r=Hf_IV_orb[:,0]
+Ta_IV_r=Ta_IV_orb[:,0]
+W_IV_r=W_IV_orb[:,0]
+Re_IV_r=Re_IV_orb[:,0]
+
+Hf_IV_P=Hf_IV_orb[:,3]
+Ta_IV_P=Ta_IV_orb[:,3]
+W_IV_P=W_IV_orb[:,3]
+Re_IV_P=Re_IV_orb[:,3]
+#%%
+plt.plot(Hf_IV_r,Hf_IV_P**2,label='Hf IV')
+plt.plot(Ta_IV_r,Ta_IV_P**2,label='Ta IV')
+plt.plot(W_IV_r,W_IV_P**2,label='W IV')
+plt.plot(Re_IV_r,Re_IV_P**2,label='Re IV')
+plt.legend()
+plt.xlabel('r (a_0)')
+plt.ylabel('P^2') 
+plt.xlim(0,5)
+#%%
+Hf_V_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_HfV', dtype=float)
+Ta_V_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_TaV', dtype=float)
+W_V_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_WV', dtype=float)
+Re_V_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_ReV', dtype=float) 
+
+Hf_V_r=Hf_V_orb[:,0]
+Ta_V_r=Ta_V_orb[:,0]
+W_V_r=W_V_orb[:,0]
+Re_V_r=Re_V_orb[:,0]
+
+Hf_V_P=Hf_V_orb[:,3]
+Ta_V_P=Ta_V_orb[:,3]
+W_V_P=W_V_orb[:,3]
+Re_V_P=Re_V_orb[:,3]
+#%%
+plt.plot(Hf_V_r,Hf_V_P**2,label='Hf V')
+plt.plot(Ta_V_r,Ta_V_P**2,label='Ta V')
+plt.plot(W_V_r,W_V_P**2,label='W V')
+plt.plot(Re_V_r,Re_V_P**2,label='Re V')
+plt.legend()
+plt.xlabel('r (a_0)')
+plt.ylabel('P^2') 
+plt.xlim(0,5)
+                                                                                   
