@@ -170,4 +170,50 @@ plt.legend()
 plt.xlabel('r (a_0)')
 plt.ylabel('P^2') 
 plt.xlim(0,5)
-                                                                                   
+#%%
+Hf_IV_orb_5d=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5d_HfIV', dtype=float)
+Ta_IV_orb_5d=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5d_TaIV', dtype=float)
+W_IV_orb_5d=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5d_WIV', dtype=float)
+Re_IV_orb_5d=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5d_ReIV', dtype=float) 
+
+Hf_IV_r_5d=Hf_IV_orb_5d[:,0]
+Ta_IV_r_5d=Ta_IV_orb_5d[:,0]
+W_IV_r_5d=W_IV_orb_5d[:,0]
+Re_IV_r_5d=Re_IV_orb_5d[:,0]
+
+Hf_IV_P_5d=Hf_IV_orb_5d[:,3]
+Ta_IV_P_5d=Ta_IV_orb_5d[:,3]
+W_IV_P_5d=W_IV_orb_5d[:,3]
+Re_IV_P_5d=Re_IV_orb_5d[:,3]
+#%%
+plt.plot(Hf_IV_r_5d,Hf_IV_P_5d**2,label='Hf IV')
+plt.plot(Ta_IV_r_5d,Ta_IV_P_5d**2,label='Ta IV')
+plt.plot(W_IV_r_5d,W_IV_P_5d**2,label='W IV')
+plt.plot(Re_IV_r_5d,Re_IV_P_5d**2,label='Re IV')
+plt.legend()
+plt.xlabel('r (a_0)')
+plt.ylabel('P^2') 
+plt.xlim(0,5)
+#%%
+Z=np.array([72,73,74,75])
+r_av_HfIV_5p=np.trapz(Hf_IV_r*Hf_IV_P**2,Hf_IV_r)/np.trapz(Hf_IV_P**2,Hf_IV_r)
+r_av_TaIV_5p=np.trapz(Ta_IV_r*Ta_IV_P**2,Ta_IV_r)/np.trapz(Ta_IV_P**2,Ta_IV_r)
+r_av_WIV_5p=np.trapz(W_IV_r*W_IV_P**2,W_IV_r)/np.trapz(W_IV_P**2,W_IV_r)
+r_av_ReIV_5p=np.trapz(Re_IV_r*Re_IV_P**2,Re_IV_r)/np.trapz(Re_IV_P**2,Re_IV_r)
+
+r_av_arr_5p=np.array([r_av_HfIV_5p,r_av_TaIV_5p,r_av_WIV_5p,r_av_ReIV_5p])
+#%%
+r_av_HfIV_5d=np.trapz(Hf_IV_r_5d*Hf_IV_P_5d**2,Hf_IV_r_5d)/np.trapz(Hf_IV_P_5d**2,Hf_IV_r_5d)
+r_av_TaIV_5d=np.trapz(Ta_IV_r_5d*Ta_IV_P_5d**2,Ta_IV_r_5d)/np.trapz(Ta_IV_P_5d**2,Ta_IV_r_5d)
+r_av_WIV_5d=np.trapz(W_IV_r_5d*W_IV_P_5d**2,W_IV_r_5d)/np.trapz(W_IV_P_5d**2,W_IV_r_5d)
+r_av_ReIV_5d=np.trapz(Re_IV_r_5d*Re_IV_P_5d**2,Re_IV_r_5d)/np.trapz(Re_IV_P_5d**2,Re_IV_r_5d)
+
+r_av_arr_5d=np.array([r_av_HfIV_5d,r_av_TaIV_5d,r_av_WIV_5d,r_av_ReIV_5d])
+
+#%%
+plt.scatter(Z,r_av_arr_5p,label='5p')
+plt.scatter(Z,r_av_arr_5d,label='5d')
+plt.scatter(Z, r_av_arr_5d-r_av_arr_5p,label='\Delta_r')
+plt.xlabel('Z')
+plt.ylabel('<r> (a_0)')
+plt.legend()                                                                                    
