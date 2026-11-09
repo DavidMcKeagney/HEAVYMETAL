@@ -9,6 +9,10 @@ import numpy as np
 import function_library_phd as flp
 import matplotlib.pyplot as plt
 #%%
+Re_40ns=np.loadtxt('C:\\Users\David McKeagney\Downloads\\2023_07_18_122.csv', dtype=str,delimiter=',')
+Energy_Re_40ns=Re_40ns[1:,0].astype(float)
+Abs_Re_40ns=Re_40ns[1:,1].astype(float)
+#%%
 Hf_IV=[]
 Ta_IV=[]
 W_IV=[]
@@ -122,6 +126,15 @@ plt.stem(dE_ReV_np,gf_ReV_np,label='Re V',linefmt='red')
 plt.legend()
 plt.xlabel('Energy (eV)')
 #%%
+plt.plot(Energy_Re_40ns,Abs_Re_40ns,label='exp 40ns')
+plt.stem(dE_ReIV_np-np.repeat(4.5,len(dE_ReIV_np)),gf_ReIV_np/(np.max(gf_ReIV_np)),label='Re IV',linefmt='green')
+plt.stem(dE_ReV_np-np.repeat(4.5,len(dE_ReV_np)),gf_ReV_np/np.max(gf_ReV_np),label='Re V',linefmt='orange')
+plt.xlim(47,70)
+plt.legend()
+plt.xlabel('Energy (eV)')
+plt.ylabel('Abs')
+plt.ylim(0,1.7)
+#%%
 
 Hf_IV_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_HfIV', dtype=float)
 Ta_IV_orb=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5p_TaIV', dtype=float)
@@ -176,15 +189,15 @@ Ta_IV_orb_5d=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5d_TaIV', dtype=fl
 W_IV_orb_5d=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5d_WIV', dtype=float)
 Re_IV_orb_5d=np.loadtxt('C:\\Users\David McKeagney\Downloads\\5d_ReIV', dtype=float) 
 
-Hf_IV_r_5d=Hf_IV_orb_5d[:,0]
-Ta_IV_r_5d=Ta_IV_orb_5d[:,0]
-W_IV_r_5d=W_IV_orb_5d[:,0]
-Re_IV_r_5d=Re_IV_orb_5d[:,0]
+Hf_IV_r_5d=Hf_IV_orb_5d[:,0][:480]
+Ta_IV_r_5d=Ta_IV_orb_5d[:,0][:480]
+W_IV_r_5d=W_IV_orb_5d[:,0][:480]
+Re_IV_r_5d=Re_IV_orb_5d[:,0][:480]
 
-Hf_IV_P_5d=Hf_IV_orb_5d[:,3]
-Ta_IV_P_5d=Ta_IV_orb_5d[:,3]
-W_IV_P_5d=W_IV_orb_5d[:,3]
-Re_IV_P_5d=Re_IV_orb_5d[:,3]
+Hf_IV_P_5d=Hf_IV_orb_5d[:,3][:480]
+Ta_IV_P_5d=Ta_IV_orb_5d[:,3][:480]
+W_IV_P_5d=W_IV_orb_5d[:,3][:480]
+Re_IV_P_5d=Re_IV_orb_5d[:,3][:480]
 #%%
 plt.plot(Hf_IV_r_5d,Hf_IV_P_5d**2,label='Hf IV')
 plt.plot(Ta_IV_r_5d,Ta_IV_P_5d**2,label='Ta IV')
@@ -217,3 +230,21 @@ plt.scatter(Z, r_av_arr_5d-r_av_arr_5p,label='\Delta_r')
 plt.xlabel('Z')
 plt.ylabel('<r> (a_0)')
 plt.legend()                                                                                    
+#%%
+plt.plot(Hf_IV_P_5d,Hf_IV_P,label='Hf IV')
+plt.plot(Ta_IV_P_5d,Ta_IV_P,label='Ta IV')
+plt.plot(W_IV_P_5d,W_IV_P,label='W IV')
+plt.plot(Re_IV_P_5d,Re_IV_P,label='Re IV')
+#%%
+rad_overlap_Hf_IV=np.trapz(Hf_IV_P*Hf_IV_r_5d*Hf_IV_P_5d,Hf_IV_r_5d)
+rad_overlap_Ta_IV=np.trapz(Ta_IV_P*Hf_IV_r_5d*Ta_IV_P_5d,Ta_IV_r_5d)
+rad_overlap_W_IV=np.trapz(W_IV_P*W_IV_r_5d*W_IV_P_5d,W_IV_r_5d)
+rad_overlap_Re_IV=np.trapz(Re_IV_P*Re_IV_r_5d*Re_IV_P_5d,Re_IV_r_5d)
+#%%
+rad_over_lap=np.array([rad_overlap_Hf_IV,rad_overlap_Ta_IV,rad_overlap_W_IV,rad_overlap_Re_IV])
+#%%
+plt.scatter(Z,np.abs(rad_over_lap)**2,label='5p,5d radial overlap')
+plt.legend()
+plt.xlabel('Z')
+plt.ylabel('|<5p|r|5d>|^2')
+
